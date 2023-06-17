@@ -1,51 +1,73 @@
-using Unity.Netcode;
 using UnityEngine;
+using Unity.Netcode;
 
 public class PlayerController : NetworkBehaviour
 {
-        private CharacterController controller;
-        private Vector3 playerVelocity;
-        private bool groundedPlayer;
-        [SerializeField] private float playerSpeed = 2.0f;
-        [SerializeField] private float jumpHeight = 1.0f;
-        [SerializeField] private float gravityValue = -9.81f;
+    [SerializeField] float speed;
+    [SerializeField] bool isOnGround = true;
+    [SerializeField] float jumpForce;
+    [SerializeField] float gravityModifier;
 
-        private void Start()
-        {
-            controller = gameObject.GetComponent<CharacterController>();
-        }
+    Rigidbody playerRb;
+    private Transform cameraTransform;
 
-        private void Update()
-        {
-            Move();
-        }
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        playerRb = GetComponent<Rigidbody>();
+        Physics.gravity *= gravityModifier;
+        cameraTransform = Camera.main.transform;
+    }
 
+    void Update()
+    {
+        Movement(speed);
 
-    private void Move()
+    }
+
+    /// <summary>
+    /// move the player to the front,back, and sides at a certain speed
+    /// </summary>
+    /// <param name="speed"></param>
+    public void Movement(float speed)
     {
         if (!IsOwner || !Application.isFocused) return;
 
-        groundedPlayer = controller.isGrounded;
-        if (groundedPlayer && playerVelocity.y < 0)
+        float verticalInput = Input.GetAxis("Vertical");
+        float horizontalInput = Input.GetAxis("Horizontal");
+
+        Vector3 move = new Vector3(horizontalInput, 0f, verticalInput);
+
+        move = cameraTransform.forward * move.z + cameraTransform.right * move.x;
+        move.y = 0;
+
+        // Calculate the movement direction relative to the camera's rotation
+        Vector3 movementDirection = new Vector3(horizontalInput, 0f, verticalInput);
+
+        // Preserve the Y component of the player's velocity
+        playerRb.velocity = new Vector3(movementDirection.x * speed, playerRb.velocity.y, movementDirection.z * speed);
+        if (Input.GetButtonDown("Jump") && isOnGround)
         {
-            playerVelocity.y = 0f;
+            playerRb.velocity = new Vector3(playerRb.velocity.x, jumpForce, playerRb.velocity.y);
+            isOnGround = false;
+
         }
 
-        Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        controller.Move(move * Time.deltaTime * playerSpeed);
-
-        if (move != Vector3.zero)
-        {
-            gameObject.transform.forward = move;
-        }
-
-        // Changes the height position of the player..
-        if (Input.GetButtonDown("Jump") && groundedPlayer)
-        {
-            playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
-        }
-
-        playerVelocity.y += gravityValue * Time.deltaTime;
-        controller.Move(playerVelocity * Time.deltaTime);
     }
+
+
+    //check if player is standing on ground
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isOnGround = true; 
+        }
+
+        if(collision.gameObject.CompareTag("Player"))
+        {
+
+        }
+    }
+
 }
