@@ -1,8 +1,10 @@
 using UnityEngine;
 using Unity.Netcode;
+using Cinemachine;
 
 public class PlayerController : NetworkBehaviour
 {
+    [SerializeField] private CinemachineVirtualCamera cmCamera;
     [SerializeField] float speed;
     [SerializeField] bool isOnGround = true;
     [SerializeField] float jumpForce;
@@ -11,15 +13,30 @@ public class PlayerController : NetworkBehaviour
     Rigidbody playerRb;
     private Transform cameraTransform;
 
-    public override void OnNetworkSpawn()
+
+    private void Awake()
     {
-        base.OnNetworkSpawn();
-        playerRb = GetComponent<Rigidbody>();
+        
         Physics.gravity *= gravityModifier;
         cameraTransform = Camera.main.transform;
     }
 
-    void Update()
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+
+        if(IsOwner)
+        {
+            
+            base.OnNetworkSpawn();
+            playerRb = GetComponent<Rigidbody>();
+            cmCamera.Priority = 100;
+        }
+        
+
+    }
+
+    void FixedUpdate()
     {
         Movement(speed);
 
@@ -35,8 +52,15 @@ public class PlayerController : NetworkBehaviour
 
         float verticalInput = Input.GetAxis("Vertical");
         float horizontalInput = Input.GetAxis("Horizontal");
+        bool boostInput = Input.GetButtonDown("Fire1");
 
         Vector3 move = new Vector3(horizontalInput, 0f, verticalInput);
+
+        // Bloquear el movimiento hacia atrás
+        if (move.z < 0f)
+        {
+            move.z = 0f; 
+        }
 
         move = cameraTransform.forward * move.z + cameraTransform.right * move.x;
         move.y = 0;
@@ -52,7 +76,7 @@ public class PlayerController : NetworkBehaviour
             isOnGround = false;
 
         }
-
+     
     }
 
 
@@ -63,11 +87,20 @@ public class PlayerController : NetworkBehaviour
         {
             isOnGround = true; 
         }
-
-        if(collision.gameObject.CompareTag("Player"))
-        {
-
-        }
     }
+
+
+    /*  if (boostInput)
+    {
+        Vector3 boostDirection = transform.forward;
+        playerRb.AddForce(boostDirection * boostForce, ForceMode.Impulse);
+    }
+
+    // Impulso del personaje
+    if (boostInput)
+    {
+        Vector3 boostDirection = transform.forward;
+        playerRb.AddForce(boostDirection * boostForce, ForceMode.Impulse);
+    }*/
 
 }
