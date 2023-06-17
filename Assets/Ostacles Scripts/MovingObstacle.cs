@@ -2,17 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum MovementType
+{
+    Rotate,
+    XAxis,
+    YAxis,
+}
 public class MovingObstacle : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    public MovementType movementType;
+    private void Awake()
     {
-        
+        switch (movementType)
+        {
+            case MovementType.Rotate:
+                break;
+            case MovementType.XAxis:
+                break;
+            case MovementType.YAxis:
+                break;
+            default:
+                break;
+        }
     }
 }
