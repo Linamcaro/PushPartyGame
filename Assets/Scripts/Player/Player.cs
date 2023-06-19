@@ -1,53 +1,71 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using Unity.Netcode;
 using Cinemachine;
+using UnityEngine.InputSystem;
+using Unity.Netcode.Components;
+using UnityEngine.InputSystem.LowLevel;
+using UnityEngine.UI;
 
-public class Player : MonoBehaviour
+public class Player : NetworkBehaviour
 {
+
+    [SerializeField] private CinemachineFreeLook cmCamera;
     [SerializeField] float speed = 5f;
     [SerializeField] float jumpForce = 5f;
     [SerializeField] float fallMultiplier = 2.5f;
     [SerializeField] float lowJumpMultiplier = 2f;
 
-    public Transform player;
-    public Transform orientation;
-    private Animator animator;
+    private NetworkAnimator animator;
     Vector3 movement;
+    bool fireButton;
     bool isJumping = false;
     private Rigidbody rb;
 
-    private void Start()
+
+    public override void OnNetworkSpawn()
     {
-        rb = GetComponent<Rigidbody>();
-        animator = GetComponent<Animator>();
+        base.OnNetworkSpawn();
+
+        if (IsOwner)
+        {
+            rb = GetComponent<Rigidbody>();
+            animator = GetComponent<NetworkAnimator>();
+            cmCamera.Priority = 100;
+        }
+
+
     }
 
     private void OnMove(InputValue value)
     {
+        if (!IsOwner || !Application.isFocused) return;
+
         movement = value.Get<Vector3>();
         if (Keyboard.current.sKey.wasPressedThisFrame)
         {
 
             animator.SetTrigger("Slide");
         }
-        if (Keyboard.current.qKey.wasPressedThisFrame)
-        {
 
-            animator.SetTrigger("Attack1");
-        }
-
-        if (Keyboard.current.eKey.wasPressedThisFrame)
-        {
-
-            animator.SetTrigger("Attack2");
-        }
     }
 
-    private void OnJump(InputValue value)
+    private void OnFire1()
     {
-        if (value.isPressed && !isJumping)
+        if (!IsOwner || !Application.isFocused) return;
+        animator.SetTrigger("Attack1");
+    }
+
+    private void OnFire2()
+    {
+        if (!IsOwner || !Application.isFocused) return;
+        animator.SetTrigger("Attack2");
+    }
+
+     
+    private void OnJump()
+    {
+        if (!IsOwner || !Application.isFocused) return;
+        if (!isJumping)
         {
             //animator.SetBool("Jump", true);
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
@@ -60,6 +78,7 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!IsOwner || !Application.isFocused) return;
         // Se aplica un movimiento horizontal para que pueda caminar
         rb.velocity = new Vector3(movement.x * speed, rb.velocity.y, movement.z * speed);
 
@@ -83,4 +102,5 @@ public class Player : MonoBehaviour
             //animator.SetBool("Jump", false);
         }
     }
+
 }
