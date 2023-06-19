@@ -30,7 +30,7 @@ public class PlayerSpawn : NetworkBehaviour
     /// <param name="clientsTimedOut"></param>
     private void SceneLoaded(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
     {
-        if(IsHost && sceneName == "Lina")
+        if(IsHost && sceneName == "MainScene")
         {
             int position = -3;
             foreach (ulong id in clientsCompleted)
