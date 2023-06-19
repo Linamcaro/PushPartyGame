@@ -36,6 +36,10 @@ public class Player : NetworkBehaviour
 
     }
 
+    /// <summary>
+    /// called when player hit the movement keys
+    /// </summary>
+    /// <param name="value"></param>
     private void OnMove(InputValue value)
     {
         if (!IsOwner || !Application.isFocused) return;
@@ -49,19 +53,27 @@ public class Player : NetworkBehaviour
 
     }
 
+    /// <summary>
+    /// called when player left click
+    /// </summary>
     private void OnFire1()
     {
         if (!IsOwner || !Application.isFocused) return;
         animator.SetTrigger("Attack1");
     }
 
+    /// <summary>
+    /// called when player right click
+    /// </summary>
     private void OnFire2()
     {
         if (!IsOwner || !Application.isFocused) return;
         animator.SetTrigger("Attack2");
     }
 
-     
+    /// <summary>
+    /// Called when player hit the jump key
+    /// </summary>
     private void OnJump()
     {
         if (!IsOwner || !Application.isFocused) return;
@@ -71,29 +83,35 @@ public class Player : NetworkBehaviour
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             isJumping = true;
 
-
         }
 
     }
 
+
     private void FixedUpdate()
     {
         if (!IsOwner || !Application.isFocused) return;
-        // Se aplica un movimiento horizontal para que pueda caminar
+
+        //horizontal movement
         rb.velocity = new Vector3(movement.x * speed, rb.velocity.y, movement.z * speed);
 
-        // Cuando cae se le aplica gravedad personalizada para una fuerza adicional hacia arriba para que suavice la caida
+        // When it falls custom gravity is applied to the character for additional upward force to soften the fall
         if (rb.velocity.y < 0)
         {
             rb.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
         }
-        //Cuando el personaje sube después de saltar se le aplica una fuerza adicional con un suavizado 
+        //Check if the player can jump and apply the jump force
         else if (rb.velocity.y > 0 && !isJumping)
         {
             rb.velocity += Vector3.up * Physics.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
         }
     }
 
+
+    /// <summary>
+    /// Check if player hit the ground
+    /// </summary>
+    /// <param name="collision"></param>
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
