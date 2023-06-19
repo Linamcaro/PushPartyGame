@@ -210,9 +210,9 @@ GameObject:
   - component: {fileID: 912201050786149193}
   - component: {fileID: 841419555605792734}
   - component: {fileID: 1428935680569237885}
-  - component: {fileID: 5322422495094240364}
-  - component: {fileID: 4212387111867364166}
   - component: {fileID: 2751344694291174964}
+  - component: {fileID: 4999667865025320671}
+  - component: {fileID: -9206108900647017798}
   m_Layer: 0
   m_Name: Player 1
   m_TagString: Player
@@ -362,7 +362,8 @@ MonoBehaviour:
   isOnGround: 1
   jumpForce: 7
   gravityModifier: 1.2
-  boostForce: 10
+  currentPosition: {x: 0, y: 0, z: 0}
+  currentRotation: {x: 0, y: 0, z: 0}
 --- !u!114 &1428935680569237885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -389,20 +390,21 @@ MonoBehaviour:
   ScaleThreshold: 0.01
   InLocalSpace: 0
   Interpolate: 1
---- !u!114 &5322422495094240364
-MonoBehaviour:
+--- !u!136 &2751344694291174964
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5281462221117574398}
+  m_Material: {fileID: 13400000, guid: 490dafe6e7b10f845b46b28a63cd951e, type: 2}
+  m_IsTrigger: 0
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a7f1a1e7dbd4a6448851fedfda73325, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pushForce: 10
---- !u!54 &4212387111867364166
+  m_Radius: 0.62150663
+  m_Height: 2.2352195
+  m_Direction: 1
+  m_Center: {x: 0.0023636222, y: -0.032242298, z: 0}
+--- !u!54 &4999667865025320671
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -418,20 +420,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
---- !u!136 &2751344694291174964
-CapsuleCollider:
+--- !u!114 &-9206108900647017798
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5281462221117574398}
-  m_Material: {fileID: 13400000, guid: 490dafe6e7b10f845b46b28a63cd951e, type: 2}
-  m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.62150663
-  m_Height: 2.2352195
-  m_Direction: 1
-  m_Center: {x: 0.0023636222, y: -0.032242298, z: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7168891170595498273
 GameObject:
   m_ObjectHideFlags: 0
