@@ -6,17 +6,30 @@ using UnityEngine.InputSystem;
 public class PlayerController : NetworkBehaviour
 {
     [SerializeField] private CinemachineFreeLook cmCamera;
-    [SerializeField] float speed = 5f;
-    [SerializeField] float jumpForce = 5f;
-    [SerializeField] float fallMultiplier = 2.5f;
-    [SerializeField] float lowJumpMultiplier = 2f;
 
-    private Animator animator;
-    Vector3 movement;
-    bool isJumping = false;
+    //movement
+    [SerializeField] private float speed = 5f;
+    [SerializeField] private float jumpForce = 5f;
+    [SerializeField] private float fallMultiplier = 2.5f;
+    [SerializeField] private float lowJumpMultiplier = 2f;
 
+    //Lives
+    [SerializeField] private float deathPointY;
+    [SerializeField] private int lives;
+
+    //Vector3
     [SerializeField] private Vector3 currentPosition;
     [SerializeField] private Vector3 currentRotation;
+    private Vector3 respawnPosition;
+    private Vector3 movement;
+
+    //helper variable
+    bool isJumping = false;
+
+    //animation
+    private Animator animator;
+
+
 
     Rigidbody playerRb;
    
@@ -29,6 +42,9 @@ public class PlayerController : NetworkBehaviour
             playerRb = GetComponent<Rigidbody>();
             animator = GetComponent<Animator>();
             cmCamera.Priority = 100;
+            lives = 2;
+
+            deathPointY = -7f;
         }
         
                
@@ -76,6 +92,8 @@ public class PlayerController : NetworkBehaviour
         {
             playerRb.velocity += Vector3.up * Physics.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
         }
+
+        RespawnPlayer();
     }
 
 
@@ -104,6 +122,28 @@ public class PlayerController : NetworkBehaviour
         {
             isJumping = false;
             //animator.SetBool("Jump", false);
+        }
+    }
+
+
+
+    private void RespawnPlayer()
+    {
+        if (transform.position.y < deathPointY)
+        {
+            lives--;
+
+            if (lives > 0)
+            {
+
+                respawnPosition = new Vector3(0, 0f, transform.position.z);
+                //Move player to the respawn position
+                transform.position = respawnPosition;
+            }
+        }
+        else
+        {
+            Debug.Log("Game Over");
         }
     }
 

@@ -9,17 +9,28 @@ using UnityEngine.UI;
 public class Player : NetworkBehaviour
 {
 
-    [SerializeField] private CinemachineFreeLook cmCamera;
-    [SerializeField] float speed = 5f;
-    [SerializeField] float jumpForce = 5f;
-    [SerializeField] float fallMultiplier = 2.5f;
-    [SerializeField] float lowJumpMultiplier = 2f;
+    //movement
+    [SerializeField] private float speed = 5f;
+    [SerializeField] private float jumpForce = 5f;
+    [SerializeField] private float fallMultiplier = 2.5f;
+    [SerializeField] private float lowJumpMultiplier = 2f;
 
+    //lives
+    private float deathPointY;
+    [SerializeField] private int lives;
+
+    //position
+    private Vector3 respawnPosition;
+    private Vector3 movement;
+
+    //Components
     private NetworkAnimator animator;
-    Vector3 movement;
-    bool fireButton;
-    bool isJumping = false;
     private Rigidbody rb;
+    [SerializeField] private CinemachineFreeLook cmCamera;
+
+    //helper    
+    private bool isJumping = false;
+    
 
 
     public override void OnNetworkSpawn()
@@ -31,6 +42,9 @@ public class Player : NetworkBehaviour
             rb = GetComponent<Rigidbody>();
             animator = GetComponent<NetworkAnimator>();
             cmCamera.Priority = 100;
+            lives = 2;
+            deathPointY = -15f;
+
         }
 
 
@@ -88,6 +102,12 @@ public class Player : NetworkBehaviour
     }
 
 
+    private void Update()
+    {
+        RespawnPlayer();
+    }
+
+
     private void FixedUpdate()
     {
         if (!IsOwner || !Application.isFocused) return;
@@ -105,6 +125,7 @@ public class Player : NetworkBehaviour
         {
             rb.velocity += Vector3.up * Physics.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
         }
+
     }
 
 
@@ -118,7 +139,33 @@ public class Player : NetworkBehaviour
         {
             isJumping = false;
             //animator.SetBool("Jump", false);
+
+
         }
+    }
+
+    
+    private void RespawnPlayer()
+    {
+
+        if (transform.position.y < deathPointY)
+        {
+            lives--;
+
+            if (lives > 0)
+            {
+
+                respawnPosition = new Vector3(0, 1f, transform.position.z);
+                //Move player to the respawn position
+                transform.position = respawnPosition;
+            } else
+            {
+               
+                Debug.Log("Game Over");
+
+            }
+        }
+        
     }
 
 }

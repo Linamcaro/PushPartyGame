@@ -3974,11 +3974,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 389b09345eee6884099f4b36fff4cea7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cmCamera: {fileID: 8100611063548804939}
   speed: 5
   jumpForce: 5
   fallMultiplier: 2.5
   lowJumpMultiplier: 2
+  lives: 2
+  cmCamera: {fileID: 8100611063548804939}
 --- !u!1 &3871784914709248877
 GameObject:
   m_ObjectHideFlags: 0
@@ -4334,7 +4335,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8100611061986403604}
-  m_LocalRotation: {x: 0.27485293, y: 0.000000016543698, z: -0.0000000047292237, w: 0.9614863}
+  m_LocalRotation: {x: 0.27482343, y: 0.014089983, z: -0.004027799, w: 0.96138304}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4412,7 +4413,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8100611062218505940}
-  m_LocalRotation: {x: 0.05116093, y: 1e-45, z: -0, w: 0.9986904}
+  m_LocalRotation: {x: 0.051155437, y: 0.014635157, z: -0.00074973016, w: 0.9985832}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4744,7 +4745,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8100611063302591796}
-  m_LocalRotation: {x: 0.34042525, y: 0.0000000228801, z: -0.000000008283737, w: 0.9402716}
+  m_LocalRotation: {x: 0.3403887, y: 0.01377907, z: -0.004988711, w: 0.94017065}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4823,7 +4824,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8100611063548804936}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.5, z: -3}
+  m_LocalPosition: {x: -0.08791667, y: 2.5, z: -2.9987116}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
