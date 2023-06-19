@@ -3,8 +3,7 @@ using Unity.Netcode;
 using Cinemachine;
 using UnityEngine.InputSystem;
 using Unity.Netcode.Components;
-using UnityEngine.InputSystem.LowLevel;
-using UnityEngine.UI;
+
 
 public class Player : NetworkBehaviour
 {
@@ -16,8 +15,8 @@ public class Player : NetworkBehaviour
     [SerializeField] private float lowJumpMultiplier = 2f;
 
     //lives
-    private float deathPointY;
-    [SerializeField] private int lives;
+    /*private float deathPointY;
+    [SerializeField] private int lives;*/
 
     //position
     private Vector3 respawnPosition;
@@ -42,8 +41,8 @@ public class Player : NetworkBehaviour
             rb = GetComponent<Rigidbody>();
             animator = GetComponent<NetworkAnimator>();
             cmCamera.Priority = 100;
-            lives = 2;
-            deathPointY = -15f;
+          //  lives = 2;
+         //   deathPointY = -15f;
 
         }
 
@@ -102,16 +101,41 @@ public class Player : NetworkBehaviour
     }
 
 
-    private void Update()
+    /*private void Update()
     {
         RespawnPlayer();
-    }
-
+    }*/
 
     private void FixedUpdate()
     {
         if (!IsOwner || !Application.isFocused) return;
 
+        MovePlayerClient();
+
+    }
+
+    /*[ServerRpc]
+    private void MovePlayerServerRpc()
+    {
+        rb.velocity = new Vector3(movement.x * speed, rb.velocity.y, movement.z * speed);
+
+        // When it falls custom gravity is applied to the character for additional upward force to soften the fall
+        if (rb.velocity.y < 0)
+        {
+            rb.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
+        }
+        //Check if the player can jump and apply the jump force
+        else if (rb.velocity.y > 0 && !isJumping)
+        {
+            rb.velocity += Vector3.up * Physics.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
+        }
+    }*/
+
+
+
+    //Client Authorative Movement
+    private void MovePlayerClient()
+    {
         //horizontal movement
         rb.velocity = new Vector3(movement.x * speed, rb.velocity.y, movement.z * speed);
 
@@ -125,7 +149,6 @@ public class Player : NetworkBehaviour
         {
             rb.velocity += Vector3.up * Physics.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
         }
-
     }
 
 
@@ -145,7 +168,7 @@ public class Player : NetworkBehaviour
     }
 
     
-    private void RespawnPlayer()
+   /* private void RespawnPlayer()
     {
 
         if (transform.position.y < deathPointY)
@@ -166,6 +189,6 @@ public class Player : NetworkBehaviour
             }
         }
         
-    }
+    }*/
 
 }

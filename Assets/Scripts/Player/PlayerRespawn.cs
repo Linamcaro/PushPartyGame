@@ -1,53 +1,52 @@
 using UnityEngine;
+using Unity.Netcode;
+using UnityEditor.Experimental.RestService;
 
-
-public class PlayerRespawn : MonoBehaviour
+public class PlayerRespawn : NetworkBehaviour
 {
-    [SerializeField] private float deathPointY;
-    [SerializeField] private int lives;
+
+    //lives
+    private float deathPointY;
+    private int lives;
 
     private Vector3 respawnPosition;
 
-    private void Start()
-    {
-        
-        lives = 2;
 
-        GenerateRespawnPosition();
-        deathPointY = -7f;
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+       
+            lives = 2;
+            deathPointY = -15f;
+
     }
 
-    private void GenerateRespawnPosition()
+    private void Update()
     {
-        // Lógica para generar el punto de respawn (ejemplo: el centro de la pista)
-        respawnPosition = new Vector3(CalculateCenterOfTrack(), 0f, transform.position.z);
-
-        
-    }
-
-    private float CalculateCenterOfTrack()
-    {
-        // Logic to calculare the center of the track
-        return 0f;
+        RespawnPlayer();
     }
 
     private void RespawnPlayer()
     {
+        if (!IsOwner) return;
+
         if (transform.position.y < deathPointY)
         {
-            lives--;
+           lives--; 
 
-            if (lives > 0)
-            {
-                //Move player to the respawn position
-                transform.position = respawnPosition;
-            }
-        }
-        else
-        {
-           
+           if (lives > 0)
+           {
+             respawnPosition = new Vector3(0, 1f, transform.position.z);
+             //Move player to the respawn position
+             transform.position = respawnPosition;
+           }
+           else
+           {
+              Debug.Log("Game Over");
+
+
+           }
         }
     }
 
-    
 }
