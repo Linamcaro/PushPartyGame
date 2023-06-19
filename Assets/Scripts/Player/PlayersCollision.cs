@@ -1,25 +1,31 @@
-using Unity.Netcode;
+/*using Unity.Netcode;
 using UnityEngine;
+
 
 public class PlayersCollision : NetworkBehaviour
 {
-    [SerializeField] private float pushForce = 10f;
+
+    public float collisionForce = 10f;
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (!IsOwner) return; // Only the owner player should initiate the push
-        if (!NetworkManager.Singleton.IsServer) return;
+        if (!IsServer) return;
 
         if (collision.gameObject.CompareTag("Player"))
         {
-            // Calculate the direction of the push
-            Vector3 pushDirection = collision.contacts[0].point - transform.position;
-            pushDirection.y = 0f; // Ignore the vertical component to avoid lifting the other player
+            // Calculate the direction from the other player to this player
+            Vector3 forceDirection = transform.position - collision.gameObject.transform.position;
+            forceDirection.Normalize();
 
-            // Normalize the push direction and apply the push force
-            pushDirection.Normalize();
-            Rigidbody otherPlayerRb = collision.gameObject.GetComponent<Rigidbody>();
-            otherPlayerRb.AddForce(pushDirection * pushForce, ForceMode.Impulse);
+            // Apply a force to throw the other player away
+            Rigidbody otherRb = collision.gameObject.GetComponent<Rigidbody>();
+            ApplyForceOnClientRpc(otherRb.gameObject.GetComponent<NetworkObject>(), forceDirection * collisionForce);
         }
     }
-}
+
+    [ClientRpc]
+    private void ApplyForceOnClientRpc(NetworkObject otherPlayer, Vector3 force)
+    {
+        otherPlayer.GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
+    }
+}*/

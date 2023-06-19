@@ -9,6 +9,8 @@ public class PlayerController : NetworkBehaviour
     [SerializeField] bool isOnGround = true;
     [SerializeField] float jumpForce;
     [SerializeField] float gravityModifier;
+    [SerializeField] private Vector3 currentPosition;
+    [SerializeField] private Vector3 currentRotation;
 
     Rigidbody playerRb;
     private Transform cameraTransform;
@@ -25,15 +27,17 @@ public class PlayerController : NetworkBehaviour
     {
         base.OnNetworkSpawn();
 
-        if(IsOwner)
+        if (!IsOwner)
         {
             
-            base.OnNetworkSpawn();
+        }
+        else
+        {
             playerRb = GetComponent<Rigidbody>();
             cmCamera.Priority = 100;
         }
-        
 
+       
     }
 
     void FixedUpdate()
@@ -70,6 +74,7 @@ public class PlayerController : NetworkBehaviour
 
         // Preserve the Y component of the player's velocity
         playerRb.velocity = new Vector3(movementDirection.x * speed, playerRb.velocity.y, movementDirection.z * speed);
+
         if (Input.GetButtonDown("Jump") && isOnGround)
         {
             playerRb.velocity = new Vector3(playerRb.velocity.x, jumpForce, playerRb.velocity.y);
