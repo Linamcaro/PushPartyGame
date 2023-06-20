@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 public enum MovementType
@@ -8,9 +9,10 @@ public enum MovementType
     Rotate,
     XAxis,
     YAxis,
-    swing
+    swing,
+    inverseSwing
 }
-public class MovingObstacle : MonoBehaviour
+public class MovingObstacle : NetworkBehaviour
 {
 
     public MovementType movementType;
@@ -21,6 +23,7 @@ public class MovingObstacle : MonoBehaviour
 
     private void Awake()
     {
+
         switch (movementType)
         {
             case MovementType.Rotate:
@@ -33,7 +36,10 @@ public class MovingObstacle : MonoBehaviour
                 transform.DOMoveX(movementLenght, speed).SetEase(Ease.InOutQuart).SetLoops(-1, LoopType.Yoyo);
                 break;
             case MovementType.swing:
-                transform.DORotate(new Vector3(0, 90, 0), speed * 0.5f, RotateMode.FastBeyond360).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.Linear);
+                transform.DORotate(new Vector3(0, 0, 90), speed * 0.5f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.Linear);
+                break;
+            case MovementType.inverseSwing:
+                transform.DORotate(new Vector3(0, 0, -90), speed * 0.5f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.Linear);
                 break;
         }
     }

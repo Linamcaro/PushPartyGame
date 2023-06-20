@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8159335752689170624
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8159335752689170630}
+  - component: {fileID: 8159335752689170625}
+  m_Layer: 0
+  m_Name: LevelController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8159335752689170630
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8159335752689170624}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4.5149283, y: -2.5184362, z: 0.023313075}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8159335752689170625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8159335752689170624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fe65e48ca014374c8be606460332216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelPieces:
+  - name: piece 0
+    prefab: {fileID: 7552501836163959107, guid: 7126af4d85af2ed41a766cbbffb8e13e,
+      type: 3}
+    probability: 1
+  - name: piece 1
+    prefab: {fileID: 7552501836163959107, guid: 80f1a27e2fa20d743ac05fb321e1507e,
+      type: 3}
+    probability: 1
+  - name: piece 2
+    prefab: {fileID: 7552501836163959107, guid: 3f09cbccc34b48c42bb934fc3e4fa6ec,
+      type: 3}
+    probability: 1
+  - name: piece 3 rotate
+    prefab: {fileID: 7552501836163959107, guid: 455c7d9ae63949f41a3dddd2bac64f9c,
+      type: 3}
+    probability: 1
+  - name: piece 4 move x
+    prefab: {fileID: 7552501836163959107, guid: 1cfbb3ba49fdd954caed095e01fc0645,
+      type: 3}
+    probability: 1
+  - name: piece 5 move x
+    prefab: {fileID: 7552501836163959107, guid: e3db1b76a03b7e94d91dd2cbd3aa29e9,
+      type: 3}
+    probability: 1
+  - name: piece 6 swing
+    prefab: {fileID: 7552501836163959107, guid: 78ac37d5a7fc2f442a1e2731c193ea19,
+      type: 3}
+    probability: 1
+  - name: piece 7 swing negative
+    prefab: {fileID: 7552501836163959107, guid: c85788783521db6418fdc8736ac81f95,
+      type: 3}
+    probability: 1
+  camera: {fileID: 0}
+  drawDistance: 10
+  pieceLenght: 20
+  speed: 3
