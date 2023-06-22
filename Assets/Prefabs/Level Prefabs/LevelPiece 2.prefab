@@ -27,8 +27,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7552501835438639834}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.88, y: 1.46, z: 7.48}
-  m_LocalScale: {x: 4.706271, y: 1.8359, z: 1}
+  m_LocalPosition: {x: -6.83, y: 1.46, z: 7.48}
+  m_LocalScale: {x: 3.5007126, y: 1.8359, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7552501836163959108}
@@ -221,8 +221,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7552501836016699759}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.4, y: 1.46, z: 7.48}
-  m_LocalScale: {x: 9.882986, y: 1.8359, z: 1}
+  m_LocalPosition: {x: 3.71, y: 1.46, z: 7.48}
+  m_LocalScale: {x: 11.108476, y: 1.8359, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7552501836163959108}
@@ -300,8 +300,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7552501836163959108}
-  - component: {fileID: 1670503716821285694}
-  - component: {fileID: -8442174853861435125}
+  - component: {fileID: 4540243464104996982}
+  - component: {fileID: -6581494349206696699}
   m_Layer: 0
   m_Name: LevelPiece 2
   m_TagString: Untagged
@@ -327,7 +327,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1670503716821285694
+--- !u!114 &4540243464104996982
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -343,7 +343,7 @@ MonoBehaviour:
   AlwaysReplicateAsRoot: 0
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &-8442174853861435125
+--- !u!114 &-6581494349206696699
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -352,15 +352,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 7552501836163959107}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c51d20eec1cec984e97adde17c87e8f1, type: 3}
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   SyncPositionX: 1
   SyncPositionY: 1
   SyncPositionZ: 1
-  SyncRotAngleX: 1
-  SyncRotAngleY: 1
-  SyncRotAngleZ: 1
+  SyncRotAngleX: 0
+  SyncRotAngleY: 0
+  SyncRotAngleZ: 0
   SyncScaleX: 0
   SyncScaleY: 0
   SyncScaleZ: 0
@@ -368,4 +368,4 @@ MonoBehaviour:
   RotAngleThreshold: 0.01
   ScaleThreshold: 0.01
   InLocalSpace: 0
-  Interpolate: 1
+  Interpolate: 0
