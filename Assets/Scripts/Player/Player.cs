@@ -167,28 +167,4 @@ public class Player : NetworkBehaviour
         }
     }
 
-    
-   /* private void RespawnPlayer()
-    {
-
-        if (transform.position.y < deathPointY)
-        {
-            lives--;
-
-            if (lives > 0)
-            {
-
-                respawnPosition = new Vector3(0, 1f, transform.position.z);
-                //Move player to the respawn position
-                transform.position = respawnPosition;
-            } else
-            {
-               
-                Debug.Log("Game Over");
-
-            }
-        }
-        
-    }*/
-
 }
