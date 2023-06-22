@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3970683362404396470}
   - component: {fileID: 7515298590119811119}
   - component: {fileID: 7646075876359393858}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -301,7 +301,7 @@ GameObject:
   - component: {fileID: 3109935495786839338}
   - component: {fileID: 3401233836779839929}
   - component: {fileID: 118720756669285141}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -3,148 +3,78 @@ using Unity.Netcode;
 using Cinemachine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : NetworkBehaviour
+public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private CinemachineFreeLook cmCamera;
+    private static PlayerController _instance;
 
-    //movement
-    [SerializeField] private float speed = 5f;
-    [SerializeField] private float jumpForce = 5f;
-    [SerializeField] private float fallMultiplier = 2.5f;
-    [SerializeField] private float lowJumpMultiplier = 2f;
-
-    //Lives
-    [SerializeField] private float deathPointY;
-    [SerializeField] private int lives;
-
-    //Vector3
-    [SerializeField] private Vector3 currentPosition;
-    [SerializeField] private Vector3 currentRotation;
-    private Vector3 respawnPosition;
-    private Vector3 movement;
-
-    //helper variable
-    bool isJumping = false;
-
-    //animation
-    private Animator animator;
-
-
-
-    Rigidbody playerRb;
-   
-      public override void OnNetworkSpawn()
-      {
-        base.OnNetworkSpawn();
-
-        if (IsOwner)
+    public static PlayerController Instance
+    {
+        get
         {
-            playerRb = GetComponent<Rigidbody>();
-            animator = GetComponent<Animator>();
-            cmCamera.Priority = 100;
-            lives = 2;
-
-            deathPointY = -7f;
+            return _instance;
         }
+    }
+
+
+    private InputActions playerInputAction;
+
+    private void Awake()
+    {
+        _instance = this;
         
-               
-      }
-
-    /// <summary>
-    /// Handle input from user
-    /// </summary>
-    /// <param name="value"></param>
-    private void OnMove(InputValue value)
-    {
-        if (!IsOwner || !Application.isFocused) return;
-
-        movement = value.Get<Vector3>();
-        if (Keyboard.current.sKey.wasPressedThisFrame)
-        {
-
-            animator.SetTrigger("Slide");
-        }
-        if (Mouse.current.leftButton.wasPressedThisFrame)
-        {
-
-            animator.SetTrigger("Attack1");
-        }
-
-        if (Keyboard.current.eKey.wasPressedThisFrame)
-        {
-
-            animator.SetTrigger("Attack2");
-        }
-    }
-
-    private void FixedUpdate()
-    {
-        // Se aplica un movimiento horizontal para que pueda caminar
-        playerRb.velocity = new Vector3(movement.x * speed, playerRb.velocity.y, movement.z * speed);
-
-        // Cuando cae se le aplica gravedad personalizada para una fuerza adicional hacia arriba para que suavice la caida
-        if (playerRb.velocity.y < 0)
-        {
-            playerRb.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
-        }
-        //Cuando el personaje sube después de saltar se le aplica una fuerza adicional con un suavizado 
-        else if (playerRb.velocity.y > 0 && !isJumping)
-        {
-            playerRb.velocity += Vector3.up * Physics.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
-        }
-
-        RespawnPlayer();
-    }
-
-
-
-    /// <summary>
-    /// Handle Player jumping
-    /// </summary>
-    /// <param name="value"></param>
-    private void OnJump(InputValue value)
-    {
-        if (value.isPressed && !isJumping)
-        {
-            //animator.SetBool("Jump", true);
-            playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            isJumping = true;
-
-
-        }
+        playerInputAction = new InputActions();
 
     }
 
-
-    private void OnCollisionEnter(Collision collision)
+    private void OnEnable()
     {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            isJumping = false;
-            //animator.SetBool("Jump", false);
-        }
+        playerInputAction.Enable();
+
+    }
+
+    private void OnDisable()
+    {
+        playerInputAction.Disable();
+    }
+
+    private void OnDestroy()
+    {
+        playerInputAction.Dispose();
+
+    }
+
+        //helper function to call the player movement controls
+        public Vector2 GetPlayerMovement()
+    {
+        Vector2 inputMovement = playerInputAction.Player.Move.ReadValue<Vector2>();
+
+        inputMovement = inputMovement.normalized;
+
+        return inputMovement;
+
+    }
+
+    //Returns true if the jump control was triggered
+    public bool PlayerJumped()
+    {
+        return playerInputAction.Player.Jump.triggered;
     }
 
 
-
-    private void RespawnPlayer()
+    //Returns true if the fire control was triggered
+    public bool PlayerFired1()
     {
-        if (transform.position.y < deathPointY)
-        {
-            lives--;
-
-            if (lives > 0)
-            {
-
-                respawnPosition = new Vector3(0, 0f, transform.position.z);
-                //Move player to the respawn position
-                transform.position = respawnPosition;
-            }
-        }
-        else
-        {
-            Debug.Log("Game Over");
-        }
+        return playerInputAction.Player.Fire1.triggered;
+    }
+    //Returns true if the fire control was triggered
+    public bool PlayerFired2()
+    {
+        return playerInputAction.Player.Fire1.triggered;
     }
 
+    //Returns true if the jump control was triggered
+    public bool PlayerSlide()
+    {
+        return playerInputAction.Player.Slide.triggered;
+    }
 }
