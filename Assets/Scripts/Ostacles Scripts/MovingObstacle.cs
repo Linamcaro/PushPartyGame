@@ -43,4 +43,9 @@ public class MovingObstacle : NetworkBehaviour
                 break;
         }
     }
+
+    private void OnDestroy()
+    {
+        transform.DOKill();
+    }
 }
