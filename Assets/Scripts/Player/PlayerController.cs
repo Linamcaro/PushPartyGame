@@ -43,15 +43,13 @@ public class PlayerController : MonoBehaviour
 
     }
 
-        //helper function to call the player movement controls
-        public Vector2 GetPlayerMovement()
+    //helper function to call the player movement controls
+    public Vector2 GetPlayerMovement()
     {
         Vector2 inputMovement = playerInputAction.Player.Move.ReadValue<Vector2>();
-
         inputMovement = inputMovement.normalized;
 
         return inputMovement;
-
     }
 
     //Returns true if the jump control was triggered

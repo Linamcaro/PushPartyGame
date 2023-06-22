@@ -4,10 +4,11 @@ using Unity.Netcode;
 using UnityEngine;
 using Cinemachine;
 
-[RequireComponent(typeof(Rigidbody))]
+
 public class PlayerMovement : NetworkBehaviour
 {
     private static PlayerMovement _playerMovementInstance;
+
 
     public static PlayerMovement PlayerMovementInstance
     {
@@ -19,16 +20,30 @@ public class PlayerMovement : NetworkBehaviour
 
     [SerializeField] private List<Vector3> spawnPositionList;
     [SerializeField] private float moveSpeed = 7f;
+    
+    [SerializeField] private float gravityValue = -9.81f;
+    [SerializeField] private float slowDownSpeed= 15f;
+
+    private Vector3 verticalMovement;
+    private float currentVerticalSpeed;
+    private bool isJumping;
+    private bool isWalking;
+
+    //height of the jump
+    [SerializeField] private float jumpHeight = 1f;
 
     [SerializeField] private LayerMask collisionsLayerMask;
+    [SerializeField] private CinemachineFreeLook cmCamera;
 
-    private bool isWalking;
+    
 
     public override void OnNetworkSpawn()
     {
         if (IsOwner)
         {
             _playerMovementInstance = this;
+            cmCamera.Priority = 100;
+            //playerRigidBody = GetComponent<Rigidbody>();
         }
     }
 
@@ -50,12 +65,14 @@ public class PlayerMovement : NetworkBehaviour
     {
         
         Vector2 inputMovement = PlayerController.Instance.GetPlayerMovement();
+        bool jump = PlayerController.Instance.PlayerJumped();
+        bool slide = PlayerController.Instance.PlayerSlide();
 
-        Vector3 moveDir = new Vector3(inputMovement.x, 0f, inputMovement.y);
+        Vector3 moveDir = new Vector3(inputMovement.x, 0, inputMovement.y);
 
         float moveDistance = moveSpeed * Time.deltaTime;
         float playerRadius = .6f;
-        
+
         //if there is an obstacle returns false
         bool canMove = !Physics.BoxCast(transform.position, Vector3.one * playerRadius, moveDir, Quaternion.identity, moveDistance, collisionsLayerMask);
 
@@ -83,10 +100,7 @@ public class PlayerMovement : NetworkBehaviour
                     // Can move only on the Z
                     moveDir = moveDirZ;
                 }
-                else
-                {
-                    // Cannot move in any direction
-                }
+                
             }
         }
 
@@ -96,10 +110,37 @@ public class PlayerMovement : NetworkBehaviour
             transform.position += moveDir * moveDistance;
         }
 
+
         isWalking = moveDir != Vector3.zero;
 
         float rotateSpeed = 10f;
         transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * rotateSpeed);
+
+        //check if player can jump
+        if (!isJumping && jump)
+        {
+            currentVerticalSpeed = Mathf.Sqrt(jumpHeight * -2f * gravityValue);
+            isJumping = true;
+        }
+
+        // Apply gravity
+        currentVerticalSpeed += gravityValue * Time.deltaTime;
+
+        // Apply vertical movement
+        verticalMovement = new Vector3(0f, currentVerticalSpeed * Time.deltaTime, 0f);
+        transform.position += verticalMovement;
+
+        if (!isJumping)
+        {
+            currentVerticalSpeed = 0f;
+        }
+        
+        if(slide)
+        {
+            Vector3 slowDown = new Vector3(0, 0, 0);
+            transform.forward = Vector3.Slerp(slowDown, transform.forward, Time.deltaTime * 15f);
+        }
+
     }
 
     //Returns the NetworkObject component
@@ -107,6 +148,17 @@ public class PlayerMovement : NetworkBehaviour
     {
         return NetworkObject;
     }
+
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isJumping = false;
+            //animator.SetBool("Jump", false);
+        }
+    }
+
 
 }
 
