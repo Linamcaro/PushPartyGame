@@ -3757,14 +3757,11 @@ GameObject:
   - component: {fileID: 3871784914709014283}
   - component: {fileID: 3871784914699716813}
   - component: {fileID: 8100611061913593350}
-  - component: {fileID: 8100611061913593351}
   - component: {fileID: -853590787867176773}
   - component: {fileID: 1227752343495574182}
-  - component: {fileID: 1598900266}
   - component: {fileID: 7735921735549026626}
   - component: {fileID: -3207530392721968128}
   - component: {fileID: 7021856035460373432}
-  - component: {fileID: 2024510683858858367}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -3831,37 +3828,6 @@ CapsuleCollider:
   m_Height: 2.090994
   m_Direction: 1
   m_Center: {x: 0, y: 1.0576181, z: 0}
---- !u!114 &8100611061913593351
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3871784914709248875}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 1086ad213e8302c4cbe40f9aedebabd7,
-    type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!114 &-853590787867176773
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3922,23 +3888,6 @@ MonoBehaviour:
     TriggerNameHash: -47317214
     TransitionIndex: 4
   m_Animator: {fileID: 3871784914699716813}
---- !u!114 &1598900266
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3871784914709248875}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 389b09345eee6884099f4b36fff4cea7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 5
-  jumpForce: 5
-  fallMultiplier: 2.5
-  lowJumpMultiplier: 2
-  cmCamera: {fileID: 8100611063548804939}
 --- !u!114 &7735921735549026626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3993,25 +3942,6 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 1
---- !u!114 &2024510683858858367
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3871784914709248875}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16e46fac832aa5246b8d780040e569c5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spawnPositionList:
-  - {x: -3, y: 1, z: 0}
-  - {x: 3, y: 1, z: 0}
-  moveSpeed: 7
-  collisionsLayerMask:
-    serializedVersion: 2
-    m_Bits: 8
 --- !u!1 &3871784914709248877
 GameObject:
   m_ObjectHideFlags: 0
@@ -4445,7 +4375,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8100611062218505940}
-  m_LocalRotation: {x: 0.051155437, y: 0.014635157, z: -0.00074973016, w: 0.9985832}
+  m_LocalRotation: {x: 0.051155433, y: 0.014635161, z: -0.00074973016, w: 0.9985832}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

@@ -5,11 +5,11 @@ using UnityEngine;
 using Cinemachine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class ServerPlayerMovement : NetworkBehaviour
+public class PlayerMovement : NetworkBehaviour
 {
-    private static ServerPlayerMovement _playerMovementInstance;
+    private static PlayerMovement _playerMovementInstance;
 
-    public static ServerPlayerMovement PlayerMovementInstance
+    public static PlayerMovement PlayerMovementInstance
     {
         get
         {
@@ -21,7 +21,6 @@ public class ServerPlayerMovement : NetworkBehaviour
     [SerializeField] private float moveSpeed = 7f;
 
     [SerializeField] private LayerMask collisionsLayerMask;
-    private Vector3 lastInteractDir;
 
     private bool isWalking;
 
@@ -38,13 +37,14 @@ public class ServerPlayerMovement : NetworkBehaviour
         HandleMovement();
     }
 
+    //Check if player is walking
     public bool IsWalking()
     {
         return isWalking;
     }
 
     /// <summary>
-    /// Move player
+    /// Move player 
     /// </summary>
     private void HandleMovement()
     {
@@ -102,11 +102,13 @@ public class ServerPlayerMovement : NetworkBehaviour
         transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * rotateSpeed);
     }
 
+    //Returns the NetworkObject component
     public NetworkObject GetNetworkObject()
     {
         return NetworkObject;
     }
 
 }
+
 
 
