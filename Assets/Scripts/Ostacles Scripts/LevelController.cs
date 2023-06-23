@@ -44,8 +44,7 @@ public class LevelController : NetworkBehaviour
             NetworkObjectPool.Singleton.InitializePool();
             hasServerStarted = true;
 
-            //spawn starting level piece
-            for (int i = 0; i < drawDistance; i++)
+            for (int i = 0; i < 2; i++)
             {
                 SpawnNewLevelPiece();
             }
@@ -60,15 +59,18 @@ public class LevelController : NetworkBehaviour
 
     private void Update()
     {
-        if (!IsServer && !hasGameStarted) return;
+        if (!IsServer) return;
 
-        transform.position = Vector3.MoveTowards(transform.position, transform.position + Vector3.forward, Time.deltaTime * speed);
-        currentCamStep = (int)(transform.position.z / pieceLenght);
-        if (currentCamStep != lastCamStep)
+        if(hasGameStarted)
         {
-            lastCamStep = currentCamStep;
-            DespawnLevelPiece();
-            SpawnNewLevelPiece();
+            transform.position = Vector3.MoveTowards(transform.position, transform.position + Vector3.forward, Time.deltaTime * speed);
+            currentCamStep = (int)(transform.position.z / pieceLenght);
+            if (currentCamStep != lastCamStep)
+            {
+                lastCamStep = currentCamStep;
+                DespawnLevelPiece();
+                SpawnNewLevelPiece();
+            }
         }
     }
 
@@ -77,6 +79,9 @@ public class LevelController : NetworkBehaviour
         if (!IsServer) return;
 
         int pieceIndex = probabilityList[Random.Range(0, probabilityList.Count)];
+
+        if (activePieces.Count < 2) pieceIndex = 0;
+
         //GameObject newLevelPiece = Instantiate(levelPieces[pieceIndex].prefab, new Vector3(0f, 0f, (currentCamStep + activePieces.Count) * pieceLenght), Quaternion.identity);
         GameObject newLevelPiece = NetworkObjectPool.Singleton.GetNetworkObject(levelPieces[pieceIndex].prefab).gameObject;
         newLevelPiece.transform.position = new Vector3(0f, 0f, (currentCamStep + activePieces.Count) * pieceLenght);
@@ -112,6 +117,12 @@ public class LevelController : NetworkBehaviour
         if (!IsServer) return;
 
         hasGameStarted = true;
+
+        //spawn starting level piece
+        for (int i = 0; i < drawDistance; i++)
+        {
+            SpawnNewLevelPiece();
+        }
     }
 }
 
