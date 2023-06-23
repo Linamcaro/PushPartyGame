@@ -23,11 +23,10 @@ public class MovingObstacle : NetworkBehaviour
 
     private void Awake()
     {
-
         switch (movementType)
         {
             case MovementType.Rotate:
-                transform.DORotate(new Vector3(0, 360, 0), speed * 0.5f, RotateMode.FastBeyond360).SetLoops(-1, LoopType.Restart).SetEase(Ease.Linear);
+                transform.DORotate(new Vector3(0, 360, 0), speed, RotateMode.FastBeyond360).SetLoops(-1, LoopType.Restart).SetEase(Ease.Linear);
                 break;
             case MovementType.XAxis:
                 transform.DOMoveX(movementLenght, speed).SetEase(Ease.InOutQuart).SetLoops(-1, LoopType.Yoyo);
@@ -36,11 +35,16 @@ public class MovingObstacle : NetworkBehaviour
                 transform.DOMoveX(movementLenght, speed).SetEase(Ease.InOutQuart).SetLoops(-1, LoopType.Yoyo);
                 break;
             case MovementType.swing:
-                transform.DORotate(new Vector3(0, 0, 90), speed * 0.5f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.Linear);
+                transform.DORotate(new Vector3(0, 0, 80), speed).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.OutCubic);
                 break;
             case MovementType.inverseSwing:
-                transform.DORotate(new Vector3(0, 0, -90), speed * 0.5f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.Linear);
+                transform.DORotate(new Vector3(0, 0, -80), speed).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.OutCubic);
                 break;
         }
+    }
+
+    private void OnDestroy()
+    {
+        transform.DOKill();
     }
 }
