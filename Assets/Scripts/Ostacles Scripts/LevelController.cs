@@ -95,8 +95,8 @@ public class LevelController : NetworkBehaviour
 
         GameObject oldLevelPiece = activePieces.Dequeue();
         NetworkObject netObject = oldLevelPiece.GetComponent<NetworkObject>();
-        NetworkObjectPool.Singleton.ReturnNetworkObject(netObject, oldLevelPiece);
         netObject.Despawn();
+        //NetworkObjectPool.Singleton.ReturnNetworkObject(netObject, oldLevelPiece);
     }
 
     void BuildProbabilityList()
