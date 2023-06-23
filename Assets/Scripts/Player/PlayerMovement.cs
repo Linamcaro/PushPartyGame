@@ -24,7 +24,6 @@ public class PlayerMovement : NetworkBehaviour
 
     //Player jumping
     [SerializeField] private float jumpHeight = 1f;
-    [SerializeField] private float gravityValue = -9.81f;
     [SerializeField] private float jumpForce = 5f;
 
 
