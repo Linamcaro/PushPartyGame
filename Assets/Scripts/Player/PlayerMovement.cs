@@ -8,8 +8,6 @@ using Cinemachine;
 public class PlayerMovement : NetworkBehaviour
 {
     private static PlayerMovement _playerMovementInstance;
-
-
     public static PlayerMovement PlayerMovementInstance
     {
         get
@@ -19,23 +17,26 @@ public class PlayerMovement : NetworkBehaviour
     }
 
     [SerializeField] private List<Vector3> spawnPositionList;
+
+    //Player movement speed
     [SerializeField] private float moveSpeed = 7f;
-    
-    [SerializeField] private float gravityValue = -9.81f;
     [SerializeField] private float slowDownSpeed= 15f;
 
-    private Vector3 verticalMovement;
-    private float currentVerticalSpeed;
-    private bool isJumping;
-    private bool isWalking;
-
-    //height of the jump
+    //Player jumping
     [SerializeField] private float jumpHeight = 1f;
+    [SerializeField] private float gravityValue = -9.81f;
+    [SerializeField] private float jumpForce = 5f;
+
+
 
     [SerializeField] private LayerMask collisionsLayerMask;
     [SerializeField] private CinemachineFreeLook cmCamera;
+    private Rigidbody rigidBody;
 
-    
+    //Helper Variables
+    private bool isJumping;
+    private bool isWalking;
+    private bool isSliding;
 
     public override void OnNetworkSpawn()
     {
@@ -43,7 +44,7 @@ public class PlayerMovement : NetworkBehaviour
         {
             _playerMovementInstance = this;
             cmCamera.Priority = 100;
-            //playerRigidBody = GetComponent<Rigidbody>();
+            rigidBody = GetComponent<Rigidbody>();
         }
     }
 
@@ -52,14 +53,32 @@ public class PlayerMovement : NetworkBehaviour
         HandleMovement();
     }
 
-    //Check if player is walking
+    /// <summary>
+    /// Returns if player is walking
+    /// </summary>
+    /// <returns></returns>
     public bool IsWalking()
     {
         return isWalking;
     }
 
     /// <summary>
-    /// Move player 
+    /// Returns if player jumped
+    /// </summary>
+    /// <returns></returns>
+    public bool IsJumping()
+    {
+        return isJumping;
+    }
+
+    public bool IsSliding()
+    {
+        return isSliding;
+    }
+
+
+    /// <summary>
+    /// Move the player according to the user input 
     /// </summary>
     private void HandleMovement()
     {
@@ -119,27 +138,21 @@ public class PlayerMovement : NetworkBehaviour
         //check if player can jump
         if (!isJumping && jump)
         {
-            currentVerticalSpeed = Mathf.Sqrt(jumpHeight * -2f * gravityValue);
             isJumping = true;
+            //currentVerticalSpeed = Mathf.Sqrt(jumpHeight * -2f * gravityValue);
+            rigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            
         }
 
-        // Apply gravity
-        currentVerticalSpeed += gravityValue * Time.deltaTime;
-
-        // Apply vertical movement
-        verticalMovement = new Vector3(0f, currentVerticalSpeed * Time.deltaTime, 0f);
-        transform.position += verticalMovement;
-
-        if (!isJumping)
-        {
-            currentVerticalSpeed = 0f;
-        }
-        
         if(slide)
         {
-            Vector3 slowDown = new Vector3(0, 0, 0);
-            transform.forward = Vector3.Slerp(slowDown, transform.forward, Time.deltaTime * 15f);
+            isSliding = true;
         }
+        else
+        {
+            isSliding = false;
+        }
+        
 
     }
 
@@ -149,13 +162,13 @@ public class PlayerMovement : NetworkBehaviour
         return NetworkObject;
     }
 
-
+   //Check if player is on ground
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
             isJumping = false;
-            //animator.SetBool("Jump", false);
+            
         }
     }
 

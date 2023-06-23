@@ -1,4 +1,4 @@
-using UnityEngine;
+/*using UnityEngine;
 using Unity.Netcode;
 using Cinemachine;
 using UnityEngine.InputSystem;
@@ -15,8 +15,8 @@ public class Player : NetworkBehaviour
     [SerializeField] private float lowJumpMultiplier = 2f;
 
     //lives
-    /*private float deathPointY;
-    [SerializeField] private int lives;*/
+    private float deathPointY;
+    [SerializeField] private int lives;
 
     //position
     private Vector3 respawnPosition;
@@ -106,13 +106,13 @@ public class Player : NetworkBehaviour
         RespawnPlayer();
     }*/
 
-    private void FixedUpdate()
+    /*private void FixedUpdate()
     {
         if (!IsOwner || !Application.isFocused) return;
 
         MovePlayerClient();
 
-    }
+    }*/
 
     /*[ServerRpc]
     private void MovePlayerServerRpc()
@@ -133,7 +133,7 @@ public class Player : NetworkBehaviour
 
 
 
-    //Client Authorative Movement
+   /* //Client Authorative Movement
     private void MovePlayerClient()
     {
         //horizontal movement
@@ -167,4 +167,4 @@ public class Player : NetworkBehaviour
         }
     }
 
-}
+}*/

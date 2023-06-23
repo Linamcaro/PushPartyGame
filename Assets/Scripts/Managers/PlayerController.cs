@@ -43,7 +43,10 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    //helper function to call the player movement controls
+    /// <summary>
+    /// helper function to call the player movement controls
+    /// </summary>
+    /// <returns></returns>
     public Vector2 GetPlayerMovement()
     {
         Vector2 inputMovement = playerInputAction.Player.Move.ReadValue<Vector2>();
@@ -52,25 +55,37 @@ public class PlayerController : MonoBehaviour
         return inputMovement;
     }
 
-    //Returns true if the jump control was triggered
+    /// <summary>
+    /// Returns true if the jump control was triggered
+    /// </summary>
+    /// <returns></returns>
     public bool PlayerJumped()
     {
         return playerInputAction.Player.Jump.triggered;
     }
 
 
-    //Returns true if the fire control was triggered
+    /// <summary>
+    /// /Returns true if the fire control was triggered
+    /// </summary>
+    /// <returns></returns>
     public bool PlayerFired1()
     {
         return playerInputAction.Player.Fire1.triggered;
     }
-    //Returns true if the fire control was triggered
+    /// <summary>
+    /// Returns true if the fire control was triggered
+    /// </summary>
+    /// <returns></returns>
     public bool PlayerFired2()
     {
         return playerInputAction.Player.Fire1.triggered;
     }
 
-    //Returns true if the jump control was triggered
+    /// <summary>
+    /// Returns true if the jump control was triggered
+    /// </summary>
+    /// <returns></returns>
     public bool PlayerSlide()
     {
         return playerInputAction.Player.Slide.triggered;
