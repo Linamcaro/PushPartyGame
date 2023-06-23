@@ -1,31 +1,45 @@
-/*using Unity.Netcode;
+using Unity.Netcode;
 using UnityEngine;
-
-
+using System.Collections;
+[RequireComponent(typeof(Rigidbody))]
 public class PlayersCollision : NetworkBehaviour
 {
+    private Rigidbody rb;
+    private bool isStunned = false;
+    private float pushForce;
+    private Vector3 pushDir;
 
-    public float collisionForce = 10f;
-
-    private void OnCollisionEnter(Collision collision)
+    private void Awake()
     {
-        if (!IsServer) return;
+        rb = GetComponent<Rigidbody>();
+    }
 
-        if (collision.gameObject.CompareTag("Player"))
+    public void HitPlayer(Vector3 velocityF, float time)
+    {
+        rb.velocity = velocityF;
+
+        pushForce = velocityF.magnitude;
+        pushDir = Vector3.Normalize(velocityF);
+        StartCoroutine(Decrease(velocityF.magnitude, time));
+    }
+
+    private IEnumerator Decrease(float value, float duration)
+    {
+        if (isStunned)
+            yield break;
+
+        isStunned = true;
+
+        float delta = value / duration;
+
+        for (float t = 0; t < duration; t += Time.deltaTime)
         {
-            // Calculate the direction from the other player to this player
-            Vector3 forceDirection = transform.position - collision.gameObject.transform.position;
-            forceDirection.Normalize();
-
-            // Apply a force to throw the other player away
-            Rigidbody otherRb = collision.gameObject.GetComponent<Rigidbody>();
-            ApplyForceOnClientRpc(otherRb.gameObject.GetComponent<NetworkObject>(), forceDirection * collisionForce);
+            yield return null;
+            pushForce = Mathf.Clamp(pushForce - Time.deltaTime * delta, 0f, Mathf.Infinity);
+            rb.AddForce(new Vector3(0f, -Physics.gravity.y * rb.mass, 0f));
         }
+
+        isStunned = false;
     }
 
-    [ClientRpc]
-    private void ApplyForceOnClientRpc(NetworkObject otherPlayer, Vector3 force)
-    {
-        otherPlayer.GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
-    }
-}*/
+}
