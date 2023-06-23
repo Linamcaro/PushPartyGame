@@ -11,6 +11,7 @@ public class LevelController : NetworkBehaviour
     public static LevelController Instance;
 
     public LevelPiece[] levelPieces;
+
     //public Transform camera;
     public int drawDistance;
 
