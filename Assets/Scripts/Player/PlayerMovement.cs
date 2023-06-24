@@ -16,7 +16,7 @@ public class PlayerMovement : NetworkBehaviour
         }
     }
 
-    [SerializeField] private List<Vector3> spawnPositionList;
+    //[SerializeField] private List<Vector3> spawnPositionList;
 
     //Player movement speed
     [SerializeField] private float moveSpeed = 7f;
@@ -24,7 +24,7 @@ public class PlayerMovement : NetworkBehaviour
 
     //Player jumping
     [SerializeField] private float jumpHeight = 1f;
-    [SerializeField] private float jumpForce = 5f;
+    [SerializeField] private float jumpForce = 40f;
 
 
 
@@ -39,6 +39,7 @@ public class PlayerMovement : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+
         if (IsOwner)
         {
             _playerMovementInstance = this;
@@ -49,6 +50,11 @@ public class PlayerMovement : NetworkBehaviour
 
     private void Update()
     {
+        if (!IsOwner)
+        {
+            return;
+        }
+
         HandleMovement();
     }
 
@@ -89,44 +95,44 @@ public class PlayerMovement : NetworkBehaviour
         Vector3 moveDir = new Vector3(inputMovement.x, 0, inputMovement.y);
 
         float moveDistance = moveSpeed * Time.deltaTime;
-        float playerRadius = .6f;
+       // float playerRadius = .6f;
 
         //if there is an obstacle returns false
-        bool canMove = !Physics.BoxCast(transform.position, Vector3.one * playerRadius, moveDir, Quaternion.identity, moveDistance, collisionsLayerMask);
+        //bool canMove = !Physics.BoxCast(transform.position, Vector3.one * playerRadius, moveDir, Quaternion.identity, moveDistance, collisionsLayerMask);
 
-        if (!canMove)
-        {
+        //if (!canMove)
+        //{
             /* Cannot move towards moveDir
              Attempt only X movement*/
             Vector3 moveDirX = new Vector3(moveDir.x, 0, 0).normalized;
-            canMove = (moveDir.x < -.5f || moveDir.x > +.5f) && !Physics.BoxCast(transform.position, Vector3.one * playerRadius, moveDirX, Quaternion.identity, moveDistance, collisionsLayerMask);
+            //canMove = (moveDir.x < -.5f || moveDir.x > +.5f) && !Physics.BoxCast(transform.position, Vector3.one * playerRadius, moveDirX, Quaternion.identity, moveDistance, collisionsLayerMask);
 
-            if (canMove)
-            {
+            //if (canMove)
+            //{
                 // Can move only on the X
                 moveDir = moveDirX;
-            }
-            else
-            {
+            //}
+            //else
+            //{
                 /* Cannot move only on the X
                  Attempt only Z movement*/
                 Vector3 moveDirZ = new Vector3(0, 0, moveDir.z).normalized;
-                canMove = (moveDir.z < -.5f || moveDir.z > +.5f) && !Physics.BoxCast(transform.position, Vector3.one * playerRadius, moveDirZ, Quaternion.identity, moveDistance, collisionsLayerMask);
+              //canMove = (moveDir.z < -.5f || moveDir.z > +.5f) && !Physics.BoxCast(transform.position, Vector3.one * playerRadius, moveDirZ, Quaternion.identity, moveDistance, collisionsLayerMask);
 
-                if (canMove)
-                {
+               //if (canMove)
+                //{
                     // Can move only on the Z
                     moveDir = moveDirZ;
-                }
+                //}
                 
-            }
-        }
+           // }
+       // }
 
 
-        if (canMove)
-        {
+        //if (canMove)
+       // {
             transform.position += moveDir * moveDistance;
-        }
+        //}
 
 
         isWalking = moveDir != Vector3.zero;
