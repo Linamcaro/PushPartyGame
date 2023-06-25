@@ -16,7 +16,7 @@ public class PlayerMovement : NetworkBehaviour
         }
     }
 
-    //[SerializeField] private List<Vector3> spawnPositionList;
+    [SerializeField] private List<Vector3> spawnPositions;
 
     //Player movement speed
     [SerializeField] private float moveSpeed = 7f;
@@ -46,6 +46,9 @@ public class PlayerMovement : NetworkBehaviour
             cmCamera.Priority = 100;
             rigidBody = GetComponent<Rigidbody>();
         }
+
+        transform.position = spawnPositions[(int)OwnerClientId];
+
     }
 
     private void Update()

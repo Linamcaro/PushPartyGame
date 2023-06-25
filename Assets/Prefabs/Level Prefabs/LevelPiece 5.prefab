@@ -110,6 +110,7 @@ GameObject:
   - component: {fileID: 7552501836016699746}
   - component: {fileID: 7552501836016699745}
   - component: {fileID: 4862256798388581243}
+  - component: {fileID: 3509031967979726524}
   m_Layer: 0
   m_Name: Cube (1)
   m_TagString: Untagged
@@ -210,6 +211,19 @@ MonoBehaviour:
   movementType: 1
   speed: 2
   movementLenght: -15
+--- !u!114 &3509031967979726524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7552501836016699759}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11821e06fa793dd4297fec1dc7e2941a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stunTime: 0.5
 --- !u!1 &7552501836163959107
 GameObject:
   m_ObjectHideFlags: 0
