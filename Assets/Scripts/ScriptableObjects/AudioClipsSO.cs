@@ -12,5 +12,6 @@ public class AudioClipsSO : ScriptableObject
     public AudioClip[] footsteps;
     public AudioClip[] playerJump;
     public AudioClip[] obstacleHittingPlayer;
+    public AudioClip[] CountDown;
 
 }
