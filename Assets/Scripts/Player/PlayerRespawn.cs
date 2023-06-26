@@ -21,11 +21,11 @@ public class PlayerRespawn : NetworkBehaviour
         if (!IsOwner) return;
 
         base.OnNetworkSpawn();
-       
+           _instance = this;
+
             lives = 2;
             deathPointY = -15f;
-            _instance = this;
-
+           
     }
 
     private void Update()

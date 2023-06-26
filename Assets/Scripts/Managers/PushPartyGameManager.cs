@@ -42,14 +42,15 @@ public class PushPartyGameManager : NetworkBehaviour
         playerReadyDictionary = new Dictionary<ulong, bool>();
     }
 
-   /* private void OnPlayersReady(object sender, EventArgs e)
+   private void OnPlayersReady()
     {
+        Debug.Log("OnPlayersReady function called");
         if (state == State.WaitingToStart)
         {
             isLocalPlayerReady = true;
             OnLocalPlayerReadyChanged?.Invoke(this, EventArgs.Empty);
             SetPlayerReadyServerRPC();
-
+            Debug.Log("state changed: " + state);
         }
     }
 
@@ -74,7 +75,7 @@ public class PushPartyGameManager : NetworkBehaviour
 
         Debug.Log("allClientsReady: " + allClientsReady);
         
-    }*/
+    }
 
     private void Update()
     {
@@ -83,7 +84,7 @@ public class PushPartyGameManager : NetworkBehaviour
         switch (state)
         {
             case State.WaitingToStart:
-                //Debug.Log("WaitingToStart");
+                Debug.Log("WaitingToStart");
                 break;
 
             case State.CountdownToStart:
@@ -93,17 +94,17 @@ public class PushPartyGameManager : NetworkBehaviour
                     state = State.GamePlaying;
                     OnStateChanged?.Invoke(this, EventArgs.Empty);
                 }
-                //Debug.Log("CountdownToStart");
+                Debug.Log("CountdownToStart" + countdownTostartTimer);
                 break;
 
             case State.GamePlaying:
-                int playerLives = PlayerRespawn.Instance.GetPlayerLives();
+                /*int playerLives = PlayerRespawn.Instance.GetPlayerLives();
                 if (playerLives  <= 0)
                 {
                     state = State.GameOver;
                     OnStateChanged?.Invoke(this, EventArgs.Empty);
-                }
-                //Debug.Log("GamePlaying");
+                }*/
+                Debug.Log("GamePlaying");
                 break;
 
             case State.GameOver:
@@ -140,4 +141,11 @@ public class PushPartyGameManager : NetworkBehaviour
             return isLocalPlayerReady;
     }
 
+  public void OnStartButtonPressed()
+    {
+        Debug.Log("OnStartButtonPressed function called");
+        OnPlayersReady();
+        
     }
+
+}

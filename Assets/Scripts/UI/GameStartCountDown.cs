@@ -2,7 +2,7 @@ using System;
 using TMPro;
 using UnityEngine;
 
-/*public class GameStartCountDown : MonoBehaviour
+public class GameStartCountDown : MonoBehaviour
 {
 
     //private const string NUMBER_POPUP = "NumberPopup";
@@ -62,4 +62,4 @@ using UnityEngine;
     {
         gameObject.SetActive(false);
     }
-}*/
+}
