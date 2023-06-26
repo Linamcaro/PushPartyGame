@@ -3,6 +3,11 @@ using Unity.Netcode;
 
 public class PlayerRespawn : NetworkBehaviour
 {
+    private static PlayerRespawn _instance;
+    public static PlayerRespawn Instance
+    {
+        get { return _instance; }
+    }
 
     //lives
     private float deathPointY;
@@ -13,10 +18,13 @@ public class PlayerRespawn : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+        if (!IsOwner) return;
+
         base.OnNetworkSpawn();
        
             lives = 2;
             deathPointY = -15f;
+            _instance = this;
 
     }
 
@@ -47,5 +55,12 @@ public class PlayerRespawn : NetworkBehaviour
            }
         }
     }
+
+    //Returns the player lives
+    public int GetPlayerLives()
+    {
+        return lives;
+    }
+
 
 }

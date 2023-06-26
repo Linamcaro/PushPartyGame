@@ -90,10 +90,10 @@ public class PlayerMovement : NetworkBehaviour
     /// </summary>
     private void HandleMovement()
     {
-        if (!PushPartyGameManager.Instance.IsGamePlaying())
+        /*if (!PushPartyGameManager.Instance.IsGamePlaying())
         {
             return;
-        }
+        }*/
 
 
         Vector2 inputMovement = PlayerController.Instance.GetPlayerMovement();

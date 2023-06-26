@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using TMPro;
 using UnityEngine;
 
-public class GameStartCountDown : MonoBehaviour
+/*public class GameStartCountDown : MonoBehaviour
 {
 
     //private const string NUMBER_POPUP = "NumberPopup";
@@ -14,15 +13,36 @@ public class GameStartCountDown : MonoBehaviour
     private Animator animator;
     private int previousCountdownNumber;
 
-
     private void Awake()
     {
         animator = GetComponent<Animator>();
     }
 
+    private void Start()
+    {
+        PushPartyGameManager.Instance.OnStateChanged += PushPartyGameManager_OnStateChanged;
+        Hide();
+
+    }
+
+    private void PushPartyGameManager_OnStateChanged(object sender, EventArgs e)
+    {
+        if(PushPartyGameManager.Instance.IsCountdownToStartActive())
+        {
+            Show();
+        }
+        else
+        {
+            Hide();
+        }
+    }
+
+   
+
     private void Update()
     {
-        /*int countdownNumber = Mathf.CeilToInt(PushPartyGameManager.Instance.GetCountdownToStartTimer());
+        //convert float to the smallest interger.
+        int countdownNumber = Mathf.CeilToInt(PushPartyGameManager.Instance.GetCountdownToStartTimer());
         countdownText.text = countdownNumber.ToString();
 
         if (previousCountdownNumber != countdownNumber)
@@ -30,7 +50,7 @@ public class GameStartCountDown : MonoBehaviour
             previousCountdownNumber = countdownNumber;
             //animator.SetTrigger(NUMBER_POPUP);
             //SoundManager.Instance.PlayCountdownSound();
-        }*/
+        }
     }
 
     private void Show()
@@ -42,4 +62,4 @@ public class GameStartCountDown : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
-}
+}*/
