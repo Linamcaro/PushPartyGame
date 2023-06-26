@@ -1851,6 +1851,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1685140675}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &1271916987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2266,6 +2278,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1685140676}
+  - component: {fileID: 1685140677}
   m_Layer: 5
   m_Name: WaitingForPlayers
   m_TagString: Untagged
@@ -2294,6 +2307,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1685140677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1685140675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30940307e66874040b32fe1599162457, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1768082150
 GameObject:
   m_ObjectHideFlags: 0
@@ -3021,7 +3046,7 @@ PrefabInstance:
     - target: {fileID: 7635140136799871180, guid: 644537ee3331ddf4f82871f8661c82ef,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7635140136799871181, guid: 644537ee3331ddf4f82871f8661c82ef,
         type: 3}

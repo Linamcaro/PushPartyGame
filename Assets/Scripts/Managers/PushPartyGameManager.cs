@@ -32,7 +32,6 @@ public class PushPartyGameManager : NetworkBehaviour
 
     //Event for the game state changes
     public event EventHandler OnStateChanged;
-    public event EventHandler OnLocalPlayerReadyChanged;
 
     private void Awake()
     {
@@ -41,16 +40,19 @@ public class PushPartyGameManager : NetworkBehaviour
         Debug.Log("Is game playing false so return");
         playerReadyDictionary = new Dictionary<ulong, bool>();
     }
-
+    
+    /// <summary>
+    /// Check if players are ready
+    /// </summary>
    private void OnPlayersReady()
     {
         Debug.Log("OnPlayersReady function called");
         if (state == State.WaitingToStart)
-        {
-            isLocalPlayerReady = true;
-            OnLocalPlayerReadyChanged?.Invoke(this, EventArgs.Empty);
-            SetPlayerReadyServerRPC();
+        {   
             Debug.Log("state changed: " + state);
+            isLocalPlayerReady = true;
+            SetPlayerReadyServerRPC();
+            
         }
     }
 
@@ -84,7 +86,7 @@ public class PushPartyGameManager : NetworkBehaviour
         switch (state)
         {
             case State.WaitingToStart:
-                Debug.Log("WaitingToStart");
+                //Debug.Log("WaitingToStart");
                 break;
 
             case State.CountdownToStart:
@@ -94,7 +96,7 @@ public class PushPartyGameManager : NetworkBehaviour
                     state = State.GamePlaying;
                     OnStateChanged?.Invoke(this, EventArgs.Empty);
                 }
-                Debug.Log("CountdownToStart" + countdownTostartTimer);
+                //Debug.Log("CountdownToStart" + countdownTostartTimer);
                 break;
 
             case State.GamePlaying:
@@ -136,6 +138,7 @@ public class PushPartyGameManager : NetworkBehaviour
         return state == State.GameOver;
     }
 
+    //Return true if player is ready
     public bool IsLocalPlayerReady()
     {
             return isLocalPlayerReady;

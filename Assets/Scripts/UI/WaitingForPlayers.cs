@@ -2,31 +2,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/*public class WaitingForPlayers : MonoBehaviour
+public class WaitingForPlayers : MonoBehaviour
 {
 
     private void Start()
     {
-        PushPartyGameManager.Instance.OnLocalPlayerReadyChanged += PushPartyGameManager_OnLocalPlayerReadyChanged;
-        Hide();
+        PushPartyGameManager.Instance.OnStateChanged += PushPartyGameManager_OnStateChanged;
     }
 
-    private void PushPartyGameManager_OnLocalPlayerReadyChanged(object sender, System.EventArgs e)
+    /// <summary>
+    /// Check if the Count Down To Start is active then hide the UI
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void PushPartyGameManager_OnStateChanged(object sender, System.EventArgs e)
     {
-        if (PushPartyGameManager.Instance.IsLocalPlayerReady())
+        if (PushPartyGameManager.Instance.IsCountdownToStartActive())
         {
             Hide();
         }
     }
 
+    ////Show UI
     public void Show()
     {
         gameObject.SetActive(true);
     }
 
+    //Hide UI
     private void Hide()
     {
         gameObject.SetActive(false);
     }
 
-}*/
+}
