@@ -39,7 +39,11 @@ public class LevelController : NetworkBehaviour
         {
             Destroy(this);
         }
+    }
 
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
         NetworkManager.Singleton.OnServerStarted += () =>
         {
             NetworkObjectPool.Singleton.InitializePool();
