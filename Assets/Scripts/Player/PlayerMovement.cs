@@ -16,7 +16,7 @@ public class PlayerMovement : NetworkBehaviour
         }
     }
 
-    [SerializeField] private List<Vector3> spawnPositionList;
+    [SerializeField] private List<Vector3> spawnPositions;
 
     //Player movement speed
     [SerializeField] private float moveSpeed = 7f;
@@ -24,8 +24,7 @@ public class PlayerMovement : NetworkBehaviour
 
     //Player jumping
     [SerializeField] private float jumpHeight = 1f;
-    [SerializeField] private float gravityValue = -9.81f;
-    [SerializeField] private float jumpForce = 5f;
+    [SerializeField] private float jumpForce = 40f;
 
 
 
@@ -40,16 +39,25 @@ public class PlayerMovement : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+
         if (IsOwner)
         {
             _playerMovementInstance = this;
             cmCamera.Priority = 100;
             rigidBody = GetComponent<Rigidbody>();
         }
+
+        transform.position = spawnPositions[(int)OwnerClientId];
+
     }
 
     private void Update()
     {
+        if (!IsOwner)
+        {
+            return;
+        }
+
         HandleMovement();
     }
 
@@ -82,7 +90,12 @@ public class PlayerMovement : NetworkBehaviour
     /// </summary>
     private void HandleMovement()
     {
-        
+        if (!PushPartyGameManager.Instance.IsGamePlaying())
+        {
+            return;
+        }
+
+
         Vector2 inputMovement = PlayerController.Instance.GetPlayerMovement();
         bool jump = PlayerController.Instance.PlayerJumped();
         bool slide = PlayerController.Instance.PlayerSlide();
@@ -104,7 +117,7 @@ public class PlayerMovement : NetworkBehaviour
 
             if (canMove)
             {
-                // Can move only on the X
+                //Can move only on the X
                 moveDir = moveDirX;
             }
             else
@@ -112,22 +125,22 @@ public class PlayerMovement : NetworkBehaviour
                 /* Cannot move only on the X
                  Attempt only Z movement*/
                 Vector3 moveDirZ = new Vector3(0, 0, moveDir.z).normalized;
-                canMove = (moveDir.z < -.5f || moveDir.z > +.5f) && !Physics.BoxCast(transform.position, Vector3.one * playerRadius, moveDirZ, Quaternion.identity, moveDistance, collisionsLayerMask);
+              canMove = (moveDir.z < -.5f || moveDir.z > +.5f) && !Physics.BoxCast(transform.position, Vector3.one * playerRadius, moveDirZ, Quaternion.identity, moveDistance, collisionsLayerMask);
 
-                if (canMove)
+               if (canMove)
                 {
-                    // Can move only on the Z
+                    //Can move only on the Z
                     moveDir = moveDirZ;
                 }
                 
             }
-        }
+            }
 
 
-        if (canMove)
-        {
+            if (canMove)
+            {
             transform.position += moveDir * moveDistance;
-        }
+            }
 
 
         isWalking = moveDir != Vector3.zero;
@@ -154,12 +167,6 @@ public class PlayerMovement : NetworkBehaviour
         }
         
 
-    }
-
-    //Returns the NetworkObject component
-    public NetworkObject GetNetworkObject()
-    {
-        return NetworkObject;
     }
 
    //Check if player is on ground

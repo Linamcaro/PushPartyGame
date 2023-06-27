@@ -111,6 +111,14 @@ public class SoundManager : MonoBehaviour
     }
 
     /// <summary>
+    /// PlaySound when countdown starts
+    /// </summary>
+    public void PlayCountdownSound()
+    {
+        PlayRandomSound(audioClipsSO.CountDown, Vector3.zero);
+    }
+
+    /// <summary>
     /// Change the sound volume
     /// </summary>
     public void ChangeVolume()
