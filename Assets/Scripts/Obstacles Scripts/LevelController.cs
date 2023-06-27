@@ -44,15 +44,16 @@ public class LevelController : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
+
+
+
+
         NetworkManager.Singleton.OnServerStarted += () =>
         {
             NetworkObjectPool.Singleton.InitializePool();
             hasServerStarted = true;
 
-            for (int i = 0; i < 2; i++)
-            {
-                SpawnNewLevelPiece();
-            }
+            StartGame();
         };
 
         //camera = Camera.main.transform;
@@ -66,7 +67,7 @@ public class LevelController : NetworkBehaviour
     {
         if (!IsServer) return;
 
-        if(hasGameStarted)
+        if (PushPartyGameManager.Instance.IsGamePlaying())
         {
             transform.position = Vector3.MoveTowards(transform.position, transform.position + Vector3.forward, Time.deltaTime * speed);
             currentCamStep = (int)(transform.position.z / pieceLenght);
@@ -117,17 +118,18 @@ public class LevelController : NetworkBehaviour
         }
     }
 
+  
     public void StartGame()
     {
         if (!IsServer) return;
+        
+            hasGameStarted = true;
 
-        hasGameStarted = true;
-
-        //spawn starting level piece
-        for (int i = 0; i < drawDistance; i++)
-        {
-            SpawnNewLevelPiece();
-        }
+            //spawn starting level piece
+            for (int i = 0; i < drawDistance; i++)
+            {
+                SpawnNewLevelPiece();
+            }
     }
 }
 
