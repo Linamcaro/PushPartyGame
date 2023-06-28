@@ -893,8 +893,7 @@ MonoBehaviour:
   jumpForce: 5
   fallMultiplier: 2.5
   lowJumpMultiplier: 2
-  player: {fileID: 0}
-  orientation: {fileID: 0}
+  cmCamera: {fileID: 0}
 --- !u!114 &1317020116
 MonoBehaviour:
   m_ObjectHideFlags: 0
