@@ -125,6 +125,7 @@ GameObject:
   - component: {fileID: 7552501836163959108}
   - component: {fileID: 5814355183553676110}
   - component: {fileID: 8279863201242131445}
+  - component: {fileID: 3222605936781925734}
   m_Layer: 0
   m_Name: LevelPiece 4
   m_TagString: Untagged

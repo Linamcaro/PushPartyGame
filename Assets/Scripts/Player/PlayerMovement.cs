@@ -8,8 +8,6 @@ using Cinemachine;
 public class PlayerMovement : NetworkBehaviour
 {
     private static PlayerMovement _playerMovementInstance;
-
-
     public static PlayerMovement PlayerMovementInstance
     {
         get
@@ -18,52 +16,86 @@ public class PlayerMovement : NetworkBehaviour
         }
     }
 
-    [SerializeField] private List<Vector3> spawnPositionList;
+    [SerializeField] private List<Vector3> spawnPositions;
+
+    //Player movement speed
     [SerializeField] private float moveSpeed = 7f;
-    
-    [SerializeField] private float gravityValue = -9.81f;
     [SerializeField] private float slowDownSpeed= 15f;
 
-    private Vector3 verticalMovement;
-    private float currentVerticalSpeed;
-    private bool isJumping;
-    private bool isWalking;
-
-    //height of the jump
+    //Player jumping
     [SerializeField] private float jumpHeight = 1f;
+    [SerializeField] private float jumpForce = 40f;
+
+
 
     [SerializeField] private LayerMask collisionsLayerMask;
     [SerializeField] private CinemachineFreeLook cmCamera;
+    private Rigidbody rigidBody;
 
-    
+    //Helper Variables
+    private bool isJumping;
+    private bool isWalking;
+    private bool isSliding;
 
     public override void OnNetworkSpawn()
     {
+
         if (IsOwner)
         {
             _playerMovementInstance = this;
             cmCamera.Priority = 100;
-            //playerRigidBody = GetComponent<Rigidbody>();
+            rigidBody = GetComponent<Rigidbody>();
         }
+
+        transform.position = spawnPositions[(int)OwnerClientId];
+
     }
 
     private void Update()
     {
+        if (!IsOwner)
+        {
+            return;
+        }
+
         HandleMovement();
     }
 
-    //Check if player is walking
+    /// <summary>
+    /// Returns if player is walking
+    /// </summary>
+    /// <returns></returns>
     public bool IsWalking()
     {
         return isWalking;
     }
 
     /// <summary>
-    /// Move player 
+    /// Returns if player jumped
+    /// </summary>
+    /// <returns></returns>
+    public bool IsJumping()
+    {
+        return isJumping;
+    }
+
+    public bool IsSliding()
+    {
+        return isSliding;
+    }
+
+
+    /// <summary>
+    /// Move the player according to the user input 
     /// </summary>
     private void HandleMovement()
     {
-        
+        if (!PushPartyGameManager.Instance.IsGamePlaying())
+        {
+            return;
+        }
+
+
         Vector2 inputMovement = PlayerController.Instance.GetPlayerMovement();
         bool jump = PlayerController.Instance.PlayerJumped();
         bool slide = PlayerController.Instance.PlayerSlide();
@@ -85,7 +117,7 @@ public class PlayerMovement : NetworkBehaviour
 
             if (canMove)
             {
-                // Can move only on the X
+                //Can move only on the X
                 moveDir = moveDirX;
             }
             else
@@ -93,22 +125,22 @@ public class PlayerMovement : NetworkBehaviour
                 /* Cannot move only on the X
                  Attempt only Z movement*/
                 Vector3 moveDirZ = new Vector3(0, 0, moveDir.z).normalized;
-                canMove = (moveDir.z < -.5f || moveDir.z > +.5f) && !Physics.BoxCast(transform.position, Vector3.one * playerRadius, moveDirZ, Quaternion.identity, moveDistance, collisionsLayerMask);
+              canMove = (moveDir.z < -.5f || moveDir.z > +.5f) && !Physics.BoxCast(transform.position, Vector3.one * playerRadius, moveDirZ, Quaternion.identity, moveDistance, collisionsLayerMask);
 
-                if (canMove)
+               if (canMove)
                 {
-                    // Can move only on the Z
+                    //Can move only on the Z
                     moveDir = moveDirZ;
                 }
                 
             }
-        }
+            }
 
 
-        if (canMove)
-        {
+            if (canMove)
+            {
             transform.position += moveDir * moveDistance;
-        }
+            }
 
 
         isWalking = moveDir != Vector3.zero;
@@ -119,43 +151,31 @@ public class PlayerMovement : NetworkBehaviour
         //check if player can jump
         if (!isJumping && jump)
         {
-            currentVerticalSpeed = Mathf.Sqrt(jumpHeight * -2f * gravityValue);
             isJumping = true;
+            //currentVerticalSpeed = Mathf.Sqrt(jumpHeight * -2f * gravityValue);
+            rigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            
         }
 
-        // Apply gravity
-        currentVerticalSpeed += gravityValue * Time.deltaTime;
-
-        // Apply vertical movement
-        verticalMovement = new Vector3(0f, currentVerticalSpeed * Time.deltaTime, 0f);
-        transform.position += verticalMovement;
-
-        if (!isJumping)
-        {
-            currentVerticalSpeed = 0f;
-        }
-        
         if(slide)
         {
-            Vector3 slowDown = new Vector3(0, 0, 0);
-            transform.forward = Vector3.Slerp(slowDown, transform.forward, Time.deltaTime * 15f);
+            isSliding = true;
         }
+        else
+        {
+            isSliding = false;
+        }
+        
 
     }
 
-    //Returns the NetworkObject component
-    public NetworkObject GetNetworkObject()
-    {
-        return NetworkObject;
-    }
-
-
+   //Check if player is on ground
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
             isJumping = false;
-            //animator.SetBool("Jump", false);
+            
         }
     }
 
