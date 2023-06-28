@@ -45,7 +45,7 @@ public class PlayersReadyTest : NetworkBehaviour
 
         if (allClientsReady)
         {
-            LoadScenes.LoadTagetScene(LoadScenes.Scene.Lina);
+            LoadScenes.LoadTagetScene(LoadScenes.Scene.MainScene);
         }
         Debug.Log("allClientsReady: " + allClientsReady);
 

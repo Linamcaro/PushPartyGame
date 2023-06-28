@@ -46,10 +46,10 @@ public class PlayerRespawn : NetworkBehaviour
     private void Update()
     {
         
-       // RespawnPlayer();
+       RespawnPlayer();
     }
 
-    /*private void RespawnPlayer()
+    private void RespawnPlayer()
     {
         if (!IsOwner) return;
         PlayerLivesServerRpc();
@@ -83,7 +83,7 @@ public class PlayerRespawn : NetworkBehaviour
 
             }
         }
-    }*/
+    }
 
    //Returns the player lives
     public int GetPlayerLives()
