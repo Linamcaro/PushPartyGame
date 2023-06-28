@@ -1,9 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WaitingForPlayers : MonoBehaviour
 {
+
+    [SerializeField] private Button readyButton;
+    [SerializeField] private GameObject waitingForPlayersScreen;
+
+
+    private void Awake()
+    {
+        readyButton.onClick.AddListener(() =>
+        {
+            PushPartyGameManager.Instance.OnStartButtonPressed();
+        });
+    }
+
+
 
     private void Start()
     {
@@ -28,7 +43,7 @@ public class WaitingForPlayers : MonoBehaviour
     //Hide UI
     private void Hide()
     {
-        gameObject.SetActive(false);
+        waitingForPlayersScreen.SetActive(false);
     }
 
 }
