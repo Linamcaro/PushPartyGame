@@ -48,28 +48,34 @@ MonoBehaviour:
   PooledPrefabsList:
   - Prefab: {fileID: 7552501836163959107, guid: 7126af4d85af2ed41a766cbbffb8e13e,
       type: 3}
-    PrewarmCount: 20
+    PrewarmCount: 5
   - Prefab: {fileID: 7552501836163959107, guid: 80f1a27e2fa20d743ac05fb321e1507e,
       type: 3}
-    PrewarmCount: 20
+    PrewarmCount: 5
   - Prefab: {fileID: 7552501836163959107, guid: 3f09cbccc34b48c42bb934fc3e4fa6ec,
       type: 3}
-    PrewarmCount: 20
+    PrewarmCount: 5
   - Prefab: {fileID: 7552501836163959107, guid: 455c7d9ae63949f41a3dddd2bac64f9c,
       type: 3}
-    PrewarmCount: 20
+    PrewarmCount: 5
   - Prefab: {fileID: 7552501836163959107, guid: 1cfbb3ba49fdd954caed095e01fc0645,
       type: 3}
-    PrewarmCount: 20
+    PrewarmCount: 5
   - Prefab: {fileID: 7552501836163959107, guid: e3db1b76a03b7e94d91dd2cbd3aa29e9,
       type: 3}
-    PrewarmCount: 20
+    PrewarmCount: 5
   - Prefab: {fileID: 7552501836163959107, guid: 78ac37d5a7fc2f442a1e2731c193ea19,
       type: 3}
-    PrewarmCount: 20
+    PrewarmCount: 5
   - Prefab: {fileID: 7552501836163959107, guid: c85788783521db6418fdc8736ac81f95,
       type: 3}
-    PrewarmCount: 20
+    PrewarmCount: 5
+  - Prefab: {fileID: 7552501836163959107, guid: 60fc6228630f41649861e4d9b75236a4,
+      type: 3}
+    PrewarmCount: 5
+  - Prefab: {fileID: 7552501836163959107, guid: 5e4b11e51e6edc848a738d76eb575414,
+      type: 3}
+    PrewarmCount: 5
 --- !u!114 &6684717393356401579
 MonoBehaviour:
   m_ObjectHideFlags: 0
