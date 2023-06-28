@@ -8,7 +8,7 @@ public class WaitingForPlayers : MonoBehaviour
     private void Start()
     {
         PushPartyGameManager.Instance.OnStateChanged += PushPartyGameManager_OnStateChanged;
-        Hide();
+        
     }
 
     /// <summary>
@@ -23,13 +23,8 @@ public class WaitingForPlayers : MonoBehaviour
             Hide();
         }
     }
-
-    ////Show UI
-    public void Show()
-    {
-        gameObject.SetActive(true);
-    }
-
+       
+    
     //Hide UI
     private void Hide()
     {

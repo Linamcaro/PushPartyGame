@@ -37,8 +37,6 @@ public class GameStartCountDown : MonoBehaviour
         }
     }
 
-   
-
     private void Update()
     {
         //convert float to the smallest interger.

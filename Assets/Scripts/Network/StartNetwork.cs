@@ -10,12 +10,13 @@ public class StartNetwork : MonoBehaviour
     
     public void StartClient()
     {
-        NetworkManager.Singleton.StartClient();
+        MultiplayerManager.Instance.StartClient();
+
     }
 
     public void StartHost()
     {
-        NetworkManager.Singleton.StartHost();
+        MultiplayerManager.Instance.StartHost();
     }
 
 }
