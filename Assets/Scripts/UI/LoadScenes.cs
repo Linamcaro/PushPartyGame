@@ -14,7 +14,7 @@ public static class LoadScenes
         GameOver,
         Winner,
         Lina,
-        test,
+        Lobby2,
     }
 
     //method to load a scene
