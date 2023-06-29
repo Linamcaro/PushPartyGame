@@ -18,24 +18,35 @@ public class PlayerMovement : NetworkBehaviour
 
     [SerializeField] private List<Vector3> spawnPositions;
 
-    //Player movement speed
-    [SerializeField] private float moveSpeed = 7f;
-    [SerializeField] private float slowDownSpeed= 15f;
-
     //Player jumping
-    [SerializeField] private float jumpHeight = 1f;
-    [SerializeField] private float jumpForce = 70f;
-
+    [SerializeField] public float jumpHeight = 2f;
+    [SerializeField] public float jumpForce = 70f;
+    [SerializeField] public float maxFallSpeed = 20.0f;
+    [SerializeField] public float rotateSpeed = 25f;
+    [SerializeField] public float maxVelocityChange = 10.0f;
+    [SerializeField] private float moveSpeed = 10.0f;
+    [SerializeField] public float airVelocity = 8f;
+    [SerializeField] public float gravity = 10.0f;
 
 
     [SerializeField] private LayerMask collisionsLayerMask;
+    
     [SerializeField] private CinemachineFreeLook cmCamera;
     private Rigidbody rigidBody;
 
     //Helper Variables
+    private bool canMove = true; 
+    private bool isStuned = false;
+    private bool wasStuned = false;
+    private float pushForce;
+    private Vector3 pushDir;
+
+
+
     private bool isJumping;
     private bool isWalking;
     private bool isSliding;
+    private bool slide = false;
 
     public override void OnNetworkSpawn()
     {
@@ -45,6 +56,9 @@ public class PlayerMovement : NetworkBehaviour
             _playerMovementInstance = this;
             cmCamera.Priority = 100;
             rigidBody = GetComponent<Rigidbody>();
+            rigidBody.freezeRotation = true;
+            rigidBody.useGravity = false;
+            
         }
 
         transform.position = spawnPositions[(int)OwnerClientId];
@@ -52,6 +66,16 @@ public class PlayerMovement : NetworkBehaviour
     }
 
     private void Update()
+    {
+        if (!IsOwner)
+        {
+            return;
+        }
+
+    }
+
+
+    private void FixedUpdate()
     {
         if (!IsOwner)
         {
@@ -98,85 +122,180 @@ public class PlayerMovement : NetworkBehaviour
 
         Vector2 inputMovement = PlayerController.Instance.GetPlayerMovement();
         bool jump = PlayerController.Instance.PlayerJumped();
-        bool slide = PlayerController.Instance.PlayerSlide();
 
         Vector3 moveDir = new Vector3(inputMovement.x, 0, inputMovement.y);
 
-        float moveDistance = moveSpeed * Time.deltaTime;
-        float playerRadius = .6f;
+        //bool slide = PlayerController.Instance.PlayerSlide();
 
-        //if there is an obstacle returns false
-        bool canMove = !Physics.BoxCast(transform.position, Vector3.one * playerRadius, moveDir, Quaternion.identity, moveDistance, collisionsLayerMask);
-
-        if (!canMove)
+        if (canMove)
         {
-            /* Cannot move towards moveDir
-             Attempt only X movement*/
-            Vector3 moveDirX = new Vector3(moveDir.x, 0, 0).normalized;
-            canMove = (moveDir.x < -.5f || moveDir.x > +.5f) && !Physics.BoxCast(transform.position, Vector3.one * playerRadius, moveDirX, Quaternion.identity, moveDistance, collisionsLayerMask);
-
-            if (canMove)
+            if (moveDir.x != 0 || moveDir.z != 0)
             {
-                //Can move only on the X
-                moveDir = moveDirX;
+                //Direction of the character
+                Vector3 targetDir = moveDir;
+
+                targetDir.y = 0;
+                if (targetDir == Vector3.zero)
+                    targetDir = transform.forward;
+
+                //Rotation of the character to where it moves
+                Quaternion tr = Quaternion.LookRotation(targetDir);
+
+                //Rotate the character smoothly(little by little)
+                Quaternion targetRotation = Quaternion.Slerp(transform.rotation, tr, Time.deltaTime * rotateSpeed);
+                transform.rotation = targetRotation;
+            }
+
+
+            if (!isJumping)
+            {
+                // Calculate how fast we should be moving
+                Vector3 targetVelocity = moveDir;
+                targetVelocity *= moveSpeed;
+
+                // Apply a force that attempts to reach our target velocity
+                Vector3 velocity = rigidBody.velocity;
+
+                //If I'm slowing down the character
+                if (targetVelocity.magnitude < velocity.magnitude) 
+                {
+                    targetVelocity = velocity;
+                    rigidBody.velocity /= 1.1f;
+                }
+                Vector3 velocityChange = (targetVelocity - velocity);
+                velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
+                velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
+                velocityChange.y = 0;
+
+                if (!slide)
+                {
+                    if (Mathf.Abs(rigidBody.velocity.magnitude) < moveSpeed * 1.0f)
+                        rigidBody.AddForce(velocityChange, ForceMode.VelocityChange);
+                }
+                else if (Mathf.Abs(rigidBody.velocity.magnitude) < moveSpeed * 1.0f)
+                {
+                    rigidBody.AddForce(moveDir * 0.15f, ForceMode.VelocityChange);
+                    //Debug.Log(rb.velocity.magnitude);
+                }
+
+                // check if can jump and apply velocity
+                if (isJumping && jump)
+                {
+                    rigidBody.velocity = new Vector3(velocity.x, CalculateJumpVerticalSpeed(), velocity.z);
+                }
+
             }
             else
             {
-                /* Cannot move only on the X
-                 Attempt only Z movement*/
-                Vector3 moveDirZ = new Vector3(0, 0, moveDir.z).normalized;
-              canMove = (moveDir.z < -.5f || moveDir.z > +.5f) && !Physics.BoxCast(transform.position, Vector3.one * playerRadius, moveDirZ, Quaternion.identity, moveDistance, collisionsLayerMask);
-
-               if (canMove)
+                if (!slide)
                 {
-                    //Can move only on the Z
-                    moveDir = moveDirZ;
+                    Vector3 targetVelocity = new Vector3(moveDir.x * airVelocity, rigidBody.velocity.y, moveDir.z * airVelocity);
+                    Vector3 velocity = rigidBody.velocity;
+                    Vector3 velocityChange = (targetVelocity - velocity);
+                    velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
+                    velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
+                    rigidBody.AddForce(velocityChange, ForceMode.VelocityChange);
+                    if (velocity.y < -maxFallSpeed)
+                        rigidBody.velocity = new Vector3(velocity.x, -maxFallSpeed, velocity.z);
                 }
-                
-            }
-            }
-
-
-            if (canMove)
-            {
-            transform.position += moveDir * moveDistance;
+                else if (Mathf.Abs(rigidBody.velocity.magnitude) < moveSpeed * 1.0f)
+                {
+                    rigidBody.AddForce(moveDir * 0.15f, ForceMode.VelocityChange);
+                }
             }
 
-
-        isWalking = moveDir != Vector3.zero;
-
-        float rotateSpeed = 10f;
-        transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * rotateSpeed);
-
-        //check if player can jump
-        if (!isJumping && jump)
-        {
-            isJumping = true;
-            //currentVerticalSpeed = Mathf.Sqrt(jumpHeight * -2f * gravityValue);
-            rigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            
-        }
-
-        if(slide)
-        {
-            isSliding = true;
         }
         else
         {
-            isSliding = false;
+            rigidBody.velocity = pushDir * pushForce;
         }
-        
-
+        // We apply gravity manually for more tuning control
+        rigidBody.AddForce(new Vector3(0, -gravity * rigidBody.mass, 0));
     }
 
-   //Check if player is on ground
+    /// <summary>
+    /// From the jump height and gravity we deduce the upwards speed 
+    /// for the character to reach at the apex.
+    /// </summary>
+    /// <returns></returns>
+    float CalculateJumpVerticalSpeed()
+    {
+
+        return Mathf.Sqrt(2 * jumpHeight * gravity);
+    }
+
+    /// <summary>
+    /// If player is hit apply a velocity and move direction 
+    /// </summary>
+    /// <param name="velocityF"></param>
+    /// <param name="time"></param>
+    public void HitPlayer(Vector3 velocityF, float time)
+    {
+        rigidBody.velocity = velocityF;
+
+        pushForce = velocityF.magnitude;
+        pushDir = Vector3.Normalize(velocityF);
+        StartCoroutine(Decrease(velocityF.magnitude, time));
+    }
+
+    private IEnumerator Decrease(float value, float duration)
+    {
+        //if player is stunned then he can't move
+        if (isStuned)
+            wasStuned = true;
+        isStuned = true;
+        canMove = false;
+
+        float delta = 0;
+        delta = value / duration;
+
+        for (float t = 0; t < duration; t += Time.deltaTime)
+        {
+            yield return null;
+
+            //Reduce the force if the ground isnt slide
+            if (!slide) 
+            {
+                pushForce = pushForce - Time.deltaTime * delta;
+                pushForce = pushForce < 0 ? 0 : pushForce;
+                //Debug.Log(pushForce);
+            }
+            //Add gravity
+            rigidBody.AddForce(new Vector3(0, -gravity * GetComponent<Rigidbody>().mass, 0)); 
+        }
+
+        if (wasStuned)
+        {
+            wasStuned = false;
+        }
+        else
+        {
+            isStuned = false;
+            canMove = true;
+        }
+    }
+
+   
     private void OnCollisionEnter(Collision collision)
     {
+        //Check if player is on ground
         if (collision.gameObject.CompareTag("Ground"))
         {
             isJumping = false;
             
         }
+
+        //check if the ground is slide
+        if (collision.gameObject.CompareTag("Slide"))
+        {
+            isJumping = false;
+            slide = true;
+        }
+        else
+        {
+            slide = false;
+        }
+
     }
 
 
