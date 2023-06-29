@@ -74,7 +74,7 @@ public class PlayerRespawn : NetworkBehaviour
 
             if (lives > 0)
             {
-                respawnPosition = new Vector3(0, 1f, respawnTarget.z);
+                respawnPosition = new Vector3(0, 1f, respawnTarget.z  + 3f);
                 //Move player to the respawn position
                 transform.position = respawnPosition;
             }

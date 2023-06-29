@@ -28,8 +28,6 @@ public class PlayerMovement : NetworkBehaviour
     [SerializeField] public float airVelocity = 8f;
     [SerializeField] public float gravity = 10.0f;
 
-
-    [SerializeField] private LayerMask collisionsLayerMask;
     
     [SerializeField] private CinemachineFreeLook cmCamera;
     private Rigidbody rigidBody;
