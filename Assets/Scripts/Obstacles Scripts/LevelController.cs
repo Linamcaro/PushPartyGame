@@ -7,7 +7,6 @@ using UnityEngine;
 
 public class LevelController : NetworkBehaviour
 {
-
     public static LevelController Instance;
 
     public LevelPiece[] levelPieces;
@@ -20,6 +19,8 @@ public class LevelController : NetworkBehaviour
 
     Queue<GameObject> activePieces = new Queue<GameObject>();
     List<int> probabilityList = new List<int>();
+
+    
 
     int currentCamStep = 0;
     int lastCamStep = 0;
@@ -118,20 +119,27 @@ public class LevelController : NetworkBehaviour
         }
     }
 
-  
+
     public void StartGame()
     {
         if (!IsServer) return;
-        
-            hasGameStarted = true;
 
-            //spawn starting level piece
-            for (int i = 0; i < drawDistance; i++)
-            {
-                SpawnNewLevelPiece();
-            }
+        hasGameStarted = true;
+
+        //spawn starting level piece
+        for (int i = 0; i < drawDistance; i++)
+        {
+            SpawnNewLevelPiece();
+        }
+    }
+
+    public Vector3  PlatformPosition()
+    {
+        return transform.position;
     }
 }
+
+  
 
 [System.Serializable]
 public class LevelPiece

@@ -39,6 +39,7 @@ public class PlayerMovement : NetworkBehaviour
     private bool isStuned = false;
     private bool wasStuned = false;
     private float pushForce;
+    private float distToGround;
     private Vector3 pushDir;
 
 
@@ -58,7 +59,8 @@ public class PlayerMovement : NetworkBehaviour
             rigidBody = GetComponent<Rigidbody>();
             rigidBody.freezeRotation = true;
             rigidBody.useGravity = false;
-            
+            // get the distance to ground
+            distToGround = GetComponent<Collider>().bounds.extents.y;
         }
 
         transform.position = spawnPositions[(int)OwnerClientId];
@@ -71,7 +73,18 @@ public class PlayerMovement : NetworkBehaviour
         {
             return;
         }
-
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, -Vector3.up, out hit, distToGround + 0.1f))
+        {
+            if (hit.transform.tag == "Slide")
+            {
+                slide = true;
+            }
+            else
+            {
+                slide = false;
+            }
+        }
     }
 
 
@@ -147,7 +160,7 @@ public class PlayerMovement : NetworkBehaviour
             }
 
 
-            if (!isJumping)
+            if (IsGrounded())
             {
                 // Calculate how fast we should be moving
                 Vector3 targetVelocity = moveDir;
@@ -179,7 +192,7 @@ public class PlayerMovement : NetworkBehaviour
                 }
 
                 // check if can jump and apply velocity
-                if (isJumping && jump)
+                if (IsGrounded() && jump)
                 {
                     rigidBody.velocity = new Vector3(velocity.x, CalculateJumpVerticalSpeed(), velocity.z);
                 }
@@ -275,8 +288,14 @@ public class PlayerMovement : NetworkBehaviour
         }
     }
 
-   
-    private void OnCollisionEnter(Collision collision)
+    bool IsGrounded()
+    {
+        return Physics.Raycast(transform.position, -Vector3.up, distToGround + 0.1f);
+    }
+
+
+
+    /*private void OnCollisionEnter(Collision collision)
     {
         //Check if player is on ground
         if (collision.gameObject.CompareTag("Ground"))
@@ -296,7 +315,7 @@ public class PlayerMovement : NetworkBehaviour
             slide = false;
         }
 
-    }
+    }*/
 
 
 }

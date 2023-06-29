@@ -220,6 +220,22 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 627955579175288432}
   m_PrefabAsset: {fileID: 0}
+--- !u!54 &432219507247022963
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 321896959604065057}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 14
+  m_CollisionDetection: 0
 --- !u!65 &2750113350711403008
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -429,6 +445,22 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2243350287282498312}
   m_PrefabAsset: {fileID: 0}
+--- !u!54 &2081725181680427540
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1432306183820236377}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 14
+  m_CollisionDetection: 0
 --- !u!65 &1462551458660024384
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -549,6 +581,22 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7308178356139096590}
   m_PrefabAsset: {fileID: 0}
+--- !u!54 &214081390867558468
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7614096785829742431}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 14
+  m_CollisionDetection: 0
 --- !u!65 &4662053799217877858
 BoxCollider:
   m_ObjectHideFlags: 0

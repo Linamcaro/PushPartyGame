@@ -68,11 +68,13 @@ public class PlayerRespawn : NetworkBehaviour
 
         if (transform.position.y < deathPointY)
         {
+            Vector3 respawnTarget = LevelController.Instance.PlatformPosition();
+
             lives--;
 
             if (lives > 0)
             {
-                respawnPosition = new Vector3(0, 1f, transform.position.z);
+                respawnPosition = new Vector3(0, 1f, respawnTarget.z);
                 //Move player to the respawn position
                 transform.position = respawnPosition;
             }
