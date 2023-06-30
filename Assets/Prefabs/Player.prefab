@@ -3920,9 +3920,9 @@ MonoBehaviour:
   SyncPositionX: 1
   SyncPositionY: 1
   SyncPositionZ: 1
-  SyncRotAngleX: 0
+  SyncRotAngleX: 1
   SyncRotAngleY: 1
-  SyncRotAngleZ: 0
+  SyncRotAngleZ: 1
   SyncScaleX: 0
   SyncScaleY: 0
   SyncScaleZ: 0
@@ -3954,9 +3954,6 @@ MonoBehaviour:
   moveSpeed: 7
   airVelocity: 8
   gravity: 10
-  collisionsLayerMask:
-    serializedVersion: 2
-    m_Bits: 200
   cmCamera: {fileID: 8100611063548804939}
 --- !u!54 &4243997092681709914
 Rigidbody:
