@@ -3766,6 +3766,8 @@ GameObject:
   - component: {fileID: -7652257386196005068}
   - component: {fileID: -2889051924477146779}
   - component: {fileID: 6674894805116955434}
+  - component: {fileID: -8376967222457869677}
+  - component: {fileID: -7736363149371196959}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -3920,9 +3922,9 @@ MonoBehaviour:
   SyncPositionX: 1
   SyncPositionY: 1
   SyncPositionZ: 1
-  SyncRotAngleX: 0
+  SyncRotAngleX: 1
   SyncRotAngleY: 1
-  SyncRotAngleZ: 0
+  SyncRotAngleZ: 1
   SyncScaleX: 0
   SyncScaleY: 0
   SyncScaleZ: 0
@@ -3954,9 +3956,6 @@ MonoBehaviour:
   moveSpeed: 7
   airVelocity: 8
   gravity: 10
-  collisionsLayerMask:
-    serializedVersion: 2
-    m_Bits: 200
   cmCamera: {fileID: 8100611063548804939}
 --- !u!54 &4243997092681709914
 Rigidbody:
@@ -4012,6 +4011,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stunTime: 5
+--- !u!114 &-8376967222457869677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3871784914709248875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0f6ed629f67a8d44b69a1ae1b4a09ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnedObjectPrefab: {fileID: 2851681820972631069, guid: c81716f55f60d1247b2c64fd7ee06aa6,
+    type: 3}
+--- !u!114 &-7736363149371196959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3871784914709248875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3871784914709248877
 GameObject:
   m_ObjectHideFlags: 0

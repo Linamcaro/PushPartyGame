@@ -4,28 +4,27 @@ using System;
 
 public class PlayerRespawn : NetworkBehaviour
 {
-  
-    //lives
     private float deathPointY = -15f;
     private int lives = 2;
 
     private Vector3 respawnPosition;
 
-
     public override void OnNetworkSpawn()
     {
         if (!IsOwner) return;
-
-        base.OnNetworkSpawn();
-           
+        base.OnNetworkSpawn();         
     }
 
     private void Start()
     {
         PushPartyGameManager.Instance.OnStateChanged += PushPartyGameManager_OnStateChanged;
-
     }
 
+    /// <summary>
+    /// Load the winner or gameover scene
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void PushPartyGameManager_OnStateChanged(object sender, EventArgs e)
     {
         Debug.Log("PushPartyGameManager_OnStateChanged called");
@@ -44,8 +43,7 @@ public class PlayerRespawn : NetworkBehaviour
     }
 
     private void Update()
-    {
-        
+    {   
        RespawnPlayer();
     }
 
@@ -53,7 +51,6 @@ public class PlayerRespawn : NetworkBehaviour
     {
         if (!IsOwner) return;
         PlayerLivesServerRpc();
-
     }
 
 
@@ -69,11 +66,11 @@ public class PlayerRespawn : NetworkBehaviour
         if (transform.position.y < deathPointY)
         {
             Vector3 respawnTarget = LevelController.Instance.PlatformPosition();
-
+            
             lives--;
 
-            if (lives > 0)
-            {
+            if (lives > 1)
+            {         
                 respawnPosition = new Vector3(0, 1f, respawnTarget.z  + 3f);
                 //Move player to the respawn position
                 transform.position = respawnPosition;
@@ -82,7 +79,6 @@ public class PlayerRespawn : NetworkBehaviour
             {
                 lives = 0;
                 LoadScenes.LoadTagetScene(LoadScenes.Scene.GameOver);
-
             }
         }
     }
