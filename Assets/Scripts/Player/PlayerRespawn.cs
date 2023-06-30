@@ -52,7 +52,27 @@ public class PlayerRespawn : NetworkBehaviour
     private void RespawnPlayer()
     {
         if (!IsOwner) return;
-        PlayerLivesServerRpc();
+        Debug.Log("PlayerLivesServerRpc called");
+
+        if (transform.position.y < deathPointY)
+        {
+            Vector3 respawnTarget = LevelController.Instance.PlatformPosition();
+
+            lives--;
+
+            if (lives > 0)
+            {
+                respawnPosition = new Vector3(0, 1f, respawnTarget.z + 3f);
+                //Move player to the respawn position
+                transform.position = respawnPosition;
+            }
+            else
+            {
+                lives = 0;
+                PlayerLivesServerRpc();
+
+            }
+        }
 
     }
 
@@ -64,25 +84,9 @@ public class PlayerRespawn : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void PlayerLivesServerRpc(ServerRpcParams serverRpcParams = default)
     {
-        Debug.Log("PlayerLivesServerRpc called");
-
-        if (transform.position.y < deathPointY)
-        {
-            lives--;
-
-            if (lives > 0)
-            {
-                respawnPosition = new Vector3(0, 1f, transform.position.z);
-                //Move player to the respawn position
-                transform.position = respawnPosition;
-            }
-            else
-            {
-                lives = 0;
-                LoadScenes.LoadTagetScene(LoadScenes.Scene.GameOver);
-
-            }
-        }
+        
+      LoadScenes.LoadTagetScene(LoadScenes.Scene.GameOver);
+  
     }
 
    //Returns the player lives
