@@ -40,12 +40,10 @@ public class PlayerMovement : NetworkBehaviour
     private float distToGround;
     private Vector3 pushDir;
 
-
-
-    private bool isJumping;
-    private bool isWalking;
-    private bool isSliding;
-    private bool slide = false;
+    public bool isJumping { get; private set; }
+    public bool isWalking { get; private set; }
+    public bool isSliding { get; private set; }
+    public bool slide{ get; private set; }
 
     public override void OnNetworkSpawn()
     {
@@ -59,6 +57,7 @@ public class PlayerMovement : NetworkBehaviour
             rigidBody.useGravity = false;
             // get the distance to ground
             distToGround = GetComponent<Collider>().bounds.extents.y;
+            slide = false;
         }
 
         transform.position = spawnPositions[(int)OwnerClientId];
@@ -96,28 +95,28 @@ public class PlayerMovement : NetworkBehaviour
         HandleMovement();
     }
 
-    /// <summary>
-    /// Returns if player is walking
-    /// </summary>
-    /// <returns></returns>
-    public bool IsWalking()
-    {
-        return isWalking;
-    }
+    ///// <summary>
+    ///// Returns if player is walking
+    ///// </summary>
+    ///// <returns></returns>
+    //public bool IsWalking()
+    //{
+    //    return isWalking;
+    //}
 
-    /// <summary>
-    /// Returns if player jumped
-    /// </summary>
-    /// <returns></returns>
-    public bool IsJumping()
-    {
-        return isJumping;
-    }
+    ///// <summary>
+    ///// Returns if player jumped
+    ///// </summary>
+    ///// <returns></returns>
+    //public bool IsJumping()
+    //{
+    //    return isJumping;
+    //}
 
-    public bool IsSliding()
-    {
-        return isSliding;
-    }
+    //public bool IsSliding()
+    //{
+    //    return isSliding;
+    //}
 
 
     /// <summary>

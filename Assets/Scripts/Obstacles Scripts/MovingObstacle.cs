@@ -43,7 +43,7 @@ public class MovingObstacle : NetworkBehaviour
         }
     }
 
-    private void OnDestroy()
+    new private void OnDestroy()
     {
         transform.DOKill();
     }
