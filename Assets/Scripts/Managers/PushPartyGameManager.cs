@@ -2,8 +2,7 @@ using System;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
-
-
+using UnityEngine.SceneManagement;
 
 public class PushPartyGameManager : NetworkBehaviour
 {
@@ -21,18 +20,23 @@ public class PushPartyGameManager : NetworkBehaviour
         GameOver,
     }
 
-    //Handle game states
+    //Handle game states on the network
     private NetworkVariable<State> state = new NetworkVariable<State>(State.WaitingToStart);
+    //Event for the game state changes
+    public event EventHandler OnStateChanged;
 
-
+    //CountDown Tiime
     private NetworkVariable<float> countdownTostartTimer = new NetworkVariable<float>(3f);
-    private bool isLocalPlayerReady;
 
     //Store the player ID and if it is ready
     private Dictionary<ulong, bool> playerReadyDictionary;
+    //Store the player ID and if it died
+    private Dictionary<ulong, bool> playerDiedDictionary;
 
-    //Event for the game state changes
-    public event EventHandler OnStateChanged;
+    private bool isLocalPlayerReady;
+
+    [SerializeField] private Transform playerPrefab;
+
 
     private void Awake()
     {
@@ -43,11 +47,30 @@ public class PushPartyGameManager : NetworkBehaviour
 
 
     public override void OnNetworkSpawn()
-    {
-        base.OnNetworkSpawn();
-
+    { 
         state.OnValueChanged += State_OnValueChanged;
 
+        if (IsServer)
+        {
+            NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SceneManager_OnLoadEventCompleted;
+        }
+
+    }
+
+    /// <summary>
+    /// Spawn the players prefab
+    /// </summary>
+    /// <param name="sceneName"></param>
+    /// <param name="loadSceneMode"></param>
+    /// <param name="clientsCompleted"></param>
+    /// <param name="clientsTimedOut"></param>
+    private void SceneManager_OnLoadEventCompleted(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
+    {
+        foreach(ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
+        {
+            Transform playerTransform = Instantiate(playerPrefab);
+            playerTransform.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
+        }
     }
 
     /// <summary>
@@ -88,15 +111,15 @@ public class PushPartyGameManager : NetworkBehaviour
         bool allClientsReady = true;
         
        foreach(ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
-        {
-            //checki if it does not contains the key or is not ready
+       {
+            //check  if it does not contains the key or is not ready
             if (!playerReadyDictionary.ContainsKey(clientId) || !playerReadyDictionary[clientId])
             {
                 Debug.Log("SetPlayerReadyServerRPC function called");
                 allClientsReady = false;
                 break;
             }
-        }
+       }
 
        //If all clients are ready start countdown;
        if(allClientsReady)
@@ -105,6 +128,34 @@ public class PushPartyGameManager : NetworkBehaviour
         }
         Debug.Log("allClientsReady: " + allClientsReady);
         
+    }
+
+    /// <summary>
+    /// Check if players are ready
+    /// </summary>
+    private void OnPlayerDied()
+    {
+        Debug.Log("OnPlayersDied function called");
+        if (state.Value == State.GamePlaying)
+        {
+            OnPlayerDiedServerRpc();
+            Debug.Log("state changed to waiting: " + state);
+
+        }
+    }
+
+    /// <summary>
+    /// Tell the server if players are ready 
+    /// </summary>
+    /// <param name="serverRpcParams"></param>
+    [ServerRpc(RequireOwnership = false)]
+    private void OnPlayerDiedServerRpc(ServerRpcParams serverRpcParams = default)
+    {
+        playerDiedDictionary[serverRpcParams.Receive.SenderClientId] = true;
+        Debug.Log("OnPlayerDiedServerRpc called by paler: " + serverRpcParams.Receive.SenderClientId);
+
+        state.Value = State.GameOver;
+
     }
 
     private void Update()
@@ -128,15 +179,11 @@ public class PushPartyGameManager : NetworkBehaviour
                 break;
 
             case State.GamePlaying:
-                /*int playerLives = PlayerRespawn.Instance.GetPlayerLives();
-                if (playerLives  <= 0)
-                {
-                    state = State.GameOver;
-                }*/
                 Debug.Log("GamePlaying");
                 break;
 
             case State.GameOver:
+                Debug.Log("GameOver");
                 break;
         }
     }
@@ -159,7 +206,7 @@ public class PushPartyGameManager : NetworkBehaviour
         return countdownTostartTimer.Value;
     }
 
-    //Return true if the countdown to start is active
+    //Return if the game is over
     public bool IsGameOver()
     {
         return state.Value == State.GameOver;
@@ -171,12 +218,21 @@ public class PushPartyGameManager : NetworkBehaviour
         Debug.Log("SetPlayerReadyServerRPC function called");
         return isLocalPlayerReady;
     }
-
-  public void OnStartButtonPressed()
+    
+    //called when the tutorial ready button is pressed
+    public void OnStartButtonPressed()
     {
         Debug.Log("OnStartButtonPressed function called");
         OnPlayersReady();
         
+    }
+
+    //called when the player has 0 lives
+    public void OnNoLives()
+    {
+        Debug.Log("OnStartButtonPressed function called");
+        OnPlayerDied();
+
     }
 
 }

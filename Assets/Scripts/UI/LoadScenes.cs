@@ -1,15 +1,30 @@
-
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class LoadScenes : MonoBehaviour
+public static class LoadScenes
 {
-    public void LoadMainScene()
+    //scene names
+    public enum Scene
     {
-        SceneManager.LoadScene("Lina");
+        MainMenu,
+        Lobby,
+        MainScene,
+        Loading,
+        GameOver,
+        Winner,
+        Lina,
+        Lobby2,
     }
 
-    public void QuitGame()
+    //method to load a scene
+    public static void LoadTagetScene(Scene targetScene)
+    {
+        NetworkManager.Singleton.SceneManager.LoadScene(targetScene.ToString(), LoadSceneMode.Single); 
+    }
+
+    //method to quit the game
+    public static void QuitGame()
     {
         Application.Quit();
     }

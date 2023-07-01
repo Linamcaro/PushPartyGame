@@ -90,4 +90,14 @@ public class PlayerController : MonoBehaviour
     {
         return playerInputAction.Player.Slide.triggered;
     }
+
+    /// <summary>
+    /// Returns true if the option menu control was triggered
+    /// </summary>
+    /// <returns></returns>
+    public bool OptionsMenu()
+    {
+        return playerInputAction.Player.OptionsMenu.triggered;
+    }
+
 }

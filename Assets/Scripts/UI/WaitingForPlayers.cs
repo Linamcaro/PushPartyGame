@@ -1,14 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WaitingForPlayers : MonoBehaviour
 {
 
+    [SerializeField] private Button readyButton;
+    [SerializeField] private GameObject waitingForPlayersScreen;
+
+
+    private void Awake()
+    {
+        readyButton.onClick.AddListener(() =>
+        {
+            PushPartyGameManager.Instance.OnStartButtonPressed();
+        });
+    }
+
+
+
     private void Start()
     {
         PushPartyGameManager.Instance.OnStateChanged += PushPartyGameManager_OnStateChanged;
-        Hide();
+        
     }
 
     /// <summary>
@@ -23,17 +38,12 @@ public class WaitingForPlayers : MonoBehaviour
             Hide();
         }
     }
-
-    ////Show UI
-    public void Show()
-    {
-        gameObject.SetActive(true);
-    }
-
+       
+    
     //Hide UI
     private void Hide()
     {
-        gameObject.SetActive(false);
+        waitingForPlayersScreen.SetActive(false);
     }
 
 }
