@@ -34,6 +34,8 @@ public class TestPlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
+
+        canJump = true;
     }
 
     private void Update()
