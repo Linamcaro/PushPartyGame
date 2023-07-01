@@ -193,6 +193,7 @@ public class PlayerMovement : NetworkBehaviour
                 if (IsGrounded() && jump)
                 {
                     rigidBody.velocity = new Vector3(velocity.x, CalculateJumpVerticalSpeed(), velocity.z);
+                    isJumping = true;
                 }
 
             }
@@ -212,6 +213,7 @@ public class PlayerMovement : NetworkBehaviour
                 else if (Mathf.Abs(rigidBody.velocity.magnitude) < moveSpeed * 1.0f)
                 {
                     rigidBody.AddForce(moveDir * 0.15f, ForceMode.VelocityChange);
+                    IsSliding();
                 }
             }
 
