@@ -12,15 +12,14 @@ public class LivePowerUp : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            PickUp(other);
+            PickUp();
         }
     }
-    void PickUp(Collider player)
+    void PickUp()
     {
 
         Instantiate(lifeEffect, transform.position, transform.rotation);
-        PlayerRespawn stats = player.GetComponent<PlayerRespawn>();
-        stats.lives += 1;
+        PlayerRespawn.Instance.IncreasePlayerLives();
         Destroy(gameObject);
     }
 
