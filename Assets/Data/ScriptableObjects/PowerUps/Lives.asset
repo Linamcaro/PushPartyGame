@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 89e7ec81db13d534b958f75ab11f53a7, type: 3}
-  m_Name: PowerUp1
+  m_Name: Lives
   m_EditorClassIdentifier: 
-  powerUpname: Velocity
-  powerUpObject: {fileID: 2851681820972631068, guid: c81716f55f60d1247b2c64fd7ee06aa6,
+  powerUpname: Lives
+  powerUpObject: {fileID: 4333854071225382230, guid: dab5ade54a44a9645b7460f6ec82c401,
     type: 3}

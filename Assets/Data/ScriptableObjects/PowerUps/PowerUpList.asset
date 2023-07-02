@@ -15,3 +15,4 @@ MonoBehaviour:
   powerUpSOList:
   - {fileID: 11400000, guid: fd0eb54312c6a1940a9d04796b255b72, type: 2}
   - {fileID: 11400000, guid: 235e07bdafaa22847822d5e40694a864, type: 2}
+  - {fileID: 11400000, guid: d6ab32b30d9e80447afaa0e3f0c1a3f1, type: 2}
