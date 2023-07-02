@@ -23,8 +23,10 @@ public class InmunityPowerUp : MonoBehaviour
         if (other.CompareTag("Player"))
         {
 
-            PlayerRespawn stats = other.GetComponent<PlayerRespawn>();
-            stats.CallInmunity(other);
+           PlayerSpawn.Instance.CallInmunity(other);
+
+            //  PlayerSpawn stats =  other.GetComponent<PlayerRespawn>();
+            //stats.CallInmunity(other);
             Destroy(gameObject);
         }
     }

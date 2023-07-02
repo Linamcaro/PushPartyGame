@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,8 +12,10 @@ public class PlayerUI : MonoBehaviour
 
     private void Start()
     {
+
         PushPartyGameManager.Instance.OnStateChanged += PushPartyGameManager_OnStateChanged;
-        PlayerRespawn.Instance.OnLivesChanged += PlayerRespawn_OnLivesChanged;
+
+        PlayerSpawn.Instance.OnLivesChanged += PlayerRespawn_OnLivesChanged;
         Hide();
     }
 
@@ -25,8 +28,9 @@ public class PlayerUI : MonoBehaviour
     {
         if (PushPartyGameManager.Instance.IsGamePlaying())
         {
-            Show();
             UpdateUI();
+            Show();
+
         }
         else
         {
@@ -46,7 +50,7 @@ public class PlayerUI : MonoBehaviour
 
     private void UpdateUI()
     {
-        playerLives.text = PlayerRespawn.Instance.GetPlayerLives().ToString();
+        playerLives.text = PlayerSpawn.Instance.GetPlayerLives().ToString();
     }
 
 }

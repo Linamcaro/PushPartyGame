@@ -3556,6 +3556,7 @@ GameObject:
   - component: {fileID: 2899574739564635200}
   - component: {fileID: 2899574739564635201}
   - component: {fileID: 2899574739564635204}
+  - component: {fileID: 2899574739564635205}
   m_Layer: 0
   m_Name: SpawnManager
   m_TagString: Untagged
@@ -3576,3 +3577,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PowerUpsList: {fileID: 11400000, guid: 3a15b07e1facdee4fa1137a718e53ada, type: 2}
+--- !u!114 &2899574739564635205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2899574739564635203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c3ece5431314374ea8937992444eceb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
