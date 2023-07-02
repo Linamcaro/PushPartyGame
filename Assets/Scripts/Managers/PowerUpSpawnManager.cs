@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
+using Netcode.Extensions;
 
-public class PowerUpSpawnManager : MonoBehaviour
+public class PowerUpSpawnManager : NetworkBehaviour
 {
 
     public static PowerUpSpawnManager Instance { get; private set; }
@@ -17,20 +19,22 @@ public class PowerUpSpawnManager : MonoBehaviour
 
     private bool CanSpawnPowerUp = true;
 
-
     private void spawnPowerUp(PowerUpSO powerUpSelected)
     {
         
-
-
         float spawnXRange = Random.Range(-xRange, xRange);
         float spawnZRange = Random.Range(-zRange, zRange);
         Vector3 spawnPos = new Vector3(spawnXRange, 1, spawnZRange);
 
         GameObject objectToSpawn = powerUpSelected.powerUpObject;
-        Instantiate(objectToSpawn, spawnPos, objectToSpawn.transform.rotation);
 
-        
+        NetworkObject powerUp = NetworkObjectPool.Singleton.GetNetworkObject(objectToSpawn, spawnPos, Quaternion.identity);
+        powerUp.Spawn(true);
+        Debug.Log("PowerUp Spawned " + powerUp);
+
+
+        /*GameObject spawnedObject = Instantiate(objectToSpawn, spawnPos, objectToSpawn.transform.rotation);
+        //spawnedObject.GetComponent<NetworkObject>().Spawn(true);*/
 
     }
 
@@ -51,27 +55,22 @@ public class PowerUpSpawnManager : MonoBehaviour
         CanSpawnPowerUp = false;
         yield return new WaitForSeconds(20);
         CanSpawnPowerUp = true;
-
+        
     }
 
     private void Update()
     {
+        if (!IsServer) return;
+
         if (CanSpawnPowerUp)
         {
             choosePowerUp();
-     
+            Debug.Log("ChoosePowerUp called");
+
+
         }
 
 
     }
 
-    /*[SerializeField] private Transform spawnedObjectPrefab;
-
-
-    private void Update()
-    {
-        Transform spawnedObjectTransform = Instantiate(spawnedObjectPrefab);
-        //spawnedObjectTransform.GetComponent<NetworkObject>().Spawn(true);
-
-    }*/
 }
