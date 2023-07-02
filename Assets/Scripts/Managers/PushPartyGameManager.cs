@@ -20,6 +20,7 @@ public class PushPartyGameManager : NetworkBehaviour
         GameOver,
     }
 
+
     //Handle game states on the network
     private NetworkVariable<State> state = new NetworkVariable<State>(State.WaitingToStart);
     //Event for the game state changes

@@ -6,6 +6,7 @@ public class PlayerRespawn : NetworkBehaviour
 {
     private float deathPointY = -15f;
     private int lives = 2;
+    
 
     private Vector3 respawnPosition;
     
