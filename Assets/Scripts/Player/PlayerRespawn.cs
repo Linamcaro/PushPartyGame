@@ -2,8 +2,6 @@ using UnityEngine;
 using Unity.Netcode;
 using System;
 using System.Collections;
-using System.Collections.Generic;
-
 public class PlayerRespawn : NetworkBehaviour
 {
 
@@ -16,10 +14,9 @@ public class PlayerRespawn : NetworkBehaviour
         }
     }
 
-    //Call this event when lives changed
+    //Event for the game state changes
     public event EventHandler OnLivesChanged;
 
-    public event EventHandler OnNoLives;
     //lives
     private float deathPointY = -15f;
     public int lives = 2;
@@ -28,16 +25,22 @@ public class PlayerRespawn : NetworkBehaviour
 
     private float inmunityDuration = 20f;
     private float inmunityDuration2 = 1f;
-    private Dictionary<ulong, bool> playerDiedDictionary;
 
 
     private void Awake()
     {
-        if (!IsOwner) return;
         _instance = this;
 
     }
 
+    public override void OnNetworkSpawn()
+    {
+        if (!IsOwner) return;
+
+
+        base.OnNetworkSpawn();
+
+    }
 
     private void Start()
     {
@@ -51,10 +54,11 @@ public class PlayerRespawn : NetworkBehaviour
 
         if (PushPartyGameManager.Instance.IsGameOver())
         {
-            if(lives > 0 && IsOwner)
+            if (lives > 0)
             {
                 LoadScenes.LoadTagetScene(LoadScenes.Scene.Winner);
             }
+            else
             {
                 LoadScenes.LoadTagetScene(LoadScenes.Scene.GameOver);
             }
@@ -63,20 +67,34 @@ public class PlayerRespawn : NetworkBehaviour
 
     private void Update()
     {
-        
-       RespawnPlayer();
+
+        RespawnPlayer();
     }
 
     private void RespawnPlayer()
     {
         if (!IsOwner) return;
-        
+        Debug.Log("PlayerLivesServerRpc called");
 
         if (transform.position.y < deathPointY)
         {
-            Debug.Log("PlayerLivesServerRpc called");
-            PlayerLivesServerRpc();
-            
+            Vector3 respawnTarget = LevelController.Instance.PlatformPosition();
+
+            lives--;
+            OnLivesChanged?.Invoke(this, EventArgs.Empty);
+
+            if (lives > 0)
+            {
+                respawnPosition = new Vector3(0, 1f, respawnTarget.z + 3f);
+                //Move player to the respawn position
+                transform.position = respawnPosition;
+            }
+            else
+            {
+                lives = 0;
+                PlayerLivesServerRpc();
+
+            }
         }
 
     }
@@ -89,31 +107,15 @@ public class PlayerRespawn : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void PlayerLivesServerRpc(ServerRpcParams serverRpcParams = default)
     {
-        playerDiedDictionary[serverRpcParams.Receive.SenderClientId] = true;
 
-        lives--;
-        OnLivesChanged?.Invoke(this, EventArgs.Empty);
-
-        if (lives > 0)
-        {
-            Vector3 respawnTarget = LevelController.Instance.PlatformPosition();
-            respawnPosition = new Vector3(0, 1f, respawnTarget.z + 3f);
-            //Move player to the respawn position
-            transform.position = respawnPosition;
-        }
-        else
-        {
-           lives = 0;
-           OnNoLives?.Invoke(this, EventArgs.Empty);
-
-        }
+        LoadScenes.LoadTagetScene(LoadScenes.Scene.GameOver);
 
     }
 
-   //Returns the player lives
+    //Returns the player lives
     public int GetPlayerLives()
     {
-      return lives;
+        return lives;
     }
 
     //Increase the player lives
@@ -124,7 +126,7 @@ public class PlayerRespawn : NetworkBehaviour
         return lives;
     }
 
-  
+
     public IEnumerator Inmunity(Collider player)
     {
         player.gameObject.layer = LayerMask.NameToLayer("PlayerInvulnerable");
