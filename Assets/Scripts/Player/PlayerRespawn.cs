@@ -4,7 +4,19 @@ using System;
 using System.Collections;
 public class PlayerRespawn : NetworkBehaviour
 {
-  
+
+    private static PlayerRespawn _instance;
+    public static PlayerRespawn Instance
+    {
+        get
+        {
+            return _instance;
+        }
+    }
+
+    //Event for the game state changes
+    public event EventHandler OnLivesChanged;
+
     //lives
     private float deathPointY = -15f;
     public int lives = 2;
@@ -14,9 +26,17 @@ public class PlayerRespawn : NetworkBehaviour
     private float inmunityDuration = 20f;
     private float inmunityDuration2 = 1f;
 
+
+    private void Awake()
+    {
+        _instance = this;
+
+    }
+
     public override void OnNetworkSpawn()
     {
         if (!IsOwner) return;
+
 
         base.OnNetworkSpawn();
            
@@ -61,6 +81,7 @@ public class PlayerRespawn : NetworkBehaviour
             Vector3 respawnTarget = LevelController.Instance.PlatformPosition();
 
             lives--;
+            OnLivesChanged?.Invoke(this, EventArgs.Empty);
 
             if (lives > 0)
             {
@@ -96,10 +117,10 @@ public class PlayerRespawn : NetworkBehaviour
     {
       return lives;
     }
-    public void UpdateTextLifes(int lives)
+   /* public void UpdateTextLifes(int lives)
     {
         LivesManager.Instance.ChangeLives(lives);
-    }
+    }*/
     public IEnumerator Inmunity(Collider player)
     {
         player.gameObject.layer = LayerMask.NameToLayer("PlayerInvulnerable");
