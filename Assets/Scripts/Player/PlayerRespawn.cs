@@ -4,29 +4,28 @@ using System;
 
 public class PlayerRespawn : NetworkBehaviour
 {
+  
+    //lives
     private float deathPointY = -15f;
     private int lives = 2;
-    
 
     private Vector3 respawnPosition;
-    
+
 
     public override void OnNetworkSpawn()
     {
         if (!IsOwner) return;
-        base.OnNetworkSpawn();         
+
+        base.OnNetworkSpawn();
+           
     }
 
     private void Start()
     {
         PushPartyGameManager.Instance.OnStateChanged += PushPartyGameManager_OnStateChanged;
+
     }
 
-    /// <summary>
-    /// Load the winner or gameover scene
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
     private void PushPartyGameManager_OnStateChanged(object sender, EventArgs e)
     {
         Debug.Log("PushPartyGameManager_OnStateChanged called");
@@ -45,20 +44,36 @@ public class PlayerRespawn : NetworkBehaviour
     }
 
     private void Update()
-    {   
+    {
+        
        RespawnPlayer();
     }
 
     private void RespawnPlayer()
     {
         if (!IsOwner) return;
+        Debug.Log("PlayerLivesServerRpc called");
+
         if (transform.position.y < deathPointY)
         {
-            lives--;
-            Debug.Log("PlayerLivesServerRpc called");
+            Vector3 respawnTarget = LevelController.Instance.PlatformPosition();
 
-            PlayerLivesServerRpc();
+            lives--;
+
+            if (lives > 0)
+            {
+                respawnPosition = new Vector3(0, 1f, respawnTarget.z + 3f);
+                //Move player to the respawn position
+                transform.position = respawnPosition;
+            }
+            else
+            {
+                lives = 0;
+                PlayerLivesServerRpc();
+
+            }
         }
+
     }
 
 
@@ -69,22 +84,9 @@ public class PlayerRespawn : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void PlayerLivesServerRpc(ServerRpcParams serverRpcParams = default)
     {
-       
-            lives--;
-
-            if (lives > 1)
-            {
-                Vector3 respawnTarget = LevelController.Instance.PlatformPosition();
-
-                respawnPosition = new Vector3(0, 1f, respawnTarget.z  + 3f);
-                //Move player to the respawn position
-                transform.position = respawnPosition;
-            }
-            else
-            {
-                lives = 0;
-                
-            }
+        
+      LoadScenes.LoadTagetScene(LoadScenes.Scene.GameOver);
+  
     }
 
    //Returns the player lives
