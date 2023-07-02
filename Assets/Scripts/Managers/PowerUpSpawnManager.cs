@@ -61,6 +61,7 @@ public class PowerUpSpawnManager : NetworkBehaviour
     private void Update()
     {
         if (!IsServer) return;
+        if (!PushPartyGameManager.Instance.IsGamePlaying()) return;
 
         if (CanSpawnPowerUp)
         {
