@@ -3907,6 +3907,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b91c09d3e1bcb6498e3acddfacdb68f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lives: 2
 --- !u!114 &-3207530392721968128
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5026,7 +5027,7 @@ MonoBehaviour:
     m_RecenteringTime: 2
     m_LegacyHeadingDefinition: -1
     m_LegacyVelocityFilterStrength: -1
-  m_BindingMode: 5
+  m_BindingMode: 0
   m_SplineCurvature: 0.2
   m_Orbits:
   - m_Height: 4.5

@@ -47,6 +47,9 @@ public class PlayerMovement : NetworkBehaviour
     private bool isSliding;
     private bool slide = false;
 
+    private float speedDelayTime = 20f;
+    private float speedDelayTime1 = 1f;
+
     public override void OnNetworkSpawn()
     {
 
@@ -292,30 +295,38 @@ public class PlayerMovement : NetworkBehaviour
     {
         return Physics.Raycast(transform.position, -Vector3.up, distToGround + 0.1f);
     }
-
-
-
-    /*private void OnCollisionEnter(Collision collision)
+    public void UpdateSpeed(float speed)
     {
-        //Check if player is on ground
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            isJumping = false;
-            
-        }
+        moveSpeed = speed;
+    }
 
-        //check if the ground is slide
-        if (collision.gameObject.CompareTag("Slide"))
-        {
-            isJumping = false;
-            slide = true;
-        }
-        else
-        {
-            slide = false;
-        }
+    public IEnumerator SpeedEnum(Collider player)
+    {
+        UpdateSpeed(20f);
+        yield return new WaitForSeconds(speedDelayTime);
 
-    }*/
+
+    }
+
+    public IEnumerator SpeedEnum1(Collider player)
+    {
+        UpdateSpeed(7f);
+        yield return new WaitForSeconds(speedDelayTime1);
+
+
+    }
+
+    public void CallSpeed(Collider player)
+    {
+        StartCoroutine(ChangeSpeed(player));
+    }
+
+    private IEnumerator ChangeSpeed(Collider player)
+    {
+        yield return StartCoroutine(SpeedEnum(player));
+        yield return StartCoroutine(SpeedEnum1(player));
+
+    }
 
 
 }
