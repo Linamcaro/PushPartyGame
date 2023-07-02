@@ -126,10 +126,7 @@ public class PlayerRespawn : NetworkBehaviour
         return lives;
     }
 
-    /* public void UpdateTextLifes(int lives)
-     {
-         LivesManager.Instance.ChangeLives(lives);
-     }*/
+  
     public IEnumerator Inmunity(Collider player)
     {
         player.gameObject.layer = LayerMask.NameToLayer("PlayerInvulnerable");
