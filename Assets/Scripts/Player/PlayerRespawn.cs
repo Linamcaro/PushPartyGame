@@ -1,16 +1,18 @@
 using UnityEngine;
 using Unity.Netcode;
 using System;
-
+using System.Collections;
 public class PlayerRespawn : NetworkBehaviour
 {
   
     //lives
     private float deathPointY = -15f;
-    private int lives = 2;
+    public int lives = 2;
 
     private Vector3 respawnPosition;
 
+    private float inmunityDuration = 20f;
+    private float inmunityDuration2 = 1f;
 
     public override void OnNetworkSpawn()
     {
@@ -93,6 +95,35 @@ public class PlayerRespawn : NetworkBehaviour
     public int GetPlayerLives()
     {
       return lives;
+    }
+    public void UpdateTextLifes(int lives)
+    {
+        LivesManager.Instance.ChangeLives(lives);
+    }
+    public IEnumerator Inmunity(Collider player)
+    {
+        player.gameObject.layer = LayerMask.NameToLayer("PlayerInvulnerable");
+        yield return new WaitForSeconds(inmunityDuration);
+
+        player.gameObject.layer = LayerMask.NameToLayer("Player");
+    }
+
+    public IEnumerator Inmunity2(Collider player)
+    {
+        yield return new WaitForSeconds(inmunityDuration2);
+
+        player.gameObject.layer = LayerMask.NameToLayer("Player");
+    }
+
+    public void CallInmunity(Collider player)
+    {
+        StartCoroutine(ChangeLayerAndDuration(player));
+    }
+
+    private IEnumerator ChangeLayerAndDuration(Collider player)
+    {
+        yield return StartCoroutine(Inmunity(player));
+        yield return StartCoroutine(Inmunity2(player));
     }
 
 }
