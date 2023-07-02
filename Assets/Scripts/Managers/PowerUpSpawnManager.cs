@@ -7,7 +7,6 @@ using Netcode.Extensions;
 
 public class PowerUpSpawnManager : NetworkBehaviour
 {
-
     public static PowerUpSpawnManager Instance { get; private set; }
 
 

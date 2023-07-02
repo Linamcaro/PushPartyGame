@@ -50,6 +50,7 @@ public class PushPartyGameManager : NetworkBehaviour
     public override void OnNetworkSpawn()
     { 
         state.OnValueChanged += State_OnValueChanged;
+        PlayerRespawn.Instance.OnNoLives += PlayerRespawn_OnNoLives;
 
         if (IsServer)
         {
@@ -99,6 +100,7 @@ public class PushPartyGameManager : NetworkBehaviour
         }
     }
 
+
     /// <summary>
     /// Tell the server if players are ready 
     /// </summary>
@@ -131,32 +133,26 @@ public class PushPartyGameManager : NetworkBehaviour
         
     }
 
-    /// <summary>
-    /// Check if players are ready
-    /// </summary>
-    private void OnPlayerDied()
+    private void PlayerRespawn_OnNoLives(object sender, EventArgs e)
     {
         Debug.Log("OnPlayersDied function called");
         if (state.Value == State.GamePlaying)
         {
             OnPlayerDiedServerRpc();
             Debug.Log("state changed to waiting: " + state);
-
-        }
+        }   
     }
+
 
     /// <summary>
     /// Tell the server if players are ready 
     /// </summary>
     /// <param name="serverRpcParams"></param>
     [ServerRpc(RequireOwnership = false)]
-    private void OnPlayerDiedServerRpc(ServerRpcParams serverRpcParams = default)
-    {
-        playerDiedDictionary[serverRpcParams.Receive.SenderClientId] = true;
-        Debug.Log("OnPlayerDiedServerRpc called by paler: " + serverRpcParams.Receive.SenderClientId);
-
+    private void OnPlayerDiedServerRpc()
+    {      
+        Debug.Log("OnPlayerDiedServerRpc called to change state " );
         state.Value = State.GameOver;
-
     }
 
     private void Update()
@@ -228,12 +224,5 @@ public class PushPartyGameManager : NetworkBehaviour
         
     }
 
-    //called when the player has 0 lives
-    public void OnNoLives()
-    {
-        Debug.Log("OnStartButtonPressed function called");
-        OnPlayerDied();
-
-    }
 
 }

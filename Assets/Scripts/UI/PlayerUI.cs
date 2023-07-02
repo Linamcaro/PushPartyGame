@@ -9,8 +9,6 @@ public class PlayerUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI playerLives;
 
-
-
     private void Start()
     {
         PushPartyGameManager.Instance.OnStateChanged += PushPartyGameManager_OnStateChanged;

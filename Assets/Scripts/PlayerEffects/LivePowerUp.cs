@@ -17,7 +17,6 @@ public class LivePowerUp : MonoBehaviour
     }
     void PickUp()
     {
-
         Instantiate(lifeEffect, transform.position, transform.rotation);
         PlayerRespawn.Instance.IncreasePlayerLives();
         Destroy(gameObject);
