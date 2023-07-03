@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +16,7 @@ public class WaitingForPlayers : MonoBehaviour
         readyButton.onClick.AddListener(() =>
         {
             PushPartyGameManager.Instance.OnStartButtonPressed();
+            Show();
         });
     }
 
@@ -38,8 +40,12 @@ public class WaitingForPlayers : MonoBehaviour
             Hide();
         }
     }
-       
-    
+    //Hide UI
+    private void Show()
+    {
+        waitingForPlayersScreen.SetActive(true);
+    }
+
     //Hide UI
     private void Hide()
     {
