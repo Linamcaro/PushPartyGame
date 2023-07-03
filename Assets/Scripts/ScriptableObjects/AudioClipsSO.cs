@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[CreateAssetMenu()]
+[CreateAssetMenu(fileName = "Sound Effects", menuName = "Sound/Sound Effects")]
 public class AudioClipsSO : ScriptableObject
 { 
     public AudioClip[] playerSlide;

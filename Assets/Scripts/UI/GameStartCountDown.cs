@@ -9,7 +9,6 @@ public class GameStartCountDown : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI countdownText;
 
-
     private Animator animator;
     private int previousCountdownNumber;
 

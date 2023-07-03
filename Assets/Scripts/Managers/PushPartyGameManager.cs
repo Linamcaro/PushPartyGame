@@ -20,6 +20,7 @@ public class PushPartyGameManager : NetworkBehaviour
         GameOver,
     }
 
+
     //Handle game states on the network
     private NetworkVariable<State> state = new NetworkVariable<State>(State.WaitingToStart);
     //Event for the game state changes
@@ -47,7 +48,7 @@ public class PushPartyGameManager : NetworkBehaviour
 
 
     public override void OnNetworkSpawn()
-    { 
+    {
         state.OnValueChanged += State_OnValueChanged;
 
         if (IsServer)
@@ -66,7 +67,7 @@ public class PushPartyGameManager : NetworkBehaviour
     /// <param name="clientsTimedOut"></param>
     private void SceneManager_OnLoadEventCompleted(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
     {
-        foreach(ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
+        foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
         {
             Transform playerTransform = Instantiate(playerPrefab);
             playerTransform.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
@@ -90,11 +91,11 @@ public class PushPartyGameManager : NetworkBehaviour
     {
         Debug.Log("OnPlayersReady function called");
         if (state.Value == State.WaitingToStart)
-        {   
+        {
             Debug.Log("state changed to waiting: " + state);
             isLocalPlayerReady = true;
             SetPlayerReadyServerRpc();
-            
+
         }
     }
 
@@ -104,14 +105,14 @@ public class PushPartyGameManager : NetworkBehaviour
     /// <param name="serverRpcParams"></param>
     [ServerRpc(RequireOwnership = false)]
     private void SetPlayerReadyServerRpc(ServerRpcParams serverRpcParams = default)
-    { 
+    {
         playerReadyDictionary[serverRpcParams.Receive.SenderClientId] = true;
         Debug.Log(serverRpcParams.Receive.SenderClientId);
 
         bool allClientsReady = true;
-        
-       foreach(ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
-       {
+
+        foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
+        {
             //check  if it does not contains the key or is not ready
             if (!playerReadyDictionary.ContainsKey(clientId) || !playerReadyDictionary[clientId])
             {
@@ -119,21 +120,18 @@ public class PushPartyGameManager : NetworkBehaviour
                 allClientsReady = false;
                 break;
             }
-       }
+        }
 
-       //If all clients are ready start countdown;
-       if(allClientsReady)
+        //If all clients are ready start countdown;
+        if (allClientsReady)
         {
             state.Value = State.CountdownToStart;
         }
         Debug.Log("allClientsReady: " + allClientsReady);
-        
+
     }
 
-    /// <summary>
-    /// Check if players are ready
-    /// </summary>
-    private void OnPlayerDied()
+    private void PlayerRespawn_OnPlayerDied()
     {
         Debug.Log("OnPlayersDied function called");
         if (state.Value == State.GamePlaying)
@@ -144,15 +142,15 @@ public class PushPartyGameManager : NetworkBehaviour
         }
     }
 
+
+
     /// <summary>
     /// Tell the server if players are ready 
     /// </summary>
     /// <param name="serverRpcParams"></param>
     [ServerRpc(RequireOwnership = false)]
-    private void OnPlayerDiedServerRpc(ServerRpcParams serverRpcParams = default)
+    private void OnPlayerDiedServerRpc()
     {
-        playerDiedDictionary[serverRpcParams.Receive.SenderClientId] = true;
-        Debug.Log("OnPlayerDiedServerRpc called by paler: " + serverRpcParams.Receive.SenderClientId);
 
         state.Value = State.GameOver;
 
@@ -164,7 +162,7 @@ public class PushPartyGameManager : NetworkBehaviour
 
         switch (state.Value)
         {
-           
+
             case State.WaitingToStart:
                 //Debug.Log("WaitingToStart");
                 break;
@@ -183,6 +181,7 @@ public class PushPartyGameManager : NetworkBehaviour
                 break;
 
             case State.GameOver:
+                NetworkManager.Singleton.Shutdown();
                 Debug.Log("GameOver");
                 break;
         }
@@ -218,21 +217,18 @@ public class PushPartyGameManager : NetworkBehaviour
         Debug.Log("SetPlayerReadyServerRPC function called");
         return isLocalPlayerReady;
     }
-    
+
     //called when the tutorial ready button is pressed
     public void OnStartButtonPressed()
     {
         Debug.Log("OnStartButtonPressed function called");
         OnPlayersReady();
-        
+
     }
 
-    //called when the player has 0 lives
-    public void OnNoLives()
+    // //called when the player die
+    public void OnPlayerDied()
     {
-        Debug.Log("OnStartButtonPressed function called");
-        OnPlayerDied();
-
+        PlayerRespawn_OnPlayerDied();
     }
-
 }

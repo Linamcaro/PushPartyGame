@@ -47,6 +47,9 @@ public class PlayerMovement : NetworkBehaviour
     public bool isSliding { get; private set; }
     public bool slide { get; private set; }
 
+    private float speedDelayTime = 20f;
+    private float speedDelayTime1 = 1f;
+
     public override void OnNetworkSpawn()
     {
 
@@ -168,6 +171,7 @@ public class PlayerMovement : NetworkBehaviour
                 if (IsGrounded() && jump)
                 {
                     rigidBody.velocity = new Vector3(velocity.x, CalculateJumpVerticalSpeed(), velocity.z);
+                    isJumping = true;
                 }
 
             }
@@ -188,6 +192,7 @@ public class PlayerMovement : NetworkBehaviour
                 else if (Mathf.Abs(rigidBody.velocity.magnitude) < moveSpeed * 1.0f)
                 {
                     rigidBody.AddForce(moveDir * 0.15f, ForceMode.VelocityChange);
+                    IsSliding();
                 }
             }
         }
@@ -264,30 +269,38 @@ public class PlayerMovement : NetworkBehaviour
     {
         return Physics.Raycast(transform.position, -Vector3.up, distToGround + 0.1f);
     }
-
-
-
-    /*private void OnCollisionEnter(Collision collision)
+    public void UpdateSpeed(float speed)
     {
-        //Check if player is on ground
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            isJumping = false;
-            
-        }
+        moveSpeed = speed;
+    }
 
-        //check if the ground is slide
-        if (collision.gameObject.CompareTag("Slide"))
-        {
-            isJumping = false;
-            slide = true;
-        }
-        else
-        {
-            slide = false;
-        }
+    public IEnumerator SpeedEnum(Collider player)
+    {
+        UpdateSpeed(20f);
+        yield return new WaitForSeconds(speedDelayTime);
 
-    }*/
+
+    }
+
+    public IEnumerator SpeedEnum1(Collider player)
+    {
+        UpdateSpeed(7f);
+        yield return new WaitForSeconds(speedDelayTime1);
+
+
+    }
+
+    public void CallSpeed(Collider player)
+    {
+        StartCoroutine(ChangeSpeed(player));
+    }
+
+    private IEnumerator ChangeSpeed(Collider player)
+    {
+        yield return StartCoroutine(SpeedEnum(player));
+        yield return StartCoroutine(SpeedEnum1(player));
+
+    }
 
 
 }

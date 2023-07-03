@@ -20,6 +20,8 @@ public class LevelController : NetworkBehaviour
     public float pieceLenght;
     public float speed;
 
+    private Vector3 levelLength;
+
     Queue<GameObject> activePieces = new Queue<GameObject>();
     List<int> probabilityList = new List<int>();
 
@@ -83,6 +85,8 @@ public class LevelController : NetworkBehaviour
         //newLevelPiece.transform.position = new Vector3(0f, 0f, (currentCamStep + activePieces.Count) * pieceLenght);
         newLevelPiece.GetComponent<NetworkObject>().Spawn();
         activePieces.Enqueue(newLevelPiece);
+
+        levelLength = newLevelPiece.transform.position;
     }
 
     /// <summary>
@@ -124,10 +128,33 @@ public class LevelController : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Return the platform position
+    /// </summary>
+    /// <returns></returns>
     public Vector3  PlatformPosition()
     {
         return transform.position;
     }
+
+    /// <summary>
+    /// Return the platform length
+    /// </summary>
+    /// <returns></returns>
+    public Vector3 LevelLength()
+    {
+
+        if(levelLength == null)
+        {
+            return  new Vector3(0, 0, 0);
+        }
+        else
+        {
+            return levelLength;
+        }
+
+    }
+
 }
 
   
