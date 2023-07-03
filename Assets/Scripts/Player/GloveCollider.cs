@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GloveCollider : MonoBehaviour
 {
+    /*
     private Rigidbody rb;
     private bool isStunned = false;
     private float pushForce;
@@ -29,6 +30,6 @@ public class GloveCollider : MonoBehaviour
 
         }
     }
-
+    */
 
 }

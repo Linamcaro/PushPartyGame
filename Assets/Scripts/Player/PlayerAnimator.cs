@@ -27,7 +27,7 @@ public class PlayerAnimator : NetworkBehaviour
        // animator.SetBool(IS_WALKING, player.IsWalking());
 
         //animation for slide
-        if (player.IsSliding())
+        if (player.isSliding)
         {
             animator.SetTrigger("Slide");
         }
