@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bounce2 : MonoBehaviour
+public class Bounce : MonoBehaviour
 {
-	private float force = 500f; //Force 10000f
+	public float force = 10f; //Force 10000f
 	public float stunTime = 0.5f;
 	private Vector3 hitDir;
 

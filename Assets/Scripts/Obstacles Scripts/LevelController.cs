@@ -7,11 +7,14 @@ using UnityEngine;
 
 public class LevelController : NetworkBehaviour
 {
-    public static LevelController Instance;
+    private static LevelController _instance;
+    public static LevelController Instance
+    {
+        get { return _instance;  }
+    }
 
     public LevelPiece[] levelPieces;
 
-    //public Transform camera;
     public int drawDistance;
 
     public float pieceLenght;
@@ -20,44 +23,25 @@ public class LevelController : NetworkBehaviour
     Queue<GameObject> activePieces = new Queue<GameObject>();
     List<int> probabilityList = new List<int>();
 
-    
-
     int currentCamStep = 0;
     int lastCamStep = 0;
 
-    public bool hasServerStarted = false;
-    public bool hasGameStarted = false;
-
-
-    private void Start()
+    private void Awake()
     {
-        if (Instance == null)
-        {
-
-            Instance = this;
-        }
-        else
-        {
-            Destroy(this);
-        }
+        _instance = this;
     }
 
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
 
-
-
-
         NetworkManager.Singleton.OnServerStarted += () =>
         {
             NetworkObjectPool.Singleton.InitializePool();
-            hasServerStarted = true;
 
             StartGame();
         };
 
-        //camera = Camera.main.transform;
         BuildProbabilityList();
 
         currentCamStep = (int)(transform.position.z / pieceLenght);
@@ -81,6 +65,11 @@ public class LevelController : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Instantiate a new random platform prefab from levelPieces
+    /// 
+    /// working on using network pool
+    /// </summary>
     void SpawnNewLevelPiece()
     {
         if (!IsServer) return;
@@ -89,13 +78,16 @@ public class LevelController : NetworkBehaviour
 
         if (activePieces.Count < 2) pieceIndex = 0;
 
-        //GameObject newLevelPiece = Instantiate(levelPieces[pieceIndex].prefab, new Vector3(0f, 0f, (currentCamStep + activePieces.Count) * pieceLenght), Quaternion.identity);
-        GameObject newLevelPiece = NetworkObjectPool.Singleton.GetNetworkObject(levelPieces[pieceIndex].prefab).gameObject;
-        newLevelPiece.transform.position = new Vector3(0f, 0f, (currentCamStep + activePieces.Count) * pieceLenght);
+        GameObject newLevelPiece = Instantiate(levelPieces[pieceIndex].prefab, new Vector3(0f, 0f, (currentCamStep + activePieces.Count) * pieceLenght), Quaternion.identity);
+        //GameObject newLevelPiece = NetworkObjectPool.Singleton.GetNetworkObject(levelPieces[pieceIndex].prefab).gameObject;
+        //newLevelPiece.transform.position = new Vector3(0f, 0f, (currentCamStep + activePieces.Count) * pieceLenght);
         newLevelPiece.GetComponent<NetworkObject>().Spawn();
         activePieces.Enqueue(newLevelPiece);
     }
 
+    /// <summary>
+    /// destroy the first platform form the activePieces Queue
+    /// </summary>
     void DespawnLevelPiece()
     {
         if (!IsServer) return;
@@ -103,6 +95,7 @@ public class LevelController : NetworkBehaviour
         GameObject oldLevelPiece = activePieces.Dequeue();
         NetworkObject netObject = oldLevelPiece.GetComponent<NetworkObject>();
         netObject.Despawn();
+        Destroy(oldLevelPiece);
         //NetworkObjectPool.Singleton.ReturnNetworkObject(netObject, oldLevelPiece);
     }
 
@@ -123,8 +116,6 @@ public class LevelController : NetworkBehaviour
     public void StartGame()
     {
         if (!IsServer) return;
-
-        hasGameStarted = true;
 
         //spawn starting level piece
         for (int i = 0; i < drawDistance; i++)

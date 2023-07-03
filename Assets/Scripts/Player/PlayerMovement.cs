@@ -31,7 +31,7 @@ public class PlayerMovement : NetworkBehaviour
     private Rigidbody rigidBody;
 
     //[SerializeField] public float jumpForce = 70f;
-    //[SerializeField] private CinemachineFreeLook cmCamera;
+    [SerializeField] private CinemachineFreeLook cmCamera;
 
     private float distToGround;
 
@@ -53,7 +53,7 @@ public class PlayerMovement : NetworkBehaviour
         if (IsOwner)
         {
             _playerMovementInstance = this;
-            //cmCamera.Priority = 100;
+            cmCamera.Priority = 100;
 
             distToGround = GetComponent<Collider>().bounds.extents.y; // get the distance to ground
 
