@@ -31,8 +31,6 @@ public class PushPartyGameManager : NetworkBehaviour
 
     //Store the player ID and if it is ready
     private Dictionary<ulong, bool> playerReadyDictionary;
-    //Store the player ID and if it died
-    private Dictionary<ulong, bool> playerDiedDictionary;
 
     private bool isLocalPlayerReady;
 
@@ -181,7 +179,7 @@ public class PushPartyGameManager : NetworkBehaviour
                 break;
 
             case State.GameOver:
-                NetworkManager.Singleton.Shutdown();
+            
                 Debug.Log("GameOver");
                 break;
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.UI;
+using Unity.Netcode;
 
 public class WaitingForPlayers : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class WaitingForPlayers : MonoBehaviour
 
     private void Awake()
     {
+        Hide(); 
+
         readyButton.onClick.AddListener(() =>
         {
             PushPartyGameManager.Instance.OnStartButtonPressed();
