@@ -14,7 +14,7 @@ public static class LoadScenes
         GameOver,
         Winner,
         Lina,
-        Lobby2,
+        CharacterSelection,
     }
 
 

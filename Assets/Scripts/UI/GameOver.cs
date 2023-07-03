@@ -9,19 +9,24 @@ using Unity.Netcode;
 public class GameOver : MonoBehaviour
 {
 
-    [SerializeField] private TextMeshProUGUI GameOverText;
-    [SerializeField] private Button  playAgain;
+    [SerializeField] private GameObject WinnerUI;
+    [SerializeField] private Button playAgainWinner;
+    [SerializeField] private Button playAgainLoser;
     [SerializeField] private GameObject GameOverUI;
 
     void Awake()
     {
-        playAgain.onClick.AddListener(() =>
+        playAgainWinner.onClick.AddListener(() =>
         {
             NetworkManager.Singleton.Shutdown();
             LoadScenes.ChangeScene(LoadScenes.Scene.Lobby);
         });
 
-        Hide();
+        playAgainLoser.onClick.AddListener(() =>
+        {
+            NetworkManager.Singleton.Shutdown();
+            LoadScenes.ChangeScene(LoadScenes.Scene.Lobby);
+        });
     }
     void Start()
     {
@@ -35,25 +40,34 @@ public class GameOver : MonoBehaviour
             
             if(PlayerSpawn.Instance.GetPlayerLives() > 0)
             {
-                Show();
-                GameOverText.text = "Winner";
-                
+
+                ShowWinner();
             }
             else
             {
-                Show();
-                GameOverText.text = "Looser";
+                ShowLoser();
+
             }
         }
     }
 
-    private void Show()
+    private void ShowLoser()
     {
         GameOverUI.SetActive(true);
     }
 
-    private void Hide()
+    private void HideLoser()
     {
         GameOverUI.SetActive(false);
+    }
+
+    private void ShowWinner()
+    {
+        WinnerUI.SetActive(true);
+    }
+
+    private void HideWinner()
+    {
+        WinnerUI.SetActive(false);
     }
 }

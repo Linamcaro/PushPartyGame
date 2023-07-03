@@ -14,12 +14,13 @@ public class WaitingForPlayers : MonoBehaviour
 
     private void Awake()
     {
-        Hide(); 
+        Hide();
 
         readyButton.onClick.AddListener(() =>
         {
             PushPartyGameManager.Instance.OnStartButtonPressed();
             OnLocalPlayerReadyChanged();
+
         });
     }
 
