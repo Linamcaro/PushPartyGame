@@ -809,6 +809,7 @@ GameObject:
   - component: {fileID: 424195222}
   - component: {fileID: 424195224}
   - component: {fileID: 424195223}
+  - component: {fileID: 424195225}
   m_Layer: 5
   m_Name: UI
   m_TagString: Untagged
@@ -947,6 +948,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hostDisconnectedUI: {fileID: 987676957}
   playAgain: {fileID: 1197878350}
+--- !u!114 &424195225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 424195217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8861ee136797293468627145080d5fbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OptionsMenuUI: {fileID: 742349699}
 --- !u!1 &463103364
 GameObject:
   m_ObjectHideFlags: 0
@@ -1951,7 +1965,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &742349700
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2097,7 +2111,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &774863378
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3716,7 +3730,7 @@ GameObject:
   - component: {fileID: 1532734564}
   - component: {fileID: 1532734563}
   m_Layer: 5
-  m_Name: PlayAgain
+  m_Name: QuitGame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3729,9 +3743,9 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1532734561}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1.9723117, z: 1}
+  m_LocalScale: {x: 1.0000001, y: 1.9723121, z: 1.0000001}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 82536443}
@@ -4438,7 +4452,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1962829844}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 424195225}
+        m_TargetAssemblyTypeName: OptionsUI, Assembly-CSharp
+        m_MethodName: QuitGameButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1962829844
 MonoBehaviour:
   m_ObjectHideFlags: 0

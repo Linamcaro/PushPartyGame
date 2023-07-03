@@ -19,7 +19,7 @@ public class WaitingForPlayers : MonoBehaviour
         readyButton.onClick.AddListener(() =>
         {
             PushPartyGameManager.Instance.OnStartButtonPressed();
-            Show();
+            OnLocalPlayerReadyChanged();
         });
     }
 
@@ -30,6 +30,14 @@ public class WaitingForPlayers : MonoBehaviour
         PushPartyGameManager.Instance.OnStateChanged += PushPartyGameManager_OnStateChanged;
         
     }
+
+    private void OnLocalPlayerReadyChanged()
+    {
+        if(PushPartyGameManager.Instance.IsLocalPlayerReady()) {
+            Show();
+        }
+    }
+
 
     /// <summary>
     /// Check if the Count Down To Start is active then hide the UI
