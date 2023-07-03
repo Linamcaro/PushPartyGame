@@ -119,7 +119,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8358738913729921845}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 4beb1f6e17cc16d4c92e9c9f5b3d3f2f, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -227,7 +227,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6540949674825424}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 490dafe6e7b10f845b46b28a63cd951e, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 1.0000002
@@ -247,7 +247,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementType: 1
-  speed: 1
+  speed: 1.3
   movementLenght: -12
 --- !u!114 &4611636933572102964
 MonoBehaviour:
@@ -261,7 +261,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11821e06fa793dd4297fec1dc7e2941a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stunTime: 1.5
+  force: 10
+  stunTime: 0.8
 --- !u!4 &818789099798056042 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a05e6b0cb9422e94b9426dff81f43248,
@@ -370,7 +371,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2614645888363268586}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 490dafe6e7b10f845b46b28a63cd951e, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 1.0000002
@@ -390,7 +391,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementType: 1
-  speed: 1
+  speed: 1.3
   movementLenght: 12
 --- !u!114 &4695277331621231713
 MonoBehaviour:
@@ -404,7 +405,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11821e06fa793dd4297fec1dc7e2941a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stunTime: 1.5
+  force: 10
+  stunTime: 0.8
 --- !u!4 &3387487820131357520 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a05e6b0cb9422e94b9426dff81f43248,
@@ -603,13 +605,27 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7339501692395756830}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 490dafe6e7b10f845b46b28a63cd951e, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 1.0000002
   m_Height: 2.1713223
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &883793605859877191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7339501692395756830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11821e06fa793dd4297fec1dc7e2941a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  force: 10
+  stunTime: 0.8
 --- !u!114 &958350664357920738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -623,21 +639,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementType: 1
-  speed: 1
+  speed: 1.3
   movementLenght: 12
---- !u!114 &883793605859877191
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7339501692395756830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11821e06fa793dd4297fec1dc7e2941a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stunTime: 1.5
 --- !u!4 &7967137446394644388 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a05e6b0cb9422e94b9426dff81f43248,

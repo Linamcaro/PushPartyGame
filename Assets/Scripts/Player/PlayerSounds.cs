@@ -31,7 +31,7 @@ public class PlayerSounds : MonoBehaviour
         {
             footstepTimer = footstepTimerMax;
 
-            if (playerMovement.IsWalking())
+            if (playerMovement.isWalking)
             {
                
                 SoundManager.Instance.PlayFootstepsSound(playerMovement.transform.position, volume);
@@ -44,7 +44,7 @@ public class PlayerSounds : MonoBehaviour
     /// </summary>
     private void JumpSound()
     {
-        if (playerMovement.IsJumping())
+        if (playerMovement.isJumping)
         {
             SoundManager.Instance.PlayJumpSound(playerMovement.transform.position, volume);
            
@@ -56,7 +56,7 @@ public class PlayerSounds : MonoBehaviour
     /// </summary>
     private void SlideSound()
     {
-        if (playerMovement.IsSliding())
+        if (playerMovement.isSliding)
         {
             SoundManager.Instance.PlaySlideSound(playerMovement.transform.position, volume);
 
