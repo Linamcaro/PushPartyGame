@@ -25,8 +25,6 @@ public class SoundManager : MonoBehaviour
         _instance = this;
 
         volume = PlayerPrefs.GetFloat(PLAYERPREFS_SOUNDEFFECTS_VOLUME, 1f);
-
-        DontDestroyOnLoad(gameObject);
     }
 
     /// <summary>
@@ -121,6 +119,17 @@ public class SoundManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Play sound when jumping
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="volume"></param>
+    public void PlayStunnedSound(Vector3 position, float volume)
+    {
+        PlayRandomSound(audioClipsSO.playerStunned, position, volume);
+    }
+
+
+    /// <summary>
     /// Change the sound volume
     /// </summary>
     public void ChangeVolume()
@@ -139,5 +148,6 @@ public class SoundManager : MonoBehaviour
     {
         return volume;
     }
+
 
 }

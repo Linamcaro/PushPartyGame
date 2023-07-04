@@ -1677,6 +1677,7 @@ GameObject:
   - component: {fileID: 4243997092681709914}
   - component: {fileID: 3118917871333942467}
   - component: {fileID: 8375581327334561317}
+  - component: {fileID: 4237913869116073261}
   m_Layer: 6
   m_Name: Player1
   m_TagString: Player
@@ -1772,34 +1773,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TransitionStateInfoList:
   - Layer: 0
-    OriginatingState: -1275112809
-    DestinationState: -1288781466
-    TransitionDuration: 0.25
-    TriggerNameHash: -1288781466
-    TransitionIndex: 0
-  - Layer: 0
-    OriginatingState: -1275112809
-    DestinationState: -16205478
-    TransitionDuration: 0.25
-    TriggerNameHash: -16205478
-    TransitionIndex: 1
-  - Layer: 0
-    OriginatingState: -1275112809
+    OriginatingState: -412802466
     DestinationState: 699974886
     TransitionDuration: 0.25
     TriggerNameHash: 125937960
+    TransitionIndex: 0
+  - Layer: 0
+    OriginatingState: -412802466
+    DestinationState: -1288781466
+    TransitionDuration: 0.25
+    TriggerNameHash: -1288781466
+    TransitionIndex: 1
+  - Layer: 0
+    OriginatingState: -412802466
+    DestinationState: -16205478
+    TransitionDuration: 0.25
+    TriggerNameHash: -16205478
     TransitionIndex: 2
   - Layer: 0
-    OriginatingState: -1275112809
-    DestinationState: 1331344109
-    TransitionDuration: 0.25
-    TriggerNameHash: -47317214
-    TransitionIndex: 3
-  - Layer: 0
-    OriginatingState: -1275112809
+    OriginatingState: -412802466
     DestinationState: -699145385
     TransitionDuration: 0.25
     TriggerNameHash: 1680125592
+    TransitionIndex: 3
+  - Layer: 0
+    OriginatingState: -412802466
+    DestinationState: 1331344109
+    TransitionDuration: 0.25
+    TriggerNameHash: -47317214
     TransitionIndex: 4
   m_Animator: {fileID: 3871784914699716813}
 --- !u!114 &7735921735549026626
@@ -1904,6 +1905,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 2041278757}
+--- !u!114 &4237913869116073261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3871784914709248875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c7bde14b2e868a41aef2c4c5f921b87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3907913322411411090
 GameObject:
   m_ObjectHideFlags: 0

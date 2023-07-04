@@ -4,16 +4,15 @@ using UnityEngine;
 
 public class PlayerSounds : MonoBehaviour
 {
+    private static PlayerSounds _instance;
+    public static PlayerSounds Instance;
 
-    private PlayerMovement playerMovement;
     private float footstepTimer;
     private float footstepTimerMax = .1f;
     private float volume = 1f;
 
 
-    private void Awake() {
-        playerMovement = GetComponent<PlayerMovement>();
-    }
+  
 
     private void Update() {
         FootStepSound();
@@ -30,10 +29,10 @@ public class PlayerSounds : MonoBehaviour
         {
             footstepTimer = footstepTimerMax;
 
-            if (playerMovement.getVelocity() > 0f)
+            if (PlayerMovement.PlayerMovementInstance.getVelocity() > 0f)
             {
                
-                SoundManager.Instance.PlayFootstepsSound(playerMovement.transform.position, volume);
+                //SoundManager.Instance.PlayFootstepsSound(playerMovement.transform.position, volume);
             }
         }
     }
@@ -43,9 +42,10 @@ public class PlayerSounds : MonoBehaviour
     /// </summary>
     private void JumpSound()
     {
-        if (playerMovement.isJumping)
+        if (PlayerMovement.PlayerMovementInstance.isJumping)
         {
-            SoundManager.Instance.PlayJumpSound(playerMovement.transform.position, volume);
+            float volume = 1f;
+            SoundManager.Instance.PlayJumpSound(PlayerMovement.PlayerMovementInstance.transform.position, volume);
            
         } 
     }

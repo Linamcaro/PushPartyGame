@@ -24,14 +24,6 @@ public class OptionsUI : MonoBehaviour
     }
 
     
-    private void OnEscapeButtonPressed()
-    {
-        if (PlayerController.Instance.OptionsMenu())
-        {
-            Show();
-        }
-    }
-
 
     public void SoundEffectsButton()
     {

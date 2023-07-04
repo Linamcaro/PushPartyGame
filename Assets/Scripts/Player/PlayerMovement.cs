@@ -32,7 +32,7 @@ public class PlayerMovement : NetworkBehaviour
     [SerializeField] public float airVelocity = 8f;
     [SerializeField] public float gravity = 10.0f;
     [SerializeField] public float maxVelocityChange = 10.0f;
-    [SerializeField] public float jumpHeight = 2f;
+    [SerializeField] public float jumpHeight = 1f;
     [SerializeField] public float maxFallSpeed = 20.0f;
     [SerializeField] public float rotateSpeed = 25f;
     public Vector3 moveDir { get; private set; }
@@ -48,7 +48,9 @@ public class PlayerMovement : NetworkBehaviour
     public bool canMove { get; private set; }
     public bool isJumping { get; private set; }
     public bool isSliding { get; private set; }
-    private bool isStuned = false;
+    public bool isStuned { get; private set; }
+    public bool isWalking { get; private set; }
+
     private bool wasStuned = false;
     private float pushForce;
     private Vector3 pushDir;
@@ -69,6 +71,8 @@ public class PlayerMovement : NetworkBehaviour
 
         isSliding = false;
         canMove = true;
+        isStuned = false;
+        isWalking = false;
     }
 
     public override void OnNetworkSpawn()
@@ -184,6 +188,7 @@ public class PlayerMovement : NetworkBehaviour
                 // check if can jump and apply velocity
                 if (IsGrounded() && jump)
                 {
+                    isJumping = true;
                     rigidBody.velocity = new Vector3(velocity.x, CalculateJumpVerticalSpeed(), velocity.z);
                     OnPlayerJump?.Invoke(this, EventArgs.Empty);
                 }
@@ -281,10 +286,6 @@ public class PlayerMovement : NetworkBehaviour
         }
     }
 
-    public bool IsGrounded()
-    {
-        return Physics.Raycast(transform.position, -Vector3.up, distToGround + 0.1f);
-    }
     public void UpdateSpeed(float speed)
     {
         moveSpeed = speed;
@@ -322,6 +323,15 @@ public class PlayerMovement : NetworkBehaviour
     {
         return rigidBody.velocity.magnitude;
     }
+
+    public bool IsGrounded()
+    {
+        isJumping = false;
+        return Physics.Raycast(transform.position, -Vector3.up, distToGround + 0.1f);
+        
+    }
+
+
 }
 
 
