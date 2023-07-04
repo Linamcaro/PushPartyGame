@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class CleanUp : MonoBehaviour
 {
-    private void Awake()
+    public void CleanUpManagers()
     {
         if(NetworkManager.Singleton != null)
         {

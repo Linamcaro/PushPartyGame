@@ -20,7 +20,6 @@ public class PushPartyGameManager : NetworkBehaviour
         GameOver,
     }
 
-
     //Handle game states on the network
     private NetworkVariable<State> state = new NetworkVariable<State>(State.WaitingToStart);
     //Event for the game state changes
@@ -34,14 +33,15 @@ public class PushPartyGameManager : NetworkBehaviour
 
     private bool isLocalPlayerReady;
 
-    [SerializeField] private Transform playerPrefab;
+    [SerializeField] private List<Transform> playerPrefab;
 
-
+ 
     private void Awake()
     {
         _instance = this;
         Debug.Log("Is game playing false so return");
         playerReadyDictionary = new Dictionary<ulong, bool>();
+       
     }
 
 
@@ -67,8 +67,16 @@ public class PushPartyGameManager : NetworkBehaviour
     {
         foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
         {
-            Transform playerTransform = Instantiate(playerPrefab);
-            playerTransform.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
+            if (clientId == 0)
+            {
+                Transform playerTransform = Instantiate(playerPrefab[0]);
+                playerTransform.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
+            }
+            else
+            {
+                Transform playerTransform = Instantiate(playerPrefab[1]);
+                playerTransform.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
+            }
         }
     }
 
