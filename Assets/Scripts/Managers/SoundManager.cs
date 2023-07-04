@@ -25,6 +25,8 @@ public class SoundManager : MonoBehaviour
         _instance = this;
 
         volume = PlayerPrefs.GetFloat(PLAYERPREFS_SOUNDEFFECTS_VOLUME, 1f);
+
+        DontDestroyOnLoad(gameObject);
     }
 
     /// <summary>
@@ -75,9 +77,9 @@ public class SoundManager : MonoBehaviour
     /// </summary>
     /// <param name="position"></param>
     /// <param name="volume"></param>
-    public void PlaySlideSound(Vector3 position, float volume)
+    public void PlayerWinsLiveSound(Vector3 position, float volume)
     {
-        PlayRandomSound(audioClipsSO.playerSlide, position, volume);
+        PlayRandomSound(audioClipsSO.playerWinsLive, position, volume);
     }
 
     /// <summary>
@@ -85,9 +87,9 @@ public class SoundManager : MonoBehaviour
     /// </summary>
     /// <param name="position"></param>
     /// <param name="volume"></param>
-    public void PlayAttackSound(Vector3 position, float volume)
+    public void pPlayerPowerUpSound(Vector3 position, float volume)
     {
-        PlayRandomSound(audioClipsSO.playerAtack, position, volume);
+        PlayRandomSound(audioClipsSO.playerPowerUp, position, volume);
     }
 
     /// <summary>

@@ -5,13 +5,21 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "Sound Effects", menuName = "Sound/Sound Effects")]
 public class AudioClipsSO : ScriptableObject
-{ 
-    public AudioClip[] playerSlide;
+{
+    //player
+    public AudioClip[] playerWinsLive;
     public AudioClip[] playerFalling;
-    public AudioClip[] playerAtack;
+    public AudioClip[] playerPowerUp;
     public AudioClip[] footsteps;
     public AudioClip[] playerJump;
-    public AudioClip[] obstacleHittingPlayer;
-    public AudioClip[] CountDown;
 
+    //obstacle
+    public AudioClip[] obstacleHittingPlayer;
+
+    //UI
+    public AudioClip[] CountDown;
+    public AudioClip[] ButtonsClick;
+    public AudioClip[] playerReadyCharacterSelect;
+    public AudioClip[] playerWins;
+    public AudioClip[] playerLose;
 }

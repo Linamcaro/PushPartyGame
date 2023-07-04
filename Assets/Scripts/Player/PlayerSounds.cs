@@ -18,7 +18,6 @@ public class PlayerSounds : MonoBehaviour
     private void Update() {
         FootStepSound();
         JumpSound();
-        SlideSound();
     }
 
     /// <summary>
@@ -51,17 +50,6 @@ public class PlayerSounds : MonoBehaviour
         } 
     }
 
-    /// <summary>
-    /// Play Slide Soubd when player Slide
-    /// </summary>
-    private void SlideSound()
-    {
-        if (playerMovement.isSliding)
-        {
-            SoundManager.Instance.PlaySlideSound(playerMovement.transform.position, volume);
-
-        }
-    }
 
 
 
