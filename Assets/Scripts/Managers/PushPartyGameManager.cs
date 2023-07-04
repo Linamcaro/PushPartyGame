@@ -24,6 +24,7 @@ public class PushPartyGameManager : NetworkBehaviour
     private NetworkVariable<State> state = new NetworkVariable<State>(State.WaitingToStart);
     //Event for the game state changes
     public event EventHandler OnStateChanged;
+    public event EventHandler OnLocalPlayerReadyChanged;
 
     //CountDown Tiime
     private NetworkVariable<float> countdownTostartTimer = new NetworkVariable<float>(3f);
@@ -100,6 +101,7 @@ public class PushPartyGameManager : NetworkBehaviour
         {
             Debug.Log("state changed to waiting: " + state);
             isLocalPlayerReady = true;
+            OnLocalPlayerReadyChanged?.Invoke(this, EventArgs.Empty);
             SetPlayerReadyServerRpc();
 
         }

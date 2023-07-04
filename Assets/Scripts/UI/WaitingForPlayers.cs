@@ -1,42 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Search;
+
+using System;
 using UnityEngine;
-using UnityEngine.UI;
-using Unity.Netcode;
+
+
 
 public class WaitingForPlayers : MonoBehaviour
 {
 
-    [SerializeField] private Button readyButton;
-    [SerializeField] private GameObject waitingForPlayersScreen;
 
-
-    private void Awake()
-    {
-        Hide();
-
-        readyButton.onClick.AddListener(() =>
-        {
-            PushPartyGameManager.Instance.OnStartButtonPressed();
-            OnLocalPlayerReadyChanged();
-
-        });
-    }
-
-
-
+  
     private void Start()
     {
+        PushPartyGameManager.Instance.OnLocalPlayerReadyChanged += PushPartyGameManager_OnLocalPlayerReadyChanged;
         PushPartyGameManager.Instance.OnStateChanged += PushPartyGameManager_OnStateChanged;
-        
-    }
-
-    private void OnLocalPlayerReadyChanged()
-    {
-        if(PushPartyGameManager.Instance.IsLocalPlayerReady()) {
-            Show();
-        }
+        Hide();
     }
 
 
@@ -47,21 +24,30 @@ public class WaitingForPlayers : MonoBehaviour
     /// <param name="e"></param>
     private void PushPartyGameManager_OnStateChanged(object sender, System.EventArgs e)
     {
-        if (PushPartyGameManager.Instance.IsCountdownToStartActive())
+        if(PushPartyGameManager.Instance.IsCountdownToStartActive())
         {
             Hide();
         }
     }
+
+    private void PushPartyGameManager_OnLocalPlayerReadyChanged(object sender, EventArgs e)
+    {
+        if(PushPartyGameManager.Instance.IsLocalPlayerReady()) {
+            Show();
+        }
+    }
+
+
     //Hide UI
     private void Show()
     {
-        waitingForPlayersScreen.SetActive(true);
+        gameObject.SetActive(true);
     }
 
     //Hide UI
     private void Hide()
     {
-        waitingForPlayersScreen.SetActive(false);
+        gameObject.SetActive(false);
     }
 
 }

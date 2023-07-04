@@ -12,17 +12,20 @@ public class PowerUpSpawnManager : NetworkBehaviour
 
     [SerializeField] private PowerUpsListSO PowerUpsList;
 
-    //Set Bondaries
-    private float xRange = 7f;
-    private float zRange = 6f;
+    
+
 
     private bool CanSpawnPowerUp = true;
 
     private void spawnPowerUp(PowerUpSO powerUpSelected)
     {
-        
+        //Set Bondaries
+        float xRange = 7f;
+        Vector3 zRangeInitial = LevelController.Instance.PlatformPosition();
+        Vector3 zRangeFinal = LevelController.Instance.LevelLength();
+
         float spawnXRange = Random.Range(-xRange, xRange);
-        float spawnZRange = Random.Range(-zRange, zRange);
+        float spawnZRange = Random.Range(zRangeInitial.z, zRangeFinal.z);
         Vector3 spawnPos = new Vector3(spawnXRange, 1, spawnZRange);
 
         GameObject objectToSpawn = powerUpSelected.powerUpObject;
