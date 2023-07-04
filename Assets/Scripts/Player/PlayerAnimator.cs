@@ -17,14 +17,12 @@ public class PlayerAnimator : NetworkBehaviour
 
         player.OnPlayerHit += playerTriggerHit;
         player.OnPlayerJump += playerTriggerJump;
+        player.OnPlayerAttack1 += playerTriggerAttack1;
     }
 
     private void Update()
     {
-        if (!IsOwner)
-        {
-            return;
-        }
+        if(!IsOwner) return;
 
         animator.SetFloat("Speed", player.getVelocity());
         animator.SetBool("isStunned", !player.canMove);
@@ -42,5 +40,11 @@ public class PlayerAnimator : NetworkBehaviour
     {
         animator.SetTrigger("Jump");
     }
+
+    public void playerTriggerAttack1(object sender, EventArgs args)
+    {
+        animator.SetTrigger("Attack1");
+    }
+
 
 }

@@ -20,12 +20,10 @@ public class PlayerMovement : NetworkBehaviour
     [SerializeField] private List<Vector3> spawnPositions;
     private PlayerAnimator playerAnimator;
 
-    
     //events
     public event EventHandler OnPlayerHit;
     public event EventHandler OnPlayerJump;
-
-
+    public event EventHandler OnPlayerAttack1;
 
     //Player jumping
     [SerializeField] private float moveSpeed = 10.0f;
@@ -39,7 +37,6 @@ public class PlayerMovement : NetworkBehaviour
     private GameObject cam;
     private Rigidbody rigidBody;
 
-    //[SerializeField] public float jumpForce = 70f;
     [SerializeField] private CinemachineFreeLook cmCamera;
 
     private float distToGround;
@@ -57,6 +54,16 @@ public class PlayerMovement : NetworkBehaviour
     private float speedDelayTime = 20f;
     private float speedDelayTime1 = 1f;
 
+    [Header("Attack variables")]
+    public float attackForce = 25f;
+    public float attackStunTime = 1f;
+    public float attackCoolDown = 0.5f;
+    private bool canAttack;
+    public GameObject punchObj;
+
+
+    //-----------------------------------------------------------------------------------------------------------
+
     private void Start()
     {
         if (!IsOwner) return;
@@ -69,7 +76,11 @@ public class PlayerMovement : NetworkBehaviour
 
         isSliding = false;
         canMove = true;
+        canAttack = true;
+
     }
+
+    //-----------------------------------------------------------------------------------------------------------
 
     public override void OnNetworkSpawn()
     {
@@ -85,6 +96,8 @@ public class PlayerMovement : NetworkBehaviour
         }
         transform.position = spawnPositions[(int)OwnerClientId];
     }
+
+    //-----------------------------------------------------------------------------------------------------------
 
     private void Update()
     {
@@ -108,8 +121,11 @@ public class PlayerMovement : NetworkBehaviour
                 isSliding = false;
             }
         }
+
+        
     }
 
+    //-----------------------------------------------------------------------------------------------------------
 
     private void FixedUpdate()
     {
@@ -121,6 +137,7 @@ public class PlayerMovement : NetworkBehaviour
         HandleMovement();
     }
 
+    //-----------------------------------------------------------------------------------------------------------
     /// <summary>
     /// Move the player according to the user input 
     /// </summary>
@@ -132,6 +149,7 @@ public class PlayerMovement : NetworkBehaviour
         }
 
         bool jump = PlayerController.Instance.PlayerJumped();
+        bool Attack1 = PlayerController.Instance.PlayerFired1();
 
         if (canMove)
         {
@@ -188,6 +206,14 @@ public class PlayerMovement : NetworkBehaviour
                     OnPlayerJump?.Invoke(this, EventArgs.Empty);
                 }
 
+                if (Attack1 && canAttack)
+                {
+                    ActivatePunchCollider();
+                    OnPlayerAttack1?.Invoke(this, EventArgs.Empty);
+                    canAttack = false;
+                    Invoke(nameof(ResetAttack), attackCoolDown);
+                }
+
             }
             else
             {
@@ -218,6 +244,7 @@ public class PlayerMovement : NetworkBehaviour
         rigidBody.AddForce(new Vector3(0, -gravity * rigidBody.mass, 0));
     }
 
+    //-----------------------------------------------------------------------------------------------------------
     /// <summary>
     /// From the jump height and gravity we deduce the upwards speed 
     /// for the character to reach at the apex.
@@ -228,6 +255,7 @@ public class PlayerMovement : NetworkBehaviour
         return Mathf.Sqrt(2 * jumpHeight * gravity);
     }
 
+    //-----------------------------------------------------------------------------------------------------------
     /// <summary>
     /// If player is hit apply a velocity and move direction 
     /// </summary>
@@ -243,6 +271,8 @@ public class PlayerMovement : NetworkBehaviour
         pushDir = Vector3.Normalize(velocityF);
         StartCoroutine(Decrease(velocityF.magnitude, time));
     }
+
+    //-----------------------------------------------------------------------------------------------------------
 
     private IEnumerator Decrease(float value, float duration)
     {
@@ -281,14 +311,21 @@ public class PlayerMovement : NetworkBehaviour
         }
     }
 
+    //-----------------------------------------------------------------------------------------------------------
+
     public bool IsGrounded()
     {
         return Physics.Raycast(transform.position, -Vector3.up, distToGround + 0.1f);
     }
+
+    //-----------------------------------------------------------------------------------------------------------
+
     public void UpdateSpeed(float speed)
     {
         moveSpeed = speed;
     }
+
+    //-----------------------------------------------------------------------------------------------------------
 
     public IEnumerator SpeedEnum(Collider player)
     {
@@ -298,6 +335,8 @@ public class PlayerMovement : NetworkBehaviour
 
     }
 
+    //-----------------------------------------------------------------------------------------------------------
+
     public IEnumerator SpeedEnum1(Collider player)
     {
         UpdateSpeed(7f);
@@ -306,10 +345,14 @@ public class PlayerMovement : NetworkBehaviour
 
     }
 
+    //-----------------------------------------------------------------------------------------------------------
+
     public void CallSpeed(Collider player)
     {
         StartCoroutine(ChangeSpeed(player));
     }
+
+    //-----------------------------------------------------------------------------------------------------------
 
     private IEnumerator ChangeSpeed(Collider player)
     {
@@ -318,9 +361,49 @@ public class PlayerMovement : NetworkBehaviour
 
     }
 
+    //-----------------------------------------------------------------------------------------------------------
+
     public float getVelocity()
     {
         return rigidBody.velocity.magnitude;
+    }
+
+    //-----------------------------------------------------------------------------------------------------------
+
+    public void ActivatePunchCollider()
+    {
+        punchObj.SetActive(true);
+    }
+
+    //-----------------------------------------------------------------------------------------------------------
+
+    public void DeactivatePunchCollider()
+    {
+        punchObj.SetActive(false);
+    }
+
+    //-----------------------------------------------------------------------------------------------------------
+    void ResetAttack()
+    {
+        canAttack = true;
+        DeactivatePunchCollider();
+    }
+
+    //-----------------------------------------------------------------------------------------------------------
+
+    /// <summary>
+    /// when a trigger collider enters it cheks if it has a "Punch" tag and if it has the player get hit
+    /// </summary>
+    /// <param name="other"></param>
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Punch"))
+        {
+            Vector3 otherPosition = other.transform.position;
+            Vector3 pushDirection = (otherPosition - transform.position).normalized;
+            HitPlayer(-pushDirection * attackForce, attackStunTime);
+        }
+        DeactivatePunchCollider();
     }
 }
 
