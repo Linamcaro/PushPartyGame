@@ -18,6 +18,11 @@ public class PlayerSpawn : MonoBehaviour
 
     public event EventHandler OnPlayerDied;
 
+    //Event for theplayer winner
+    public event EventHandler OnPlayerWins;
+
+    //Event for theplayer winner
+    public event EventHandler OnPlayerLose;
 
     public int lives;
 
@@ -34,33 +39,12 @@ public class PlayerSpawn : MonoBehaviour
     private void Start()
     {   
         lives = 2;
-        PushPartyGameManager.Instance.OnStateChanged += PushPartyGameManager_OnStateChanged;
+
+      
     }
-
-    private void PushPartyGameManager_OnStateChanged(object sender, EventArgs e)
-    {
-
-        Debug.Log("PushPartyGameManager_OnStateChanged called");
-
-        if (PushPartyGameManager.Instance.IsGameOver())
-        {
-            if (lives > 0)
-            {
-                LoadScenes.LoadTagetScene(LoadScenes.Scene.Winner);
-               
-            }
-            else
-            {
-                LoadScenes.LoadTagetScene(LoadScenes.Scene.GameOver);
-                
-            }
-        }
-    }
-
 
     private void PlayerRespawn_OnPlayerFell()
     {
-       
         lives--;
         OnLivesChanged?.Invoke(this, EventArgs.Empty);
 

@@ -8,7 +8,7 @@ public class TestLobbyUI : MonoBehaviour
     public void StartHost()
     {
         MultiplayerManager.Instance.StartHost();
-        LoadScenes.LoadTagetScene(LoadScenes.Scene.Lobby2);
+        LoadScenes.LoadTagetScene(LoadScenes.Scene.CharacterSelection);
     }
 
     public void StartClient()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.UI;
+using Unity.Netcode;
 
 public class WaitingForPlayers : MonoBehaviour
 {
@@ -13,10 +14,13 @@ public class WaitingForPlayers : MonoBehaviour
 
     private void Awake()
     {
+        Hide();
+
         readyButton.onClick.AddListener(() =>
         {
             PushPartyGameManager.Instance.OnStartButtonPressed();
-            Show();
+            OnLocalPlayerReadyChanged();
+
         });
     }
 
@@ -27,6 +31,14 @@ public class WaitingForPlayers : MonoBehaviour
         PushPartyGameManager.Instance.OnStateChanged += PushPartyGameManager_OnStateChanged;
         
     }
+
+    private void OnLocalPlayerReadyChanged()
+    {
+        if(PushPartyGameManager.Instance.IsLocalPlayerReady()) {
+            Show();
+        }
+    }
+
 
     /// <summary>
     /// Check if the Count Down To Start is active then hide the UI

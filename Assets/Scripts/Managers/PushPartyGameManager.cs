@@ -20,7 +20,6 @@ public class PushPartyGameManager : NetworkBehaviour
         GameOver,
     }
 
-
     //Handle game states on the network
     private NetworkVariable<State> state = new NetworkVariable<State>(State.WaitingToStart);
     //Event for the game state changes
@@ -31,19 +30,18 @@ public class PushPartyGameManager : NetworkBehaviour
 
     //Store the player ID and if it is ready
     private Dictionary<ulong, bool> playerReadyDictionary;
-    //Store the player ID and if it died
-    private Dictionary<ulong, bool> playerDiedDictionary;
 
     private bool isLocalPlayerReady;
 
     [SerializeField] private Transform playerPrefab;
 
-
+ 
     private void Awake()
     {
         _instance = this;
         Debug.Log("Is game playing false so return");
         playerReadyDictionary = new Dictionary<ulong, bool>();
+       
     }
 
 
@@ -69,8 +67,16 @@ public class PushPartyGameManager : NetworkBehaviour
     {
         foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
         {
-            Transform playerTransform = Instantiate(playerPrefab);
-            playerTransform.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
+            /*if (clientId == 0)
+            {*/
+                Transform playerTransform = Instantiate(playerPrefab);
+                playerTransform.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
+           /* }
+            else
+            {
+                Transform playerTransform = Instantiate(playerPrefab[1]);
+                playerTransform.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
+            }*/
         }
     }
 
@@ -181,7 +187,7 @@ public class PushPartyGameManager : NetworkBehaviour
                 break;
 
             case State.GameOver:
-                NetworkManager.Singleton.Shutdown();
+            
                 Debug.Log("GameOver");
                 break;
         }
