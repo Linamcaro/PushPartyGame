@@ -9,4 +9,10 @@ public class MainMenuUI : MonoBehaviour
         LoadScenes.ChangeScene(LoadScenes.Scene.Lobby);
         Debug.Log("Main Scene called");
     }
+
+    public void QuitButton()
+    {
+        LoadScenes.QuitGame();
+        Debug.Log("Main Scene called");
+    }
 }
