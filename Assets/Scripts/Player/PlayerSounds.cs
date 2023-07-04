@@ -31,7 +31,7 @@ public class PlayerSounds : MonoBehaviour
         {
             footstepTimer = footstepTimerMax;
 
-            if (playerMovement.isWalking)
+            if (playerMovement.getVelocity() > 0f)
             {
                
                 SoundManager.Instance.PlayFootstepsSound(playerMovement.transform.position, volume);
