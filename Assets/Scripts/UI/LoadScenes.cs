@@ -7,10 +7,10 @@ public static class LoadScenes
     //scene names
     public enum Scene
     {
+        MainMenu,
         Lobby,
         MainScene,
         Loading,
-        Lina,
         CharacterSelection,
     }
 

@@ -9,7 +9,7 @@ public class CharacterSelectUI : MonoBehaviour
     public void MainMenuButton()
     {
         NetworkManager.Singleton.Shutdown();
-        LoadScenes.ChangeScene(LoadScenes.Scene.Lobby);
+        LoadScenes.ChangeScene(LoadScenes.Scene.MainScene);
     }
 
     public void ReadyButton()

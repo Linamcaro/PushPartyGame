@@ -9,7 +9,7 @@ public class CharacterSelectPlayer : MonoBehaviour
 
     [SerializeField] private int playerIndex;
     [SerializeField] private GameObject readyGameObject;
-    [SerializeField] private GameObject playerObject;
+    [SerializeField] private GameObject playerLight;
 
     private void Start()
     {
@@ -40,6 +40,7 @@ public class CharacterSelectPlayer : MonoBehaviour
             //Get the clientId to check who is ready
             PlayerData playerData = MultiplayerManager.Instance.GetPlayerDataFromPlayerIndex(playerIndex);
             readyGameObject.SetActive(CharacterSelectReady.Instance.IsPlayerReady(playerData.clientId));
+            playerLight.SetActive(CharacterSelectReady.Instance.IsPlayerReady(playerData.clientId));
         }
         else
         {
