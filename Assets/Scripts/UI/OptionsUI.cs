@@ -51,7 +51,7 @@ public class OptionsUI : MonoBehaviour
     public void QuitGameButton()
     {
         NetworkManager.Singleton.Shutdown();
-        LoadScenes.ChangeScene(LoadScenes.Scene.Lobby);
+        LoadScenes.ChangeScene(LoadScenes.Scene.MainMenu);
     }
 
     private void Show()

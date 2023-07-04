@@ -2742,8 +2742,10 @@ GameObject:
   - component: {fileID: -287994944756124440}
   - component: {fileID: -1822196720912470779}
   - component: {fileID: -460333645762140285}
+  - component: {fileID: 1891535714804639570}
+  - component: {fileID: -3032209440154484695}
   m_Layer: 0
-  m_Name: Player0
+  m_Name: Playe0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2877,6 +2879,71 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1891535714804639570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8597698371886135454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TransitionStateInfoList:
+  - Layer: 0
+    OriginatingState: -1275112809
+    DestinationState: -1288781466
+    TransitionDuration: 0.25
+    TriggerNameHash: -1288781466
+    TransitionIndex: 0
+  - Layer: 0
+    OriginatingState: -1275112809
+    DestinationState: -16205478
+    TransitionDuration: 0.25
+    TriggerNameHash: -16205478
+    TransitionIndex: 1
+  - Layer: 0
+    OriginatingState: -1275112809
+    DestinationState: 699974886
+    TransitionDuration: 0.25
+    TriggerNameHash: 125937960
+    TransitionIndex: 2
+  - Layer: 0
+    OriginatingState: -1275112809
+    DestinationState: 1331344109
+    TransitionDuration: 0.25
+    TriggerNameHash: -47317214
+    TransitionIndex: 3
+  - Layer: 0
+    OriginatingState: -1275112809
+    DestinationState: -699145385
+    TransitionDuration: 0.25
+    TriggerNameHash: 1680125592
+    TransitionIndex: 4
+  m_Animator: {fileID: 8903687710321359521}
+--- !u!114 &-3032209440154484695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8597698371886135454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16e46fac832aa5246b8d780040e569c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnPositions: []
+  moveSpeed: 10
+  airVelocity: 8
+  gravity: 10
+  maxVelocityChange: 10
+  jumpHeight: 2
+  maxFallSpeed: 20
+  rotateSpeed: 25
+  cmCamera: {fileID: 0}
 --- !u!1 &8692607577877473419
 GameObject:
   m_ObjectHideFlags: 0

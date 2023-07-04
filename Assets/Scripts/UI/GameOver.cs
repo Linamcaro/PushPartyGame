@@ -19,13 +19,13 @@ public class GameOver : MonoBehaviour
         playAgainWinner.onClick.AddListener(() =>
         {
             NetworkManager.Singleton.Shutdown();
-            LoadScenes.ChangeScene(LoadScenes.Scene.Lobby);
+            LoadScenes.ChangeScene(LoadScenes.Scene.MainMenu);
         });
 
         playAgainLoser.onClick.AddListener(() =>
         {
             NetworkManager.Singleton.Shutdown();
-            LoadScenes.ChangeScene(LoadScenes.Scene.Lobby);
+            LoadScenes.ChangeScene(LoadScenes.Scene.MainMenu);
         });
     }
     void Start()

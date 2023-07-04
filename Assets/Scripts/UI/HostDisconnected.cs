@@ -15,7 +15,7 @@ public class HostDisconnected : MonoBehaviour
         playAgain.onClick.AddListener(() =>
         {
             NetworkManager.Singleton.Shutdown();
-            LoadScenes.ChangeScene(LoadScenes.Scene.Lobby);
+            LoadScenes.ChangeScene(LoadScenes.Scene.MainMenu);
         });
 
         Hide();

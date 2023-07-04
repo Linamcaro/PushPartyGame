@@ -33,7 +33,7 @@ public class PushPartyGameManager : NetworkBehaviour
 
     private bool isLocalPlayerReady;
 
-    [SerializeField] private List<Transform> playerPrefab;
+    [SerializeField] private Transform playerPrefab;
 
  
     private void Awake()
@@ -67,16 +67,16 @@ public class PushPartyGameManager : NetworkBehaviour
     {
         foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
         {
-            if (clientId == 0)
-            {
-                Transform playerTransform = Instantiate(playerPrefab[0]);
+            /*if (clientId == 0)
+            {*/
+                Transform playerTransform = Instantiate(playerPrefab);
                 playerTransform.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
-            }
+           /* }
             else
             {
                 Transform playerTransform = Instantiate(playerPrefab[1]);
                 playerTransform.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
-            }
+            }*/
         }
     }
 
