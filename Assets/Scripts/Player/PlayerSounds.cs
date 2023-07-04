@@ -50,7 +50,16 @@ public class PlayerSounds : MonoBehaviour
         } 
     }
 
-
-
+    /// <summary>
+    /// Play Stunned sound when player jump
+    /// </summary>
+    private void PlayerStunnedSound()
+    {
+        if(PlayerMovement.PlayerMovementInstance.isStuned)
+        {
+            float volume = 1f;
+            SoundManager.Instance.PlayStunnedSound(PlayerMovement.PlayerMovementInstance.transform.position, volume);
+        }
+    }
 
 }

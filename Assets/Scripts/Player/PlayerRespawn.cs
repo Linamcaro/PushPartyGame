@@ -19,7 +19,8 @@ public class PlayerRespawn : NetworkBehaviour
   
     private Vector3 respawnPosition;
 
-
+    //Event for theplayer winner
+    public event EventHandler OnPlayerFell;
 
     private void Start()
     {
@@ -44,6 +45,8 @@ public class PlayerRespawn : NetworkBehaviour
         if (transform.position.y < deathPointY)
         {
             PlayerSpawn.Instance.PlayerFell();
+
+            OnPlayerFell?.Invoke(this, EventArgs.Empty);
 
             if (PlayerSpawn.Instance.CanSpawn())
             {

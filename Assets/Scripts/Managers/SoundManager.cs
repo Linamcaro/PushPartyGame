@@ -27,6 +27,19 @@ public class SoundManager : MonoBehaviour
         volume = PlayerPrefs.GetFloat(PLAYERPREFS_SOUNDEFFECTS_VOLUME, 1f);
     }
 
+    private void Start()
+    {
+        PlayerRespawn.Instance.OnPlayerFell += PlayerRespawn_OnPlayerFell;
+    }
+
+    private void PlayerRespawn_OnPlayerFell(object sender, System.EventArgs e)
+    {
+        GameObject player = sender as GameObject;
+        PlayRandomSound(audioClipsSO.playerFalling, player.transform.position);
+    }
+
+
+
     /// <summary>
     /// Sound selectio from an array of audioclips
     /// </summary>
@@ -85,19 +98,9 @@ public class SoundManager : MonoBehaviour
     /// </summary>
     /// <param name="position"></param>
     /// <param name="volume"></param>
-    public void pPlayerPowerUpSound(Vector3 position, float volume)
+    public void PlayerPowerUpSound(Vector3 position, float volume)
     {
         PlayRandomSound(audioClipsSO.playerPowerUp, position, volume);
-    }
-
-    /// <summary>
-    /// Play audio when player falls
-    /// </summary>
-    /// <param name="position"></param>
-    /// <param name="volume"></param>
-    public void PlayFallingSound(Vector3 position, float volume)
-    {
-        PlayRandomSound(audioClipsSO.playerFalling, position, volume);
     }
 
     /// <summary>
