@@ -1,9 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using Cinemachine;
-
+using UnityEngine.EventSystems;
 
 public class PlayerMovement : NetworkBehaviour
 {
@@ -17,6 +18,14 @@ public class PlayerMovement : NetworkBehaviour
     }
 
     [SerializeField] private List<Vector3> spawnPositions;
+    private PlayerAnimator playerAnimator;
+
+    
+    //events
+    public event EventHandler OnPlayerHit;
+    public event EventHandler OnPlayerJump;
+
+
 
     //Player jumping
     [SerializeField] private float moveSpeed = 10.0f;
@@ -26,7 +35,7 @@ public class PlayerMovement : NetworkBehaviour
     [SerializeField] public float jumpHeight = 2f;
     [SerializeField] public float maxFallSpeed = 20.0f;
     [SerializeField] public float rotateSpeed = 25f;
-    private Vector3 moveDir;
+    public Vector3 moveDir { get; private set; }
     private GameObject cam;
     private Rigidbody rigidBody;
 
@@ -36,19 +45,31 @@ public class PlayerMovement : NetworkBehaviour
     private float distToGround;
 
     //Helper Variables
-    private bool canMove = true;
+    public bool canMove { get; private set; }
+    public bool isJumping { get; private set; }
+    public bool isSliding { get; private set; }
     private bool isStuned = false;
     private bool wasStuned = false;
     private float pushForce;
     private Vector3 pushDir;
 
-    public bool isJumping { get; private set; }
-    public bool isWalking { get; private set; }
-    public bool isSliding { get; private set; }
-    public bool slide { get; private set; }
 
     private float speedDelayTime = 20f;
     private float speedDelayTime1 = 1f;
+
+    private void Start()
+    {
+        if (!IsOwner) return;
+
+        playerAnimator = GetComponent<PlayerAnimator>();
+
+        rigidBody = GetComponent<Rigidbody>();
+        rigidBody.freezeRotation = true;
+        rigidBody.useGravity = false;
+
+        isSliding = false;
+        canMove = true;
+    }
 
     public override void OnNetworkSpawn()
     {
@@ -61,15 +82,8 @@ public class PlayerMovement : NetworkBehaviour
             distToGround = GetComponent<Collider>().bounds.extents.y; // get the distance to ground
 
             cam = Camera.main.gameObject;
-
-            rigidBody = GetComponent<Rigidbody>();
-            rigidBody.freezeRotation = true;
-            rigidBody.useGravity = false;
-            slide = false;
         }
-
         transform.position = spawnPositions[(int)OwnerClientId];
-
     }
 
     private void Update()
@@ -77,9 +91,9 @@ public class PlayerMovement : NetworkBehaviour
         if (!IsOwner) return;
 
         Vector2 inputMovement = PlayerController.Instance.GetPlayerMovement();
-        Vector3 v2 = inputMovement.y * cam.transform.forward; //Vertical axis to which I want to move with respect to the camera
-        Vector3 h2 = inputMovement.x * cam.transform.right; //Horizontal axis to which I want to move with respect to the camera
-        moveDir = (v2 + h2).normalized; //Global position to which I want to move in magnitude 1
+        Vector3 verticalMovement = inputMovement.y * cam.transform.forward; //Vertical axis to which I want to move with respect to the camera
+        Vector3 horizontalMovement = inputMovement.x * cam.transform.right; //Horizontal axis to which I want to move with respect to the camera
+        moveDir = (verticalMovement + horizontalMovement).normalized; //Global position to which I want to move in magnitude 1
         //moveDir = new Vector3(inputMovement.x, 0, inputMovement.y);
 
         RaycastHit hit;
@@ -87,11 +101,11 @@ public class PlayerMovement : NetworkBehaviour
         {
             if (hit.transform.tag == "Slide")
             {
-                slide = true;
+                isSliding = true;
             }
             else
             {
-                slide = false;
+                isSliding = false;
             }
         }
     }
@@ -123,7 +137,7 @@ public class PlayerMovement : NetworkBehaviour
         {
             if (moveDir.x != 0 || moveDir.z != 0)
             {
-                
+
                 Vector3 targetDir = moveDir;//Direction of the character
 
                 targetDir.y = 0;
@@ -156,7 +170,7 @@ public class PlayerMovement : NetworkBehaviour
                 velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
                 velocityChange.y = 0;
 
-                if (!slide)
+                if (!isSliding)
                 {
                     if (Mathf.Abs(rigidBody.velocity.magnitude) < moveSpeed * 1.0f)
                         rigidBody.AddForce(velocityChange, ForceMode.VelocityChange);
@@ -171,13 +185,13 @@ public class PlayerMovement : NetworkBehaviour
                 if (IsGrounded() && jump)
                 {
                     rigidBody.velocity = new Vector3(velocity.x, CalculateJumpVerticalSpeed(), velocity.z);
-                    isJumping = true;
+                    OnPlayerJump?.Invoke(this, EventArgs.Empty);
                 }
 
             }
             else
             {
-                if (!slide)
+                if (!isSliding)
                 {
                     //air movement
                     Vector3 targetVelocity = new Vector3(moveDir.x * airVelocity, rigidBody.velocity.y, moveDir.z * airVelocity);
@@ -192,7 +206,7 @@ public class PlayerMovement : NetworkBehaviour
                 else if (Mathf.Abs(rigidBody.velocity.magnitude) < moveSpeed * 1.0f)
                 {
                     rigidBody.AddForce(moveDir * 0.15f, ForceMode.VelocityChange);
-                    
+
                 }
             }
         }
@@ -221,6 +235,8 @@ public class PlayerMovement : NetworkBehaviour
     /// <param name="time"></param>
     public void HitPlayer(Vector3 velocityF, float time)
     {
+        OnPlayerHit?.Invoke(this, EventArgs.Empty);
+
         rigidBody.velocity = velocityF;
 
         pushForce = velocityF.magnitude;
@@ -244,7 +260,7 @@ public class PlayerMovement : NetworkBehaviour
             yield return null;
 
             //Reduce the force if the ground isnt slide
-            if (!slide)
+            if (!isSliding)
             {
                 pushForce = pushForce - Time.deltaTime * delta;
                 pushForce = pushForce < 0 ? 0 : pushForce;
@@ -265,7 +281,7 @@ public class PlayerMovement : NetworkBehaviour
         }
     }
 
-    bool IsGrounded()
+    public bool IsGrounded()
     {
         return Physics.Raycast(transform.position, -Vector3.up, distToGround + 0.1f);
     }
@@ -302,7 +318,10 @@ public class PlayerMovement : NetworkBehaviour
 
     }
 
-
+    public float getVelocity()
+    {
+        return rigidBody.velocity.magnitude;
+    }
 }
 
 
