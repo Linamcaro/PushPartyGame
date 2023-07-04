@@ -192,7 +192,7 @@ public class PlayerMovement : NetworkBehaviour
                 else if (Mathf.Abs(rigidBody.velocity.magnitude) < moveSpeed * 1.0f)
                 {
                     rigidBody.AddForce(moveDir * 0.15f, ForceMode.VelocityChange);
-                    IsSliding();
+                    
                 }
             }
         }
