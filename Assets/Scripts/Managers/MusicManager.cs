@@ -21,7 +21,7 @@ public class MusicManager : MonoBehaviour
 
 
     private AudioSource audioSource;
-    private float volume = .3f;
+    private float volume = 1f;
 
 
     private void Awake()
@@ -30,7 +30,7 @@ public class MusicManager : MonoBehaviour
 
         audioSource = GetComponent<AudioSource>();
 
-        volume = PlayerPrefs.GetFloat(PLAYERPREFS_MUSICVOLUME, .3f);
+        volume = PlayerPrefs.GetFloat(PLAYERPREFS_MUSICVOLUME, .8f);
         audioSource.volume = volume;
     }
 
@@ -42,7 +42,7 @@ public class MusicManager : MonoBehaviour
         volume += .1f;
         if (volume > 1f)
         {
-            volume = 0f;
+            volume = 1f;
         }
         audioSource.volume = volume;
 
