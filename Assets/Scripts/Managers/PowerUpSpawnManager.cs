@@ -31,8 +31,11 @@ public class PowerUpSpawnManager : NetworkBehaviour
         GameObject objectToSpawn = powerUpSelected.powerUpObject;
 
         NetworkObject powerUp = NetworkObjectPool.Singleton.GetNetworkObject(objectToSpawn, spawnPos, Quaternion.identity);
+
+  
         powerUp.Spawn(true);
         Debug.Log("PowerUp Spawned " + powerUp);
+
 
 
         /*GameObject spawnedObject = Instantiate(objectToSpawn, spawnPos, objectToSpawn.transform.rotation);
@@ -72,7 +75,6 @@ public class PowerUpSpawnManager : NetworkBehaviour
 
 
         }
-
 
     }
 

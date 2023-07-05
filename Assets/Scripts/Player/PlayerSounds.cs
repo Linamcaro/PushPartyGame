@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,64 +6,77 @@ using UnityEngine;
 public class PlayerSounds : MonoBehaviour
 {
 
-    private PlayerMovement playerMovement;
     private float footstepTimer;
-    private float footstepTimerMax = .1f;
+    private float footstepTimerMax = 0.5f;
     private float volume = 1f;
 
+    private bool canPlaySound = true;
 
-    private void Awake() {
-        playerMovement = GetComponent<PlayerMovement>();
+
+    private void Start()
+    {
+       PlayerRespawn.Instance.OnPlayerFell += PlayerRespawm_OnPlayerFell;
     }
 
-    private void Update() {
+    private void Update() 
+    {
         FootStepSound();
-        JumpSound();
-        SlideSound();
+        PlayerJumpSound();
+        PlayerStunnedSound();
     }
+
+    private void PlayerRespawm_OnPlayerFell(object sender, EventArgs e)
+    {
+        if (canPlaySound)
+        {
+            SoundManager.Instance.PlayerFallingSound(gameObject.transform.position, volume);
+        }
+    }
+
 
     /// <summary>
     /// Play footstep sound if player is walking
     /// </summary>
     private void FootStepSound()
     {
-        footstepTimer -= Time.deltaTime;
-        if (footstepTimer < 0f)
-        {
-            footstepTimer = footstepTimerMax;
 
-            if (playerMovement.getVelocity() > 0f)
-            {
-               
-                SoundManager.Instance.PlayFootstepsSound(playerMovement.transform.position, volume);
-            }
+
+        if (PlayerMovement.PlayerMovementInstance.getVelocity() > 0f && canPlaySound)
+        {
+
+            SoundManager.Instance.PlayFootstepsSound(PlayerMovement.PlayerMovementInstance.transform.position, volume);
+            StartCoroutine(PlaySound());
         }
     }
 
     /// <summary>
     /// Play Jump sound when player jump
     /// </summary>
-    private void JumpSound()
+    private void PlayerJumpSound()
     {
-        if (playerMovement.isJumping)
+        if (PlayerMovement.PlayerMovementInstance.isJumping && canPlaySound)
         {
-            SoundManager.Instance.PlayJumpSound(playerMovement.transform.position, volume);
-           
+            SoundManager.Instance.PlayJumpSound(PlayerMovement.PlayerMovementInstance.transform.position, volume);
+            StartCoroutine(PlaySound());
         } 
     }
 
     /// <summary>
-    /// Play Slide Soubd when player Slide
+    /// Play stunned sound when player jump
     /// </summary>
-    private void SlideSound()
-    {
-        if (playerMovement.isSliding)
+    private void PlayerStunnedSound()
+    { 
+        if(PlayerMovement.PlayerMovementInstance.isStuned && canPlaySound)
         {
-            SoundManager.Instance.PlaySlideSound(playerMovement.transform.position, volume);
-
+            SoundManager.Instance.PlayStunnedSound(gameObject.transform.position, volume);
+            StartCoroutine(PlaySound());
         }
     }
 
-
-
+    IEnumerator PlaySound()
+    {
+        canPlaySound = false;
+        yield return new WaitForSeconds(1f);
+        canPlaySound = false;
+    }
 }

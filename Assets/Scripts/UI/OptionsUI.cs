@@ -5,7 +5,7 @@ using Unity.Netcode;
 
 public class OptionsUI : MonoBehaviour
 {
-    private static OptionsUI _instance;
+    /*private static OptionsUI _instance;
 
     public static OptionsUI Instance
     {
@@ -13,7 +13,7 @@ public class OptionsUI : MonoBehaviour
         {
             return _instance;
         }
-    }
+    }*/
 
     [SerializeField] private GameObject OptionsMenuUI;
 
@@ -23,25 +23,7 @@ public class OptionsUI : MonoBehaviour
         Hide();
     }
 
-    
-    private void OnEscapeButtonPressed()
-    {
-        if (PlayerController.Instance.OptionsMenu())
-        {
-            Show();
-        }
-    }
-
-
-    public void SoundEffectsButton()
-    {
-        SoundManager.Instance.ChangeVolume();
-    }
-
-    public void MusicButton()
-    {
-        MusicManager.Instance.ChangeVolume();
-    }
+   
 
     public void CloseButton()
     {

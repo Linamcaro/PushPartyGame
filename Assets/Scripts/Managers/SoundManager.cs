@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SoundManager : MonoBehaviour
 {
@@ -18,13 +19,16 @@ public class SoundManager : MonoBehaviour
 
     [SerializeField] private AudioClipsSO audioClipsSO;
 
-    private float volume = 1f;
+    private float volume = 0f;
+
+    
 
     private void Awake()
     {
         _instance = this;
 
-        volume = PlayerPrefs.GetFloat(PLAYERPREFS_SOUNDEFFECTS_VOLUME, 1f);
+        volume = PlayerPrefs.GetFloat(PLAYERPREFS_SOUNDEFFECTS_VOLUME, 0f);
+
     }
 
     /// <summary>
@@ -75,9 +79,9 @@ public class SoundManager : MonoBehaviour
     /// </summary>
     /// <param name="position"></param>
     /// <param name="volume"></param>
-    public void PlaySlideSound(Vector3 position, float volume)
+    public void PlayerWinsLiveSound(Vector3 position, float volume)
     {
-        PlayRandomSound(audioClipsSO.playerSlide, position, volume);
+        PlayRandomSound(audioClipsSO.playerWinsLive, position, volume);
     }
 
     /// <summary>
@@ -85,19 +89,9 @@ public class SoundManager : MonoBehaviour
     /// </summary>
     /// <param name="position"></param>
     /// <param name="volume"></param>
-    public void PlayAttackSound(Vector3 position, float volume)
+    public void PlayerPowerUpSound(Vector3 position, float volume)
     {
-        PlayRandomSound(audioClipsSO.playerAtack, position, volume);
-    }
-
-    /// <summary>
-    /// Play audio when player falls
-    /// </summary>
-    /// <param name="position"></param>
-    /// <param name="volume"></param>
-    public void PlayFallingSound(Vector3 position, float volume)
-    {
-        PlayRandomSound(audioClipsSO.playerFalling, position, volume);
+        PlayRandomSound(audioClipsSO.playerPowerUp, position, volume);
     }
 
     /// <summary>
@@ -119,17 +113,35 @@ public class SoundManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Play sound when jumping
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="volume"></param>
+    public void PlayStunnedSound(Vector3 position, float volume)
+    {
+        PlayRandomSound(audioClipsSO.playerStunned, position, volume);
+    }
+
+    public void PlayerFallingSound(Vector3 position, float volume)
+    {
+        PlayRandomSound(audioClipsSO.playerFalling, position, volume);
+    }
+
+    public void PlayerMenuSound()
+    {
+        PlayRandomSound(audioClipsSO.ButtonsClick, Vector3.zero);
+    }
+
+
+    /// <summary>
     /// Change the sound volume
     /// </summary>
-    public void ChangeVolume()
+    public void ChangeVolume(float volumeChanged)
     {
-        volume += .1f;
-        if (volume > 1f)
-        {
-            volume = 0f;
-        }
+        volume = volumeChanged;
 
         PlayerPrefs.SetFloat(PLAYERPREFS_SOUNDEFFECTS_VOLUME, volume);
+       
         PlayerPrefs.Save();
     }
 
@@ -137,5 +149,6 @@ public class SoundManager : MonoBehaviour
     {
         return volume;
     }
+
 
 }

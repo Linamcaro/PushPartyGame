@@ -45,7 +45,9 @@ public class PlayerMovement : NetworkBehaviour
     public bool isRunning { get; private set; }
     public bool isJumping { get; private set; }
     public bool isSliding { get; private set; }
-    private bool isStuned = false;
+    public bool isStuned { get; private set; }
+    public bool isWalking { get; private set; }
+
     private bool wasStuned = false;
     private float pushForce;
     private Vector3 pushDir;
@@ -201,6 +203,7 @@ public class PlayerMovement : NetworkBehaviour
                 // check if can jump and apply velocity
                 if (IsGrounded() && jump)
                 {
+                    isJumping = true;
                     rigidBody.velocity = new Vector3(velocity.x, CalculateJumpVerticalSpeed(), velocity.z);
                     OnPlayerJump?.Invoke(this, EventArgs.Empty);
                 }

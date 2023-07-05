@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Netcode.Extensions;
+using Unity.Netcode;
 using UnityEngine;
 
-public class LivePowerUp : MonoBehaviour
+public class LivePowerUp : NetworkBehaviour
 {
     // Start is called before the first frame update
     public GameObject lifeEffect;
@@ -19,7 +21,8 @@ public class LivePowerUp : MonoBehaviour
     {
         Instantiate(lifeEffect, transform.position, transform.rotation);
         PlayerSpawn.Instance.IncreasePlayerLives();
-        Destroy(gameObject);
+
+        NetworkObjectPool.Singleton.ReturnNetworkObject(NetworkObject, gameObject);
     }
 
 }
