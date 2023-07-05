@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Netcode.Extensions;
+using Unity.Netcode;
 using UnityEngine;
 
-public class FreezePosition : MonoBehaviour
+public class FreezePosition : NetworkBehaviour
 {
     public string playerTag = "Player";
     public float freezeDuration = 50f;
@@ -53,7 +55,7 @@ public class FreezePosition : MonoBehaviour
                 }
             }
         }
-        Destroy(this.gameObject);
+        NetworkObjectPool.Singleton.ReturnNetworkObject(this.NetworkObject, this.gameObject);
     }
 
     private void OnTriggerExit(Collider other)

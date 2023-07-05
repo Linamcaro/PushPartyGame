@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Netcode.Extensions;
+using Unity.Netcode;
 using UnityEngine;
 
-public class InmunityPowerUp : MonoBehaviour
+public class InmunityPowerUp : NetworkBehaviour
 {
     public GameObject inmunityEffect;
     private float multiplier = 1.4f;
@@ -23,11 +25,13 @@ public class InmunityPowerUp : MonoBehaviour
         if (other.CompareTag("Player"))
         {
 
-           PlayerSpawn.Instance.CallInmunity(other);
+            PlayerSpawn.Instance.CallInmunity(other);
 
             //  PlayerSpawn stats =  other.GetComponent<PlayerRespawn>();
             //stats.CallInmunity(other);
-            Destroy(gameObject);
+
+            NetworkObjectPool.Singleton.ReturnNetworkObject(NetworkObject, gameObject);
+            
         }
     }
 

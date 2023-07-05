@@ -13,7 +13,7 @@ public class PlayerAnimator : NetworkBehaviour
     {
         player = GetComponent<PlayerMovement>();
         animator = GetComponent<Animator>();
-        networkAnimator = GetComponent<NetworkAnimator>();
+        //networkAnimator = GetComponent<NetworkAnimator>();
 
         player.OnPlayerHit += playerTriggerHit;
         player.OnPlayerJump += playerTriggerJump;
@@ -26,7 +26,8 @@ public class PlayerAnimator : NetworkBehaviour
             return;
         }
 
-        animator.SetFloat("Speed", player.getVelocity());
+
+        animator.SetFloat("Speed", 1);
         animator.SetBool("isStunned", !player.canMove);
 
         animator.SetBool("isGrounded", player.IsGrounded());
