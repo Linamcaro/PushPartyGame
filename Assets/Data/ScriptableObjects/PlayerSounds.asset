@@ -19,7 +19,7 @@ MonoBehaviour:
   playerPowerUp:
   - {fileID: 8300000, guid: 21db24b6da005f34c8a6a602945eeb20, type: 3}
   footsteps:
-  - {fileID: 8300000, guid: 55a347b86561ddb42bedaef180ed91c9, type: 3}
+  - {fileID: 8300000, guid: 428e7fc82c377ee4790a6f62d45a6629, type: 3}
   playerJump:
   - {fileID: 8300000, guid: 3397267d556a31f4780457cd1c96e525, type: 3}
   - {fileID: 8300000, guid: 372de9da0c2d43c4d897dd80c215f578, type: 3}
