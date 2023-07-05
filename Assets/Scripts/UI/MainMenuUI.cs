@@ -16,10 +16,15 @@ public class MainMenuUI : MonoBehaviour
 
     public void QuitButton()
     {
-        SoundManager.Instance.PlayerMenuSound();
+        
         LoadScenes.QuitGame();
         Debug.Log("Main Scene called");
     }
 
+
+    /*public void MenuSound()
+    {
+        SoundManager.Instance.PlayerMenuSound();
+    }*/
 
 }

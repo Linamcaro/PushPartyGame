@@ -61,7 +61,7 @@ public class PlayerMovement : NetworkBehaviour
     {
         if (!IsOwner) return;
 
-        playerAnimator = GetComponent<PlayerAnimator>();
+
 
         rigidBody = GetComponent<Rigidbody>();
         rigidBody.freezeRotation = true;
