@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: 4199609635835279147}
   - component: {fileID: 1171606640102520973}
   - component: {fileID: 8781096564708639303}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: boxeglove_model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 5707623006523398350}
   - component: {fileID: 1788867316034827751}
   - component: {fileID: 2974753833908663488}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: g_RetopoGroup1_RetopoGroup1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -296,7 +296,7 @@ GameObject:
   - component: {fileID: 4762389165170932283}
   - component: {fileID: 4045179039796284285}
   - component: {fileID: 3519356135468006540}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: g_RetopoGroup2_RetopoGroup2
   m_TagString: Untagged
   m_Icon: {fileID: 0}

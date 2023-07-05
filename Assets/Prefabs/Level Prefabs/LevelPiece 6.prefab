@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1752417912287046633}
   - component: {fileID: 4590612261528559395}
   - component: {fileID: 474099094027809520}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: stick
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -156,7 +156,7 @@ GameObject:
   - component: {fileID: 2759784165236681817}
   - component: {fileID: 1430231704070092797}
   - component: {fileID: 8969768586032210506}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -267,7 +267,7 @@ GameObject:
   - component: {fileID: 7471292284203251048}
   - component: {fileID: 8478114964196168422}
   - component: {fileID: 6076141567033879001}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: mallet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
