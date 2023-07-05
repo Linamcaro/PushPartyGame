@@ -42,6 +42,7 @@ public class PlayerMovement : NetworkBehaviour
 
     //Helper Variables
     public bool canMove { get; private set; }
+    public bool isRunning { get; private set; }
     public bool isJumping { get; private set; }
     public bool isSliding { get; private set; }
     private bool isStuned = false;
@@ -105,7 +106,8 @@ public class PlayerMovement : NetworkBehaviour
         Vector3 verticalMovement = inputMovement.y * cam.transform.forward; //Vertical axis to which I want to move with respect to the camera
         Vector3 horizontalMovement = inputMovement.x * cam.transform.right; //Horizontal axis to which I want to move with respect to the camera
         moveDir = (verticalMovement + horizontalMovement).normalized; //Global position to which I want to move in magnitude 1
-        //moveDir = new Vector3(inputMovement.x, 0, inputMovement.y);
+
+        isRunning = moveDir.magnitude > 0;
 
         RaycastHit hit;
         if (Physics.Raycast(transform.position, -Vector3.up, out hit, distToGround + 0.1f))
@@ -119,7 +121,6 @@ public class PlayerMovement : NetworkBehaviour
                 isSliding = false;
             }
         }
-
 
     }
 

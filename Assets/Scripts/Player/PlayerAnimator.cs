@@ -18,17 +18,18 @@ public class PlayerAnimator : NetworkBehaviour
         player.OnPlayerHit += playerTriggerHit;
         player.OnPlayerJump += playerTriggerJump;
         player.OnPlayerAttack1 += playerTriggerAttack1;
+
     }
 
     private void Update()
     {
         if(!IsOwner) return;
 
-        //animator.SetFloat("Speed", player.getVelocity());
+        animator.SetBool("isRunning", player.isRunning);
+
         animator.SetBool("isStunned", !player.canMove);
 
-        animator.SetBool("isGrounded", true);//player.IsGrounded()
-
+        animator.SetBool("isGrounded", player.IsGrounded());
     }
 
     public void playerTriggerHit(object sender, EventArgs args)
@@ -45,6 +46,5 @@ public class PlayerAnimator : NetworkBehaviour
     {
         netWorkAnimator.SetTrigger("Attack1");
     }
-
 
 }
