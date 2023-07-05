@@ -1,14 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using  UnityEngine.UI;
 public class MusicManager : MonoBehaviour
 {
 
 
     private const string PLAYERPREFS_MUSICVOLUME = "MusicVolume";
 
-
+    [SerializeField] private Slider volumeSlider;
     private static MusicManager _instance;
     public static MusicManager Instance
     {
@@ -21,7 +21,7 @@ public class MusicManager : MonoBehaviour
 
 
     private AudioSource audioSource;
-    private float volume = .3f;
+    private float volume;
 
 
     private void Awake()
@@ -39,16 +39,14 @@ public class MusicManager : MonoBehaviour
     /// </summary>
     public void ChangeVolume()
     {
-        volume += .1f;
-        if (volume > 1f)
-        {
-            volume = 0f;
-        }
+        volume = volumeSlider.value;
+
         audioSource.volume = volume;
 
         PlayerPrefs.SetFloat(PLAYERPREFS_MUSICVOLUME, volume);
         PlayerPrefs.Save();
     }
+
 
     public float GetVolume()
     {
