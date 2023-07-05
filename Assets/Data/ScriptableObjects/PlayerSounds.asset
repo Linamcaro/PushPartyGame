@@ -16,11 +16,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 148d178cd7041724f8f50c53de6b4fc9, type: 3}
   playerFalling:
   - {fileID: 8300000, guid: e8db7ccd2948f3a47a65ac08cb118000, type: 3}
-  - {fileID: 8300000, guid: ff2062484f5ecab4aaf1de54ce8a7f4f, type: 3}
   playerPowerUp:
   - {fileID: 8300000, guid: 21db24b6da005f34c8a6a602945eeb20, type: 3}
   footsteps:
-  - {fileID: 0}
+  - {fileID: 8300000, guid: 55a347b86561ddb42bedaef180ed91c9, type: 3}
   playerJump:
   - {fileID: 8300000, guid: 3397267d556a31f4780457cd1c96e525, type: 3}
   - {fileID: 8300000, guid: 372de9da0c2d43c4d897dd80c215f578, type: 3}
@@ -29,11 +28,11 @@ MonoBehaviour:
   obstacleHittingPlayer:
   - {fileID: 8300000, guid: 4ef284437ff7a5b49ac9a4e97a11a4f0, type: 3}
   CountDown:
-  - {fileID: 0}
+  - {fileID: 8300000, guid: b70cd27d6234c5a4ba1b6a58e01e747e, type: 3}
   ButtonsClick:
   - {fileID: 8300000, guid: 6cce3411323ea2a42b536c31192bec04, type: 3}
   playerReadyCharacterSelect:
-  - {fileID: 0}
+  - {fileID: 8300000, guid: 7b0e9698eddaa8041926cf893d1fef01, type: 3}
   playerWins:
   - {fileID: 8300000, guid: 00e46e91288335143868396fa9f3febe, type: 3}
   playerLose:
