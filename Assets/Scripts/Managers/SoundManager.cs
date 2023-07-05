@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SoundManager : MonoBehaviour
 {
@@ -18,19 +19,16 @@ public class SoundManager : MonoBehaviour
 
     [SerializeField] private AudioClipsSO audioClipsSO;
 
-    private float volume = 1f;
+    private float volume = 0f;
+
+    
 
     private void Awake()
     {
         _instance = this;
 
-        volume = PlayerPrefs.GetFloat(PLAYERPREFS_SOUNDEFFECTS_VOLUME, 1f);
-        DontDestroyOnLoad(gameObject);
-    }
+        volume = PlayerPrefs.GetFloat(PLAYERPREFS_SOUNDEFFECTS_VOLUME, 0f);
 
-    private void Start()
-    {
-    
     }
 
     /// <summary>
@@ -129,19 +127,21 @@ public class SoundManager : MonoBehaviour
         PlayRandomSound(audioClipsSO.playerFalling, position, volume);
     }
 
+    public void PlayerMenuSound()
+    {
+        PlayRandomSound(audioClipsSO.ButtonsClick, Vector3.zero);
+    }
+
 
     /// <summary>
     /// Change the sound volume
     /// </summary>
-    public void ChangeVolume()
+    public void ChangeVolume(float volumeChanged)
     {
-        volume += .1f;
-        if (volume > 1f)
-        {
-            volume = 0f;
-        }
+        volume = volumeChanged;
 
         PlayerPrefs.SetFloat(PLAYERPREFS_SOUNDEFFECTS_VOLUME, volume);
+       
         PlayerPrefs.Save();
     }
 

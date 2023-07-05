@@ -38,8 +38,6 @@ public class PowerUpSpawnManager : NetworkBehaviour
 
 
 
-
-
         /*GameObject spawnedObject = Instantiate(objectToSpawn, spawnPos, objectToSpawn.transform.rotation);
         //spawnedObject.GetComponent<NetworkObject>().Spawn(true);*/
 
