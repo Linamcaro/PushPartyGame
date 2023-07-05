@@ -10,7 +10,6 @@ public class PlayerSounds : MonoBehaviour
 
     private float footstepTimer;
     private float footstepTimerMax = .1f;
-    private float volume = 0f;
 
 
     public event EventHandler OnPlayerFell;
@@ -30,7 +29,7 @@ public class PlayerSounds : MonoBehaviour
 
     private void PlayerRespawm_OnPlayerFell(object sender, EventArgs e)
     {
-        SoundManager.Instance.PlayerFallingSound(gameObject.transform.position, volume);
+        SoundManager.Instance.PlayerFallingSound(gameObject.transform.position);
     }
 
 
@@ -47,7 +46,7 @@ public class PlayerSounds : MonoBehaviour
             if (PlayerMovement.PlayerMovementInstance.getVelocity() > 0f)
             {
                
-                SoundManager.Instance.PlayFootstepsSound(PlayerMovement.PlayerMovementInstance.transform.position, volume);
+                SoundManager.Instance.PlayFootstepsSound(PlayerMovement.PlayerMovementInstance.transform.position);
             }
         }
     }
@@ -59,7 +58,7 @@ public class PlayerSounds : MonoBehaviour
     {
         if (PlayerMovement.PlayerMovementInstance.isJumping)
         {
-            SoundManager.Instance.PlayJumpSound(PlayerMovement.PlayerMovementInstance.transform.position, volume);
+            SoundManager.Instance.PlayJumpSound(PlayerMovement.PlayerMovementInstance.transform.position);
            
         } 
     }
@@ -71,7 +70,7 @@ public class PlayerSounds : MonoBehaviour
     {
         if(PlayerMovement.PlayerMovementInstance.isStuned)
         {
-            SoundManager.Instance.PlayStunnedSound(gameObject.transform.position, volume);
+            SoundManager.Instance.PlayStunnedSound(gameObject.transform.position);
         }
     }
 

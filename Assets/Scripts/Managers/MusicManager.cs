@@ -32,6 +32,7 @@ public class MusicManager : MonoBehaviour
 
         volume = PlayerPrefs.GetFloat(PLAYERPREFS_MUSICVOLUME, .3f);
         audioSource.volume = volume;
+        volumeSlider.value = volume;
     }
 
     /// <summary>
@@ -45,6 +46,7 @@ public class MusicManager : MonoBehaviour
 
         PlayerPrefs.SetFloat(PLAYERPREFS_MUSICVOLUME, volume);
         PlayerPrefs.Save();
+        volumeSlider.value = volume;
     }
 
 
