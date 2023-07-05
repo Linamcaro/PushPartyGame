@@ -34907,8 +34907,15 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.1
-    functionName: ActivatePunchCollider
+  - time: 0.033333335
+    functionName: ActivatePunch
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.53333336
+    functionName: DeactivatePunch
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

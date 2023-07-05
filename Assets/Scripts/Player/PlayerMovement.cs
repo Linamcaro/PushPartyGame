@@ -18,7 +18,6 @@ public class PlayerMovement : NetworkBehaviour
     }
 
     [SerializeField] private List<Vector3> spawnPositions;
-    private PlayerAnimator playerAnimator;
 
     //events
     public event EventHandler OnPlayerHit;
@@ -27,15 +26,15 @@ public class PlayerMovement : NetworkBehaviour
 
     //Player jumping
     [SerializeField] private float moveSpeed = 10.0f;
-    [SerializeField] public float airVelocity = 8f;
-    [SerializeField] public float gravity = 10.0f;
-    [SerializeField] public float maxVelocityChange = 10.0f;
-    [SerializeField] public float jumpHeight = 2f;
-    [SerializeField] public float maxFallSpeed = 20.0f;
-    [SerializeField] public float rotateSpeed = 25f;
+    [SerializeField] private float airVelocity = 8f;
+    [SerializeField] private float gravity = 10.0f;
+    [SerializeField] private float maxVelocityChange = 10.0f;
+    [SerializeField] private float jumpHeight = 2f;
+    [SerializeField] private float maxFallSpeed = 20.0f;
+    [SerializeField] private float rotateSpeed = 25f;
     public Vector3 moveDir { get; private set; }
     private GameObject cam;
-    private Rigidbody rigidBody;
+    [HideInInspector]public Rigidbody rigidBody;
 
     [SerializeField] private CinemachineFreeLook cmCamera;
 
@@ -58,8 +57,8 @@ public class PlayerMovement : NetworkBehaviour
     public float attackForce = 25f;
     public float attackStunTime = 1f;
     public float attackCoolDown = 0.5f;
-    private bool canAttack;
-    public GameObject punchObj;
+    public bool canAttack { get; private set; }
+    public bool isAttacking { get; private set; }
 
 
     //-----------------------------------------------------------------------------------------------------------
@@ -68,8 +67,6 @@ public class PlayerMovement : NetworkBehaviour
     {
         if (!IsOwner) return;
 
-        playerAnimator = GetComponent<PlayerAnimator>();
-
         rigidBody = GetComponent<Rigidbody>();
         rigidBody.freezeRotation = true;
         rigidBody.useGravity = false;
@@ -77,6 +74,7 @@ public class PlayerMovement : NetworkBehaviour
         isSliding = false;
         canMove = true;
         canAttack = true;
+        isAttacking = false;
 
     }
 
@@ -122,7 +120,7 @@ public class PlayerMovement : NetworkBehaviour
             }
         }
 
-        
+
     }
 
     //-----------------------------------------------------------------------------------------------------------
@@ -208,7 +206,6 @@ public class PlayerMovement : NetworkBehaviour
 
                 if (Attack1 && canAttack)
                 {
-                    ActivatePunchCollider();
                     OnPlayerAttack1?.Invoke(this, EventArgs.Empty);
                     canAttack = false;
                     Invoke(nameof(ResetAttack), attackCoolDown);
@@ -264,6 +261,11 @@ public class PlayerMovement : NetworkBehaviour
     public void HitPlayer(Vector3 velocityF, float time)
     {
         OnPlayerHit?.Invoke(this, EventArgs.Empty);
+
+        rigidBody = GetComponent<Rigidbody>();
+
+        if (rigidBody == null) Debug.LogError("RB error");
+        if (velocityF == null) Debug.LogError("velF error");
 
         rigidBody.velocity = velocityF;
 
@@ -369,42 +371,23 @@ public class PlayerMovement : NetworkBehaviour
     }
 
     //-----------------------------------------------------------------------------------------------------------
-
-    public void ActivatePunchCollider()
-    {
-        punchObj.SetActive(true);
-    }
-
-    //-----------------------------------------------------------------------------------------------------------
-
-    public void DeactivatePunchCollider()
-    {
-        punchObj.SetActive(false);
-    }
-
-    //-----------------------------------------------------------------------------------------------------------
     void ResetAttack()
     {
         canAttack = true;
-        DeactivatePunchCollider();
     }
 
     //-----------------------------------------------------------------------------------------------------------
-
-    /// <summary>
-    /// when a trigger collider enters it cheks if it has a "Punch" tag and if it has the player get hit
-    /// </summary>
-    /// <param name="other"></param>
-    private void OnTriggerEnter(Collider other)
+    public void ActivatePunch()
     {
-        if (other.CompareTag("Punch"))
-        {
-            Vector3 otherPosition = other.transform.position;
-            Vector3 pushDirection = (otherPosition - transform.position).normalized;
-            HitPlayer(-pushDirection * attackForce, attackStunTime);
-        }
-        DeactivatePunchCollider();
+        isAttacking = true;
     }
+
+    //-----------------------------------------------------------------------------------------------------------
+    public void DeactivatePunch()
+    {
+        isAttacking = false;
+    }
+
 }
 
 
