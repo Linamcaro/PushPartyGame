@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,15 +10,29 @@ public class PlayerSounds : MonoBehaviour
 
     private float footstepTimer;
     private float footstepTimerMax = .1f;
-    private float volume = 1f;
+    private float volume = 0f;
 
+
+    public event EventHandler OnPlayerFell;
+
+
+    private void Start()
+    {
+        PlayerRespawn.Instance.OnPlayerFell += PlayerRespawm_OnPlayerFell;
+    }
 
   
-
     private void Update() {
         FootStepSound();
         JumpSound();
+        PlayerStunnedSound();
     }
+
+    private void PlayerRespawm_OnPlayerFell(object sender, EventArgs e)
+    {
+        SoundManager.Instance.PlayerFallingSound(gameObject.transform.position, volume);
+    }
+
 
     /// <summary>
     /// Play footstep sound if player is walking
@@ -32,7 +47,7 @@ public class PlayerSounds : MonoBehaviour
             if (PlayerMovement.PlayerMovementInstance.getVelocity() > 0f)
             {
                
-                //SoundManager.Instance.PlayFootstepsSound(playerMovement.transform.position, volume);
+                SoundManager.Instance.PlayFootstepsSound(PlayerMovement.PlayerMovementInstance.transform.position, volume);
             }
         }
     }
@@ -44,13 +59,30 @@ public class PlayerSounds : MonoBehaviour
     {
         if (PlayerMovement.PlayerMovementInstance.isJumping)
         {
-            float volume = 1f;
             SoundManager.Instance.PlayJumpSound(PlayerMovement.PlayerMovementInstance.transform.position, volume);
            
         } 
     }
 
+    /// <summary>
+    /// Play stunned sound when player jump
+    /// </summary>
+    private void PlayerStunnedSound()
+    {
+        if(PlayerMovement.PlayerMovementInstance.isStuned)
+        {
+            SoundManager.Instance.PlayStunnedSound(gameObject.transform.position, volume);
+        }
+    }
+
+    
 
 
+
+
+    /*IEnumerator SoundDelay()
+    {
+        
+    }*/
 
 }

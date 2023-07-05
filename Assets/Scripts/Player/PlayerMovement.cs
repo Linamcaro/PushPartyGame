@@ -25,8 +25,6 @@ public class PlayerMovement : NetworkBehaviour
     public event EventHandler OnPlayerHit;
     public event EventHandler OnPlayerJump;
 
-
-
     //Player jumping
     [SerializeField] private float moveSpeed = 10.0f;
     [SerializeField] public float airVelocity = 8f;
