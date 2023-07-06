@@ -13,6 +13,7 @@ using Unity.Services.Lobbies.Models;
 using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameLobby : MonoBehaviour
 {
@@ -21,10 +22,15 @@ public class GameLobby : MonoBehaviour
 
     private Lobby joinedLobby;
     private float heatBeatTimer;
-    private float ListLobbiesTimer;
+    private float listLobbiesTimer;
 
+    public event EventHandler OnCreateLobbyStarted;
+    public event EventHandler OnCreateLobbyFailed;
+    public event EventHandler OnJoinStarted;
+    public event EventHandler OnQuickJoinFailed;
     public event EventHandler OnJoinFailed;
-    public event EventHandler OnLobbyListChanged;
+    public event EventHandler<OnLobbyListChangedEventArgs> OnLobbyListChanged;
+ 
     public class OnLobbyListChangedEventArgs : EventArgs
     {
         public List<Lobby> lobbyList;
@@ -46,7 +52,7 @@ public class GameLobby : MonoBehaviour
         {
             InitializationOptions initializationOptions = new InitializationOptions();
             //Initialize with different name everytime
-            initializationOptions.SetProfile(Random.Range(0, 10000).ToString());
+            initializationOptions.SetProfile(UnityEngine.Random.Range(0, 10000).ToString());
             await UnityServices.InitializeAsync(initializationOptions);
 
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
@@ -106,7 +112,7 @@ public class GameLobby : MonoBehaviour
     ///Create and join a Lobby
     public async void CreateLobby(string lobbyName, bool isPrivate)
     {
-        
+        OnCreateLobbyStarted?.Invoke(this, EventArgs.Empty);
         try
         {
             //returns a lobby
@@ -137,6 +143,7 @@ public class GameLobby : MonoBehaviour
         catch (LobbyServiceException e)
         {
             Debug.Log(e);
+            OnCreateLobbyFailed?.Invoke(this, EventArgs.Empty);
         }
 
     }
@@ -144,6 +151,7 @@ public class GameLobby : MonoBehaviour
     ///Join the lobby
     public async void QuickJoin()
     {
+        OnJoinStarted?.Invoke(this, EventArgs.Empty);
         try
         {
             joinedLobby = await LobbyService.Instance.QuickJoinLobbyAsync();
@@ -160,28 +168,33 @@ public class GameLobby : MonoBehaviour
         catch (LobbyServiceException e)
         {
             Debug.Log(e);
+            OnJoinFailed?.Invoke(this, EventArgs.Empty);
         }
     }
 
     private void Update()
     {
         HandleHeartbeat();
-        //HandlePeriodicListLobbies();
+        HandlePeriodicListLobbies();
     }
 
-    /*private void HandlePeriodicListLobbies()
+    private void HandlePeriodicListLobbies()
     {
-        if (joinedLobby == null && AuthenticationService.Instance.IsSignedIn)
+        if (joinedLobby == null &&
+            UnityServices.State == ServicesInitializationState.Initialized &&
+            AuthenticationService.Instance.IsSignedIn &&
+            SceneManager.GetActiveScene().name == LoadScenes.Scene.Lobby.ToString())
         {
-            ListLobbiesTimer -= Time.deltaTime;
-            if (ListLobbiesTimer <= 0f)
+
+            listLobbiesTimer -= Time.deltaTime;
+            if (listLobbiesTimer <= 0f)
             {
-                float listLobbiesTimerMax = 3;
-                ListLobbiesTimer = listLobbiesTimerMax;
+                float listLobbiesTimerMax = 3f;
+                listLobbiesTimer = listLobbiesTimerMax;
                 ListLobbies();
             }
         }
-    }*/
+    }
 
 
     private void HandleHeartbeat()
@@ -207,30 +220,31 @@ public class GameLobby : MonoBehaviour
         return joinedLobby != null && joinedLobby.HostId == AuthenticationService.Instance.PlayerId;
     }
 
-    /*private async void ListLobbies()
+    /// <summary>
+    /// List lobbies
+    /// </summary>
+    private async void ListLobbies()
     {
         try
         {
             QueryLobbiesOptions queryLobbiesOptions = new QueryLobbiesOptions
             {
-                Filters = new List<QueryFilter>
-            {
-                new QueryFilter(QueryFilter.FieldOptions.AvailableSlots,"0", QueryFilter.OpOptions.GT)
-            }
+                Filters = new List<QueryFilter> {
+                  new QueryFilter(QueryFilter.FieldOptions.AvailableSlots, "0", QueryFilter.OpOptions.GT)
+             }
             };
             QueryResponse queryResponse = await LobbyService.Instance.QueryLobbiesAsync(queryLobbiesOptions);
+
             OnLobbyListChanged?.Invoke(this, new OnLobbyListChangedEventArgs
             {
-
                 lobbyList = queryResponse.Results
-
             });
         }
         catch (LobbyServiceException e)
         {
             Debug.Log(e);
         }
-    }*/
+    }
 
 
     /// <summary>
@@ -239,6 +253,7 @@ public class GameLobby : MonoBehaviour
     /// <param name="lobbyCode"></param>
     public async void JoinWithCode(string lobbyCode)
     {
+        OnJoinStarted?.Invoke(this, EventArgs.Empty);
         try
         {
             joinedLobby = await LobbyService.Instance.JoinLobbyByCodeAsync(lobbyCode);
@@ -254,8 +269,32 @@ public class GameLobby : MonoBehaviour
         catch (LobbyServiceException e)
         {
             Debug.Log(e);
+            OnJoinFailed?.Invoke(this, EventArgs.Empty);
         }
     }
+
+    public async void JoinWithId(string lobbyId)
+    {
+        OnJoinStarted?.Invoke(this, EventArgs.Empty);
+        try
+        {
+            joinedLobby = await LobbyService.Instance.JoinLobbyByIdAsync(lobbyId);
+
+            string relayJoinCode = joinedLobby.Data[KEY_RELAY_JOIN_CODE].Value;
+
+            JoinAllocation joinAllocation = await JoinRelay(relayJoinCode);
+
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(joinAllocation, "dtls"));
+
+            MultiplayerManager.Instance.StartClient();
+        }
+        catch (LobbyServiceException e)
+        {
+            Debug.Log(e);
+            OnJoinFailed?.Invoke(this, EventArgs.Empty);
+        }
+    }
+
 
     /// <summary>
     /// Clean up and delete lobby when the game starts;
