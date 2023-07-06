@@ -1350,8 +1350,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 747077844}
-  - {fileID: 587946526}
   - {fileID: 2055729914}
+  - {fileID: 587946526}
   - {fileID: 1057139108}
   - {fileID: 742349700}
   - {fileID: 1493527747}
@@ -2855,7 +2855,7 @@ RectTransform:
   m_Children:
   - {fileID: 1664249583}
   m_Father: {fileID: 424195221}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -3824,7 +3824,7 @@ GameObject:
   m_Component:
   - component: {fileID: 716101679}
   - component: {fileID: 716101678}
-  - component: {fileID: 716101677}
+  - component: {fileID: 716101680}
   m_Layer: 0
   m_Name: MusicManager
   m_TagString: Untagged
@@ -3832,7 +3832,38 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!82 &716101677
+--- !u!114 &716101678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 716101676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67e37a12e92acc347b2e1b8e022de429, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioClips:
+  - {fileID: 8300000, guid: 2339144b1a8527a4c8496dcc222b48ba, type: 3}
+  - {fileID: 8300000, guid: 00e46e91288335143868396fa9f3febe, type: 3}
+  - {fileID: 8300000, guid: 0f7460f46d74ca446a6878d98c7404e7, type: 3}
+--- !u!4 &716101679
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 716101676}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 288.44904, y: 220.48311, z: -598.4581}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &716101680
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3844,9 +3875,9 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 2339144b1a8527a4c8496dcc222b48ba, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.08
+  m_Volume: 1
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -3928,33 +3959,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &716101678
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 716101676}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67e37a12e92acc347b2e1b8e022de429, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &716101679
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 716101676}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 288.44904, y: 220.48311, z: -598.4581}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 10
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &733791388
 GameObject:
   m_ObjectHideFlags: 0
@@ -7164,6 +7168,59 @@ PrefabInstance:
       propertyPath: m_Name
       value: LevelController
       objectReference: {fileID: 0}
+    - target: {fileID: 8159335752689170625, guid: 51876bafa7010e340a08ad26e6f28275,
+        type: 3}
+      propertyPath: levelPieces.Array.size
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 8159335752689170625, guid: 51876bafa7010e340a08ad26e6f28275,
+        type: 3}
+      propertyPath: levelPieces.Array.data[10].name
+      value: Speed
+      objectReference: {fileID: 0}
+    - target: {fileID: 8159335752689170625, guid: 51876bafa7010e340a08ad26e6f28275,
+        type: 3}
+      propertyPath: levelPieces.Array.data[11].name
+      value: Inmunity
+      objectReference: {fileID: 0}
+    - target: {fileID: 8159335752689170625, guid: 51876bafa7010e340a08ad26e6f28275,
+        type: 3}
+      propertyPath: levelPieces.Array.data[12].name
+      value: Lives
+      objectReference: {fileID: 0}
+    - target: {fileID: 8159335752689170625, guid: 51876bafa7010e340a08ad26e6f28275,
+        type: 3}
+      propertyPath: levelPieces.Array.data[10].prefab
+      value: 
+      objectReference: {fileID: 4041470007389413132, guid: 7c0ccd5e588d2ae44be1c9bd653b7ba2,
+        type: 3}
+    - target: {fileID: 8159335752689170625, guid: 51876bafa7010e340a08ad26e6f28275,
+        type: 3}
+      propertyPath: levelPieces.Array.data[11].prefab
+      value: 
+      objectReference: {fileID: 2684454725753123329, guid: 661307aa0bdd2b64da112d23e49f455a,
+        type: 3}
+    - target: {fileID: 8159335752689170625, guid: 51876bafa7010e340a08ad26e6f28275,
+        type: 3}
+      propertyPath: levelPieces.Array.data[12].prefab
+      value: 
+      objectReference: {fileID: 4333854071225382230, guid: dab5ade54a44a9645b7460f6ec82c401,
+        type: 3}
+    - target: {fileID: 8159335752689170625, guid: 51876bafa7010e340a08ad26e6f28275,
+        type: 3}
+      propertyPath: levelPieces.Array.data[10].probability
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8159335752689170625, guid: 51876bafa7010e340a08ad26e6f28275,
+        type: 3}
+      propertyPath: levelPieces.Array.data[11].probability
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8159335752689170625, guid: 51876bafa7010e340a08ad26e6f28275,
+        type: 3}
+      propertyPath: levelPieces.Array.data[12].probability
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8159335752689170630, guid: 51876bafa7010e340a08ad26e6f28275,
         type: 3}
       propertyPath: m_RootOrder
@@ -8214,7 +8271,7 @@ RectTransform:
   m_Children:
   - {fileID: 1752085921}
   m_Father: {fileID: 424195221}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

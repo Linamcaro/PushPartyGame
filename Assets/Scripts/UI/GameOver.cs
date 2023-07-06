@@ -40,13 +40,14 @@ public class GameOver : MonoBehaviour
             
             if(PlayerSpawn.Instance.GetPlayerLives() > 0)
             {
-
                 ShowWinner();
+                
+
             }
             else
             {
                 ShowLoser();
-
+                
             }
         }
     }
