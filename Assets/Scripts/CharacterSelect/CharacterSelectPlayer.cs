@@ -13,16 +13,16 @@ public class CharacterSelectPlayer : MonoBehaviour
     [SerializeField] private GameObject readyGameObject;
     [SerializeField] private GameObject playerLight;
     [SerializeField] private TextMeshPro playerNameText;
-    [SerializeField] private Button KickButton;
+   // [SerializeField] private Button KickButton;
 
     private void Awake()
     {
-        KickButton.onClick.AddListener(() =>
+        /*KickButton.onClick.AddListener(() =>
         {
             PlayerData playerData = MultiplayerManager.Instance.GetPlayerDataFromPlayerIndex(playerIndex);
             GameLobby.Instance.KickPlayer(playerData.playerId.ToString());
             MultiplayerManager.Instance.KickPlayer(playerData.clientId);
-        });
+        });*/
     
     }
 
@@ -76,5 +76,10 @@ public class CharacterSelectPlayer : MonoBehaviour
     private void Hide()
     {
         gameObject.SetActive(false);
+    }
+
+    private void OnDestroy()
+    {
+        MultiplayerManager.Instance.OnPlayerDataNetworkListChanged -= MultiplayerManager_OnPlayerDataNetworkListChanged;
     }
 }

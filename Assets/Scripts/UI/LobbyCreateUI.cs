@@ -2,26 +2,45 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LobbyCreateUI : MonoBehaviour
 {
 
+    [SerializeField] private Button closeButton;
+    [SerializeField] private Button createPublicButton;
+    [SerializeField] private Button createPrivateButton;
+    [SerializeField] private TMP_InputField lobbyNameInputField;
 
-    [SerializeField] TMP_InputField lobbyNameInputField;
 
-    public void createPublicButton()
-    {
-        GameLobby.Instance.CreateLobby(lobbyNameInputField.text, false);
-    }
-
-    public void createPrivateButton()
-    {
-        GameLobby.Instance.CreateLobby(lobbyNameInputField.text, true);
-    }
 
     private void Awake()
     {
-        
+        createPublicButton.onClick.AddListener(() => {
+            GameLobby.Instance.CreateLobby(lobbyNameInputField.text, false);
+        });
+        createPrivateButton.onClick.AddListener(() => {
+            GameLobby.Instance.CreateLobby(lobbyNameInputField.text, true);
+        });
+        closeButton.onClick.AddListener(() => {
+            Hide();
+        });
     }
 
+    private void Start()
+    {
+        Hide();
+    }
+
+    public void Show()
+    {
+        gameObject.SetActive(true);
+
+        createPublicButton.Select();
+    }
+
+    private void Hide()
+    {
+        gameObject.SetActive(false);
+    }
 }
