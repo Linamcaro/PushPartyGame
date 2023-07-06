@@ -14,8 +14,8 @@ public class LobbyUI : MonoBehaviour
         LoadScenes.ChangeScene(LoadScenes.Scene.MainMenu);
     }
 
-   
-  
+
+
     public void JoinGameButton()
     {
         GameLobby.Instance.QuickJoin();
@@ -36,5 +36,4 @@ public class LobbyUI : MonoBehaviour
         });
 
     }
-
 }
