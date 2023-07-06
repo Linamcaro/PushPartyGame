@@ -18,5 +18,11 @@ public class CleanUp : MonoBehaviour
             Destroy(MultiplayerManager.Instance.gameObject);
         }
 
+        if (GameLobby.Instance != null)
+        {
+            Destroy(MultiplayerManager.Instance.gameObject);
+        }
+
+
     }
 }

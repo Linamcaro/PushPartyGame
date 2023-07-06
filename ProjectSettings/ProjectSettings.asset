@@ -884,11 +884,11 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 2
   windowsGamepadBackendHint: 0
-  cloudProjectId: 
+  cloudProjectId: b0e31282-30e8-4d00-9a98-07f1b11d8fc7
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: 
-  organizationId: 
+  projectName: Push Party Multiplayer
+  organizationId: unity_5ggwcg31fokfzw
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   playerDataPath: 
