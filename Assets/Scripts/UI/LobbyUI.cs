@@ -9,6 +9,9 @@ public class LobbyUI : MonoBehaviour
     [SerializeField] private TMP_InputField joinCodeInputField;
     [SerializeField] private TMP_InputField playerNameInputField;
 
+    [SerializeField] private Transform lobbyContainer;
+    [SerializeField] private Transform lobbyTemplate;
+
     public void MainMenuButton()
     {
         LoadScenes.ChangeScene(LoadScenes.Scene.MainMenu);
