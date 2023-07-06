@@ -18,7 +18,6 @@ public class CrownAnimationController : MonoBehaviour
 
     public void PlayClip()
     {
-
         animationComponent.Play();
     }
 }

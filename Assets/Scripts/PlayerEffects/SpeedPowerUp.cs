@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Netcode.Extensions;
+using Unity.Netcode;
 using UnityEngine;
 
-public class SpeedPowerUp : MonoBehaviour
+public class SpeedPowerUp : NetworkBehaviour
 {
     public GameObject speedEffect;
     private float multiplier = 1.4f;
@@ -20,7 +22,7 @@ public class SpeedPowerUp : MonoBehaviour
             Instantiate(speedEffect, transform.position, transform.rotation);
             PlayerMovement stats = other.GetComponent<PlayerMovement>();
             stats.CallSpeed(other);
-            Destroy(gameObject);
+            NetworkObjectPool.Singleton.ReturnNetworkObject(this.NetworkObject, this.gameObject);
         }
     }
 

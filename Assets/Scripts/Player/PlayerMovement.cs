@@ -18,32 +18,31 @@ public class PlayerMovement : NetworkBehaviour
     }
 
     [SerializeField] private List<Vector3> spawnPositions;
-    private PlayerAnimator playerAnimator;
 
-    
     //events
     public event EventHandler OnPlayerHit;
     public event EventHandler OnPlayerJump;
+    public event EventHandler OnPlayerAttack1;
 
     //Player jumping
     [SerializeField] private float moveSpeed = 10.0f;
-    [SerializeField] public float airVelocity = 8f;
-    [SerializeField] public float gravity = 10.0f;
-    [SerializeField] public float maxVelocityChange = 10.0f;
-    [SerializeField] public float jumpHeight = 1f;
-    [SerializeField] public float maxFallSpeed = 20.0f;
-    [SerializeField] public float rotateSpeed = 25f;
+    [SerializeField] private float airVelocity = 8f;
+    [SerializeField] private float gravity = 10.0f;
+    [SerializeField] private float maxVelocityChange = 10.0f;
+    [SerializeField] private float jumpHeight = 2f;
+    [SerializeField] private float maxFallSpeed = 20.0f;
+    [SerializeField] private float rotateSpeed = 25f;
     public Vector3 moveDir { get; private set; }
     private GameObject cam;
-    private Rigidbody rigidBody;
+    [HideInInspector]public Rigidbody rigidBody;
 
-    //[SerializeField] public float jumpForce = 70f;
     [SerializeField] private CinemachineFreeLook cmCamera;
 
     private float distToGround;
 
     //Helper Variables
     public bool canMove { get; private set; }
+    public bool isRunning { get; private set; }
     public bool isJumping { get; private set; }
     public bool isSliding { get; private set; }
     public bool isStuned { get; private set; }
@@ -57,11 +56,19 @@ public class PlayerMovement : NetworkBehaviour
     private float speedDelayTime = 20f;
     private float speedDelayTime1 = 1f;
 
+    [Header("Attack variables")]
+    public float attackForce = 25f;
+    public float attackStunTime = 1f;
+    public float attackCoolDown = 0.5f;
+    public bool canAttack { get; private set; }
+    public bool isAttacking { get; private set; }
+
+
+    //-----------------------------------------------------------------------------------------------------------
+
     private void Start()
     {
         if (!IsOwner) return;
-
-        playerAnimator = GetComponent<PlayerAnimator>();
 
         rigidBody = GetComponent<Rigidbody>();
         rigidBody.freezeRotation = true;
@@ -69,9 +76,12 @@ public class PlayerMovement : NetworkBehaviour
 
         isSliding = false;
         canMove = true;
-        isStuned = false;
-        isWalking = false;
+        canAttack = true;
+        isAttacking = false;
+
     }
+
+    //-----------------------------------------------------------------------------------------------------------
 
     public override void OnNetworkSpawn()
     {
@@ -88,6 +98,8 @@ public class PlayerMovement : NetworkBehaviour
         transform.position = spawnPositions[(int)OwnerClientId];
     }
 
+    //-----------------------------------------------------------------------------------------------------------
+
     private void Update()
     {
         if (!IsOwner) return;
@@ -96,7 +108,8 @@ public class PlayerMovement : NetworkBehaviour
         Vector3 verticalMovement = inputMovement.y * cam.transform.forward; //Vertical axis to which I want to move with respect to the camera
         Vector3 horizontalMovement = inputMovement.x * cam.transform.right; //Horizontal axis to which I want to move with respect to the camera
         moveDir = (verticalMovement + horizontalMovement).normalized; //Global position to which I want to move in magnitude 1
-        //moveDir = new Vector3(inputMovement.x, 0, inputMovement.y);
+
+        isRunning = moveDir.magnitude > 0;
 
         RaycastHit hit;
         if (Physics.Raycast(transform.position, -Vector3.up, out hit, distToGround + 0.1f))
@@ -110,8 +123,10 @@ public class PlayerMovement : NetworkBehaviour
                 isSliding = false;
             }
         }
+
     }
 
+    //-----------------------------------------------------------------------------------------------------------
 
     private void FixedUpdate()
     {
@@ -123,6 +138,7 @@ public class PlayerMovement : NetworkBehaviour
         HandleMovement();
     }
 
+    //-----------------------------------------------------------------------------------------------------------
     /// <summary>
     /// Move the player according to the user input 
     /// </summary>
@@ -134,6 +150,7 @@ public class PlayerMovement : NetworkBehaviour
         }
 
         bool jump = PlayerController.Instance.PlayerJumped();
+        bool Attack1 = PlayerController.Instance.PlayerFired1();
 
         if (canMove)
         {
@@ -191,6 +208,13 @@ public class PlayerMovement : NetworkBehaviour
                     OnPlayerJump?.Invoke(this, EventArgs.Empty);
                 }
 
+                if (Attack1 && canAttack)
+                {
+                    OnPlayerAttack1?.Invoke(this, EventArgs.Empty);
+                    canAttack = false;
+                    Invoke(nameof(ResetAttack), attackCoolDown);
+                }
+
             }
             else
             {
@@ -221,6 +245,7 @@ public class PlayerMovement : NetworkBehaviour
         rigidBody.AddForce(new Vector3(0, -gravity * rigidBody.mass, 0));
     }
 
+    //-----------------------------------------------------------------------------------------------------------
     /// <summary>
     /// From the jump height and gravity we deduce the upwards speed 
     /// for the character to reach at the apex.
@@ -231,6 +256,7 @@ public class PlayerMovement : NetworkBehaviour
         return Mathf.Sqrt(2 * jumpHeight * gravity);
     }
 
+    //-----------------------------------------------------------------------------------------------------------
     /// <summary>
     /// If player is hit apply a velocity and move direction 
     /// </summary>
@@ -240,12 +266,19 @@ public class PlayerMovement : NetworkBehaviour
     {
         OnPlayerHit?.Invoke(this, EventArgs.Empty);
 
+        rigidBody = GetComponent<Rigidbody>();
+
+        if (rigidBody == null) Debug.LogError("RB error");
+        if (velocityF == null) Debug.LogError("velF error");
+
         rigidBody.velocity = velocityF;
 
         pushForce = velocityF.magnitude;
         pushDir = Vector3.Normalize(velocityF);
         StartCoroutine(Decrease(velocityF.magnitude, time));
     }
+
+    //-----------------------------------------------------------------------------------------------------------
 
     private IEnumerator Decrease(float value, float duration)
     {
@@ -284,10 +317,21 @@ public class PlayerMovement : NetworkBehaviour
         }
     }
 
+    //-----------------------------------------------------------------------------------------------------------
+
+    public bool IsGrounded()
+    {
+        return Physics.Raycast(transform.position, -Vector3.up, distToGround + 0.1f);
+    }
+
+    //-----------------------------------------------------------------------------------------------------------
+
     public void UpdateSpeed(float speed)
     {
         moveSpeed = speed;
     }
+
+    //-----------------------------------------------------------------------------------------------------------
 
     public IEnumerator SpeedEnum(Collider player)
     {
@@ -297,6 +341,8 @@ public class PlayerMovement : NetworkBehaviour
 
     }
 
+    //-----------------------------------------------------------------------------------------------------------
+
     public IEnumerator SpeedEnum1(Collider player)
     {
         UpdateSpeed(7f);
@@ -305,10 +351,14 @@ public class PlayerMovement : NetworkBehaviour
 
     }
 
+    //-----------------------------------------------------------------------------------------------------------
+
     public void CallSpeed(Collider player)
     {
         StartCoroutine(ChangeSpeed(player));
     }
+
+    //-----------------------------------------------------------------------------------------------------------
 
     private IEnumerator ChangeSpeed(Collider player)
     {
@@ -317,18 +367,30 @@ public class PlayerMovement : NetworkBehaviour
 
     }
 
+    //-----------------------------------------------------------------------------------------------------------
+
     public float getVelocity()
     {
         return rigidBody.velocity.magnitude;
     }
 
-    public bool IsGrounded()
+    //-----------------------------------------------------------------------------------------------------------
+    void ResetAttack()
     {
-        isJumping = false;
-        return Physics.Raycast(transform.position, -Vector3.up, distToGround + 0.1f);
-        
+        canAttack = true;
     }
 
+    //-----------------------------------------------------------------------------------------------------------
+    public void ActivatePunch()
+    {
+        isAttacking = true;
+    }
+
+    //-----------------------------------------------------------------------------------------------------------
+    public void DeactivatePunch()
+    {
+        isAttacking = false;
+    }
 
 }
 

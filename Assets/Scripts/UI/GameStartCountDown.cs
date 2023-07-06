@@ -29,6 +29,7 @@ public class GameStartCountDown : MonoBehaviour
         if(PushPartyGameManager.Instance.IsCountdownToStartActive())
         {
             Show();
+            SoundManager.Instance.PlayCountdownSound();
         }
         else
         {
@@ -45,7 +46,6 @@ public class GameStartCountDown : MonoBehaviour
         if (previousCountdownNumber != countdownNumber)
         {
             previousCountdownNumber = countdownNumber;
-            SoundManager.Instance.PlayCountdownSound();
 
             //animator.SetTrigger(NUMBER_POPUP);
         }

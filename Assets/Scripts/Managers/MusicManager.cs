@@ -5,7 +5,7 @@ using  UnityEngine.UI;
 public class MusicManager : MonoBehaviour
 {
 
-
+    //[SerializeField] private Slider volumeSlider;
     private const string PLAYERPREFS_MUSICVOLUME = "MusicVolume";
 
     [SerializeField] private Slider volumeSlider;
@@ -17,7 +17,6 @@ public class MusicManager : MonoBehaviour
             return _instance;
         }
     }
-
 
 
     private AudioSource audioSource;

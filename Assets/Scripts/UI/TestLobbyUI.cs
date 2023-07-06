@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TestLobbyUI : MonoBehaviour
 {
-
+    private float volume = 1;
     public void StartHost()
     {
         MultiplayerManager.Instance.StartHost();
@@ -17,7 +17,10 @@ public class TestLobbyUI : MonoBehaviour
         
     }
 
-    
-    
+    public void ClickButtonSound()
+    {
+        SoundManager.Instance.PlayerMenuSound();
+    }
+
 
 }
