@@ -15,7 +15,7 @@ public class CharacterSelectPlayer : MonoBehaviour
     [SerializeField] private TextMeshPro playerNameText;
     [SerializeField] private Button KickButton;
 
-    private void Awake()
+   /* private void Awake()
     {
         KickButton.onClick.AddListener(() =>
         {
@@ -24,7 +24,7 @@ public class CharacterSelectPlayer : MonoBehaviour
             MultiplayerManager.Instance.KickPlayer(playerData.clientId);
         });
     
-    }
+    }*/
 
 
         private void Start()
