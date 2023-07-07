@@ -7,7 +7,7 @@ using UnityEngine;
 public class MusicManager : MonoBehaviour
 {
 
-    [SerializeField] private List<AudioClip> audioClips;
+   /// [SerializeField] private List<AudioClip> audioClips;
     private const string PLAYERPREFS_MUSICVOLUME = "MusicVolume";
 
 
