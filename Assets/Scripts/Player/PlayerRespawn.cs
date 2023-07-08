@@ -37,7 +37,6 @@ public class PlayerRespawn : NetworkBehaviour
 
     private void RespawnPlayer()
     {
-        
         Debug.Log("PlayerLivesServerRpc called");
 
         if (transform.position.y < deathPointY)

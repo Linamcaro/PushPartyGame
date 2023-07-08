@@ -19,7 +19,7 @@ public class SoundManager : MonoBehaviour
 
     [SerializeField] private AudioClipsSO audioClipsSO;
 
-    private float volume = 0f;
+    private float volume = 1f;
 
     
 
@@ -27,7 +27,7 @@ public class SoundManager : MonoBehaviour
     {
         _instance = this;
 
-        volume = PlayerPrefs.GetFloat(PLAYERPREFS_SOUNDEFFECTS_VOLUME, 0f);
+        volume = PlayerPrefs.GetFloat(PLAYERPREFS_SOUNDEFFECTS_VOLUME, 1f);
 
     }
 

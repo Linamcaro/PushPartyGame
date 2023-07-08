@@ -1,10 +1,19 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerSounds : MonoBehaviour
+public class PlayerSounds : NetworkBehaviour
 {
+    private static PlayerSounds _instance;
+    public static PlayerSounds Instance
+    {
+        get
+        {
+            return _instance;
+        }
+    }
 
     private float footstepTimer;
     private float footstepTimerMax = 0.5f;
@@ -13,13 +22,22 @@ public class PlayerSounds : MonoBehaviour
     private bool canPlaySound = true;
 
 
+    private void Awake()
+    {
+        if (!IsOwner) return; 
+        _instance = this;
+    }
+
+
     private void Start()
     {
-       PlayerRespawn.Instance.OnPlayerFell += PlayerRespawm_OnPlayerFell;
+        if (!IsOwner) return;
+        PlayerRespawn.Instance.OnPlayerFell += PlayerRespawm_OnPlayerFell;
     }
 
     private void Update() 
     {
+        if (!IsOwner) { return; }
         FootStepSound();
         PlayerJumpSound();
         PlayerStunnedSound();
@@ -76,7 +94,7 @@ public class PlayerSounds : MonoBehaviour
     IEnumerator PlaySound()
     {
         canPlaySound = false;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.1f);
         canPlaySound = false;
     }
 }
