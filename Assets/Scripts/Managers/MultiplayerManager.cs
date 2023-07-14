@@ -7,7 +7,7 @@ using Unity.Services.Authentication;
 public class MultiplayerManager : NetworkBehaviour
 {
 
-    public const int MAX_PLAYERS = 2;
+    public const int MAX_PLAYERS = 4;
     public const string PLAYER_PREFS_PLAYER_NAME_MULTIPLAYER = "PlayerNameMultiplayer";
 
     private static MultiplayerManager _instance;
