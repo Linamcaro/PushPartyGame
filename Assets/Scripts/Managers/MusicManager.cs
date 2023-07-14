@@ -6,7 +6,6 @@ using UnityEngine;
 public class MusicManager : MonoBehaviour
 {
 
-    [SerializeField] private List<AudioClip> audioClips;
     private const string PLAYERPREFS_MUSICVOLUME = "MusicVolume";
 
     public static MusicManager Instance { get; private set; }
@@ -40,6 +39,8 @@ public class MusicManager : MonoBehaviour
 
         volume = audioSource.volume;
         volume = PlayerPrefs.GetFloat(PLAYERPREFS_MUSICVOLUME, volume);
+
+        DontDestroyOnLoad(this);
 
     }
 
