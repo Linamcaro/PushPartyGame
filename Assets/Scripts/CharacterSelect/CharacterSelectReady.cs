@@ -6,6 +6,8 @@ using Unity.Netcode;
 
 public class CharacterSelectReady : NetworkBehaviour
 {
+
+
     private static CharacterSelectReady _instance;
     public static CharacterSelectReady Instance
     {
@@ -60,11 +62,13 @@ public class CharacterSelectReady : NetworkBehaviour
 
         if (allClientsReady)
         {
+            GameLobby.Instance.DeleteLobby();
             LoadScenes.LoadTagetScene(LoadScenes.Scene.MainScene);
         }
         Debug.Log("allClientsReady: " + allClientsReady);
 
     }
+
 
     [ClientRpc]
     private void SetPlayerReadyClientRpc(ulong clientId)

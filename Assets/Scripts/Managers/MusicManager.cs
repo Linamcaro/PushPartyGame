@@ -1,37 +1,84 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using  UnityEngine.UI;
+
+
+[RequireComponent(typeof(AudioSource))]
 public class MusicManager : MonoBehaviour
 {
 
-    //[SerializeField] private Slider volumeSlider;
     private const string PLAYERPREFS_MUSICVOLUME = "MusicVolume";
 
-    [SerializeField] private Slider volumeSlider;
-    private static MusicManager _instance;
-    public static MusicManager Instance
-    {
-        get
-        {
-            return _instance;
-        }
-    }
+    public static MusicManager Instance { get; private set; }
 
+    [SerializeField] private AudioSource audioSource;
 
-    private AudioSource audioSource;
+    [SerializeField] private AudioClip menuMusic;
+
+    [SerializeField] private AudioClip gameMusic;
+
+    [SerializeField] private AudioClip victoryMusic;
+
+    [SerializeField] private AudioClip loserMusic;
+
     private float volume;
 
 
     private void Awake()
     {
-        _instance = this;
-
         audioSource = GetComponent<AudioSource>();
 
-        volume = PlayerPrefs.GetFloat(PLAYERPREFS_MUSICVOLUME, .3f);
-        audioSource.volume = volume;
-        volumeSlider.value = volume;
+        if (Instance == null)
+        {
+            Instance = this;
+
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
+        volume = audioSource.volume;
+        volume = PlayerPrefs.GetFloat(PLAYERPREFS_MUSICVOLUME, volume);
+
+        DontDestroyOnLoad(this);
+
+    }
+
+    public void PlayMenuMusic(bool restart)
+    {
+        PlayTrack(menuMusic, true, false);
+    }
+
+    public void PlayGameMusic(bool restart)
+    {
+        PlayTrack(gameMusic, true, false);
+    }
+
+    public void PlayVictoryMusic(bool restart)
+    {
+        PlayTrack(victoryMusic, true, false);
+    }
+
+    public void PlayLoserMusic(bool restart)
+    {
+        PlayTrack(loserMusic, true, false);
+    }
+
+
+    private void PlayTrack(AudioClip clip, bool looping, bool restart)
+    {
+        if (audioSource.isPlaying)
+        {
+            //if we don want to restart the clip then return
+            if (!restart && audioSource.clip == clip) { return; }
+            audioSource.Stop();
+        }
+
+        audioSource.clip = clip;
+        audioSource.loop = looping;
+        audioSource.time = 0;
+        audioSource.Play();
+
     }
 
     /// <summary>
@@ -39,15 +86,11 @@ public class MusicManager : MonoBehaviour
     /// </summary>
     public void ChangeVolume()
     {
-        volume = volumeSlider.value;
-
         audioSource.volume = volume;
 
         PlayerPrefs.SetFloat(PLAYERPREFS_MUSICVOLUME, volume);
         PlayerPrefs.Save();
-        volumeSlider.value = volume;
     }
-
 
     public float GetVolume()
     {
