@@ -22,9 +22,6 @@ public class MainMenuUI : MonoBehaviour
     }
 
 
-    /*public void MenuSound()
-    {
-        SoundManager.Instance.PlayerMenuSound();
-    }*/
+
 
 }

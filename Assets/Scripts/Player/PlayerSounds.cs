@@ -8,13 +8,14 @@ public class PlayerSounds : MonoBehaviour
 
     private float footstepTimer;
     private float footstepTimerMax = 0.5f;
-    private float volume = 1f;
 
+    [SerializeField] AudioSource sfxAudioSource;
     private bool canPlaySound = true;
 
 
     private void Start()
     {
+       sfxAudioSource.volume = SoundManager.Instance.GetVolume();
        PlayerRespawn.Instance.OnPlayerFell += PlayerRespawm_OnPlayerFell;
     }
 
@@ -29,7 +30,7 @@ public class PlayerSounds : MonoBehaviour
     {
         if (canPlaySound)
         {
-            SoundManager.Instance.PlayerFallingSound(gameObject.transform.position, volume);
+            SoundManager.Instance.PlayerFallingSound();
         }
     }
 
@@ -44,7 +45,7 @@ public class PlayerSounds : MonoBehaviour
         if (PlayerMovement.PlayerMovementInstance.getVelocity() > 0f && canPlaySound)
         {
 
-            SoundManager.Instance.PlayFootstepsSound(PlayerMovement.PlayerMovementInstance.transform.position, volume);
+            SoundManager.Instance.PlayFootstepsSound();
             StartCoroutine(PlaySound());
         }
     }
@@ -56,7 +57,7 @@ public class PlayerSounds : MonoBehaviour
     {
         if (PlayerMovement.PlayerMovementInstance.isJumping && canPlaySound)
         {
-            SoundManager.Instance.PlayJumpSound(PlayerMovement.PlayerMovementInstance.transform.position, volume);
+            SoundManager.Instance.PlayJumpSound();
             StartCoroutine(PlaySound());
         } 
     }
@@ -68,7 +69,7 @@ public class PlayerSounds : MonoBehaviour
     { 
         if(PlayerMovement.PlayerMovementInstance.isStuned && canPlaySound)
         {
-            SoundManager.Instance.PlayStunnedSound(gameObject.transform.position, volume);
+            SoundManager.Instance.PlayStunnedSound();
             StartCoroutine(PlaySound());
         }
     }
@@ -76,7 +77,7 @@ public class PlayerSounds : MonoBehaviour
     IEnumerator PlaySound()
     {
         canPlaySound = false;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.15f);
         canPlaySound = false;
     }
 }

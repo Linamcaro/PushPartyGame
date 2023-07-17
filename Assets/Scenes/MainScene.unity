@@ -1269,6 +1269,7 @@ GameObject:
   - component: {fileID: 424195225}
   - component: {fileID: 424195224}
   - component: {fileID: 424195223}
+  - component: {fileID: 424195226}
   m_Layer: 5
   m_Name: UI
   m_TagString: Untagged
@@ -1408,6 +1409,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hostDisconnectedUI: {fileID: 1763690292}
   playAgain: {fileID: 6387619902123610187}
+--- !u!114 &424195226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 424195217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 610e042b20ffd36439fa0ed9f01dbca2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  musicSlider: {fileID: 1084322331}
+  soundslider: {fileID: 2140034514}
 --- !u!1 &463103364
 GameObject:
   m_ObjectHideFlags: 0
@@ -1420,7 +1435,7 @@ GameObject:
   - component: {fileID: 463103367}
   - component: {fileID: 463103366}
   m_Layer: 5
-  m_Name: ChangeSoundVolume
+  m_Name: ChangeSoundVolumeTxt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3690,7 +3705,7 @@ GameObject:
   - component: {fileID: 712511449}
   - component: {fileID: 712511448}
   m_Layer: 5
-  m_Name: ChangeMusicVolume
+  m_Name: ChangeMusicVolumeTxt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5170,9 +5185,9 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MusicManager, Assembly-CSharp
-        m_MethodName: ChangeVolume
+      - m_Target: {fileID: 424195226}
+        m_TargetAssemblyTypeName: SoundSettingsUI, Assembly-CSharp
+        m_MethodName: MusicVolume
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8235,7 +8250,19 @@ MonoBehaviour:
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 424195226}
+        m_TargetAssemblyTypeName: SoundSettingsUI, Assembly-CSharp
+        m_MethodName: SoundVolume
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &2899574739564635200
 Transform:
   m_ObjectHideFlags: 0

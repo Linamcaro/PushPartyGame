@@ -30,6 +30,7 @@ public class MusicManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(this);
 
         }
         else
@@ -39,8 +40,6 @@ public class MusicManager : MonoBehaviour
 
         volume = audioSource.volume;
         volume = PlayerPrefs.GetFloat(PLAYERPREFS_MUSICVOLUME, volume);
-
-        DontDestroyOnLoad(this);
 
     }
 
@@ -84,11 +83,11 @@ public class MusicManager : MonoBehaviour
     /// <summary>
     /// Change Music Volume
     /// </summary>
-    public void ChangeVolume()
+    public void ChangeVolume(float value)
     {
-        audioSource.volume = volume;
+        audioSource.volume = value;
 
-        PlayerPrefs.SetFloat(PLAYERPREFS_MUSICVOLUME, volume);
+        PlayerPrefs.SetFloat(PLAYERPREFS_MUSICVOLUME, value);
         PlayerPrefs.Save();
     }
 

@@ -5,15 +5,6 @@ using Unity.Netcode;
 
 public class OptionsUI : MonoBehaviour
 {
-    /*private static OptionsUI _instance;
-
-    public static OptionsUI Instance
-    {
-        get
-        {
-            return _instance;
-        }
-    }*/
 
     [SerializeField] private GameObject OptionsMenuUI;
 

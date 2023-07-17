@@ -7,27 +7,27 @@ public class SoundManager : MonoBehaviour
 {
     private const string PLAYERPREFS_SOUNDEFFECTS_VOLUME = "SoundEffectsVolume";
 
-
-    private static SoundManager _instance;
-    public static SoundManager Instance
-    {
-        get
-        {
-            return _instance;
-        }
-    }
+    public static SoundManager Instance { get; private set; }
 
     [SerializeField] private AudioClipsSO audioClipsSO;
 
-    private float volume = 0f;
-
-    
+    private float volume;
 
     private void Awake()
     {
-        _instance = this;
 
-        volume = PlayerPrefs.GetFloat(PLAYERPREFS_SOUNDEFFECTS_VOLUME, 0f);
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(this);
+
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
+        volume = PlayerPrefs.GetFloat(PLAYERPREFS_SOUNDEFFECTS_VOLUME, volume);
 
     }
 
@@ -37,9 +37,9 @@ public class SoundManager : MonoBehaviour
     /// <param name="audioClipArray"></param>
     /// <param name="position"></param>
     /// <param name="volume"></param>
-    private void PlayRandomSound(AudioClip[] audioClipArray, Vector3 position, float volume = 1f)
+    private void PlayRandomSound(AudioClip[] audioClipArray)
     {
-        PlaySound(audioClipArray[Random.Range(0, audioClipArray.Length)], position, volume);
+        PlaySound(audioClipArray[Random.Range(0, audioClipArray.Length)]);
     }
 
     /// <summary>
@@ -48,7 +48,7 @@ public class SoundManager : MonoBehaviour
     /// <param name="audioClip"></param>
     /// <param name="position"></param>
     /// <param name="volumeMultiplier"></param>
-    private void PlaySound(AudioClip audioClip, Vector3 position, float volumeMultiplier = 1f)
+    private void PlaySound(AudioClip audioClip, Vector3 position)
     {
         AudioSource.PlayClipAtPoint(audioClip, position, volumeMultiplier * volume);
     }
@@ -59,9 +59,9 @@ public class SoundManager : MonoBehaviour
     /// </summary>
     /// <param name="position"></param>
     /// <param name="volume"></param>
-    public void PlayFootstepsSound(Vector3 position, float volume)
+    public void PlayFootstepsSound()
     {
-        PlayRandomSound(audioClipsSO.footsteps, position, volume);
+        PlayRandomSound(audioClipsSO.footsteps);
     }
 
     /// <summary>
@@ -69,9 +69,9 @@ public class SoundManager : MonoBehaviour
     /// </summary>
     /// <param name="position"></param>
     /// <param name="volume"></param>
-    public void PlayJumpSound(Vector3 position, float volume)
+    public void PlayJumpSound()
     {
-        PlayRandomSound(audioClipsSO.playerJump,position, volume);
+        PlayRandomSound(audioClipsSO.playerJump);
     }
 
     /// <summary>
@@ -81,7 +81,7 @@ public class SoundManager : MonoBehaviour
     /// <param name="volume"></param>
     public void PlayerWinsLiveSound(Vector3 position, float volume)
     {
-        PlayRandomSound(audioClipsSO.playerWinsLive, position, volume);
+        PlayRandomSound(audioClipsSO.playerWinsLive);
     }
 
     /// <summary>
@@ -91,7 +91,7 @@ public class SoundManager : MonoBehaviour
     /// <param name="volume"></param>
     public void PlayerPowerUpSound(Vector3 position, float volume)
     {
-        PlayRandomSound(audioClipsSO.playerPowerUp, position, volume);
+        PlayRandomSound(audioClipsSO.playerPowerUp);
     }
 
     /// <summary>
@@ -99,9 +99,9 @@ public class SoundManager : MonoBehaviour
     /// </summary>
     /// <param name="position"></param>
     /// <param name="volume"></param>
-    public void PlayObstacleHittingPlayerSound(Vector3 position, float volume)
+    public void PlayObstacleHittingPlayerSound()
     {
-        PlayRandomSound(audioClipsSO.playerFalling, position, volume);
+        PlayRandomSound(audioClipsSO.playerFalling);
     }
 
     /// <summary>
@@ -109,7 +109,7 @@ public class SoundManager : MonoBehaviour
     /// </summary>
     public void PlayCountdownSound()
     {
-        PlayRandomSound(audioClipsSO.CountDown, Vector3.zero);
+        PlayRandomSound(audioClipsSO.CountDown);
     }
 
     /// <summary>
@@ -117,19 +117,19 @@ public class SoundManager : MonoBehaviour
     /// </summary>
     /// <param name="position"></param>
     /// <param name="volume"></param>
-    public void PlayStunnedSound(Vector3 position, float volume)
+    public void PlayStunnedSound()
     {
-        PlayRandomSound(audioClipsSO.playerStunned, position, volume);
+        PlayRandomSound(audioClipsSO.playerStunned);
     }
 
-    public void PlayerFallingSound(Vector3 position, float volume)
+    public void PlayerFallingSound()
     {
-        PlayRandomSound(audioClipsSO.playerFalling, position, volume);
+        PlayRandomSound(audioClipsSO.playerFalling);
     }
 
     public void PlayerMenuSound()
     {
-        PlayRandomSound(audioClipsSO.ButtonsClick, Vector3.zero);
+        PlayRandomSound(audioClipsSO.ButtonsClick);
     }
 
 
@@ -141,10 +141,13 @@ public class SoundManager : MonoBehaviour
         volume = volumeChanged;
 
         PlayerPrefs.SetFloat(PLAYERPREFS_SOUNDEFFECTS_VOLUME, volume);
-       
         PlayerPrefs.Save();
     }
 
+
+    /// <summary>
+    /// Get the sound volume
+    /// </summary>
     public float GetVolume()
     {
         return volume;
