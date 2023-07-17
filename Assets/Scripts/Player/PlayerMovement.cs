@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using Cinemachine;
-using UnityEngine.EventSystems;
 
 public class PlayerMovement : NetworkBehaviour
 {
@@ -17,14 +16,17 @@ public class PlayerMovement : NetworkBehaviour
         }
     }
 
+    [Header("Player spawn positions")]
     [SerializeField] private List<Vector3> spawnPositions;
 
+   
     //events
     public event EventHandler OnPlayerHit;
     public event EventHandler OnPlayerJump;
     public event EventHandler OnPlayerAttack1;
 
-    //Player jumping
+    [Header("Movement variables")]
+
     [SerializeField] private float moveSpeed = 10.0f;
     [SerializeField] private float airVelocity = 8f;
     [SerializeField] private float gravity = 10.0f;
@@ -47,6 +49,7 @@ public class PlayerMovement : NetworkBehaviour
     public bool isSliding { get; private set; }
     public bool isStuned { get; private set; }
     public bool isWalking { get; private set; }
+    
 
     private bool wasStuned = false;
     private float pushForce;

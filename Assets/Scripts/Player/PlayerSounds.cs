@@ -9,14 +9,22 @@ public class PlayerSounds : MonoBehaviour
     private float footstepTimer;
     private float footstepTimerMax = 0.5f;
 
-    [SerializeField] AudioSource sfxAudioSource;
+    [Header("AudioSource")]
+    [SerializeField] private AudioSource sfxAudioSource;
+
     private bool canPlaySound = true;
 
+    private Vector3 position;
+
+    //-----------------------------------------------------------------------------------------------------------
 
     private void Start()
     {
+       position = transform.position;
+
        sfxAudioSource.volume = SoundManager.Instance.GetVolume();
        PlayerRespawn.Instance.OnPlayerFell += PlayerRespawm_OnPlayerFell;
+
     }
 
     private void Update() 
@@ -25,6 +33,8 @@ public class PlayerSounds : MonoBehaviour
         PlayerJumpSound();
         PlayerStunnedSound();
     }
+    
+    //-----------------------------------------------------------------------------------------------------------
 
     private void PlayerRespawm_OnPlayerFell(object sender, EventArgs e)
     {
@@ -34,18 +44,17 @@ public class PlayerSounds : MonoBehaviour
         }
     }
 
+    //-----------------------------------------------------------------------------------------------------------
 
     /// <summary>
     /// Play footstep sound if player is walking
     /// </summary>
     private void FootStepSound()
     {
-
-
         if (PlayerMovement.PlayerMovementInstance.getVelocity() > 0f && canPlaySound)
         {
 
-            SoundManager.Instance.PlayFootstepsSound();
+            SoundManager.Instance.PlayFootstepsSound(position);
             StartCoroutine(PlaySound());
         }
     }
@@ -57,7 +66,7 @@ public class PlayerSounds : MonoBehaviour
     {
         if (PlayerMovement.PlayerMovementInstance.isJumping && canPlaySound)
         {
-            SoundManager.Instance.PlayJumpSound();
+            SoundManager.Instance.PlayJumpSound(position);
             StartCoroutine(PlaySound());
         } 
     }
@@ -69,7 +78,7 @@ public class PlayerSounds : MonoBehaviour
     { 
         if(PlayerMovement.PlayerMovementInstance.isStuned && canPlaySound)
         {
-            SoundManager.Instance.PlayStunnedSound();
+            SoundManager.Instance.PlayStunnedSound(position);
             StartCoroutine(PlaySound());
         }
     }

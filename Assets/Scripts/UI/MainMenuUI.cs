@@ -9,14 +9,14 @@ public class MainMenuUI : MonoBehaviour
    
     public void PlayButton()
     {
-        //SoundManager.Instance.PlayerMenuSound();
+        SoundManager.Instance.PlayerMenuSound();
         LoadScenes.ChangeScene(LoadScenes.Scene.Lobby);
         Debug.Log("Main Scene called");
     }
 
     public void QuitButton()
     {
-        
+        SoundManager.Instance.PlayerMenuSound();
         LoadScenes.QuitGame();
         Debug.Log("Main Scene called");
     }

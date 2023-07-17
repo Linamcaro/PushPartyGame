@@ -14,6 +14,8 @@ public class SoundSettingsUI : MonoBehaviour
         MusicManager.Instance.ChangeVolume(musicSlider.value);
     }
 
+    //-----------------------------------------------------------------------------------------------------------
+
     public void SoundVolume()
     {
         SoundManager.Instance.ChangeVolume(musicSlider.value);

@@ -33,7 +33,5 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 6cce3411323ea2a42b536c31192bec04, type: 3}
   playerReadyCharacterSelect:
   - {fileID: 8300000, guid: 7b0e9698eddaa8041926cf893d1fef01, type: 3}
-  playerWins:
-  - {fileID: 8300000, guid: 00e46e91288335143868396fa9f3febe, type: 3}
-  playerLose:
-  - {fileID: 8300000, guid: 0f7460f46d74ca446a6878d98c7404e7, type: 3}
+  playerWins: []
+  playerLose: []

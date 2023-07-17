@@ -6,12 +6,17 @@ using UnityEngine.UI;
 public class SoundManager : MonoBehaviour
 {
     private const string PLAYERPREFS_SOUNDEFFECTS_VOLUME = "SoundEffectsVolume";
-
     public static SoundManager Instance { get; private set; }
+
 
     [SerializeField] private AudioClipsSO audioClipsSO;
 
     private float volume;
+    private float volumeMultiplier = 1;
+
+    private Vector3 cameraPosition;
+
+    //-----------------------------------------------------------------------------------------------------------
 
     private void Awake()
     {
@@ -29,7 +34,11 @@ public class SoundManager : MonoBehaviour
 
         volume = PlayerPrefs.GetFloat(PLAYERPREFS_SOUNDEFFECTS_VOLUME, volume);
 
+        cameraPosition = Camera.main.transform.position;
+
     }
+
+    //-----------------------------------------------------------------------------------------------------------
 
     /// <summary>
     /// Sound selectio from an array of audioclips
@@ -37,10 +46,12 @@ public class SoundManager : MonoBehaviour
     /// <param name="audioClipArray"></param>
     /// <param name="position"></param>
     /// <param name="volume"></param>
-    private void PlayRandomSound(AudioClip[] audioClipArray)
+    private void PlayRandomSound(AudioClip[] audioClipArray, Vector3 position)
     {
-        PlaySound(audioClipArray[Random.Range(0, audioClipArray.Length)]);
+        PlaySound(audioClipArray[Random.Range(0, audioClipArray.Length)], position);
     }
+
+    //-----------------------------------------------------------------------------------------------------------
 
     /// <summary>
     /// Play audiclip
@@ -53,85 +64,92 @@ public class SoundManager : MonoBehaviour
         AudioSource.PlayClipAtPoint(audioClip, position, volumeMultiplier * volume);
     }
 
+    //-----------------------------------------------------------------------------------------------------------
 
     /// <summary>
     /// Play audiclip for the steps
     /// </summary>
     /// <param name="position"></param>
     /// <param name="volume"></param>
-    public void PlayFootstepsSound()
+    public void PlayFootstepsSound(Vector3 position)
     {
-        PlayRandomSound(audioClipsSO.footsteps);
+        PlayRandomSound(audioClipsSO.footsteps, position);
     }
+
+    //-----------------------------------------------------------------------------------------------------------
 
     /// <summary>
     /// Play sound when jumping
     /// </summary>
     /// <param name="position"></param>
     /// <param name="volume"></param>
-    public void PlayJumpSound()
+    public void PlayJumpSound(Vector3 position)
     {
-        PlayRandomSound(audioClipsSO.playerJump);
+        PlayRandomSound(audioClipsSO.playerJump, position);
     }
 
-    /// <summary>
-    /// Play audio when player slide
-    /// </summary>
-    /// <param name="position"></param>
-    /// <param name="volume"></param>
-    public void PlayerWinsLiveSound(Vector3 position, float volume)
-    {
-        PlayRandomSound(audioClipsSO.playerWinsLive);
-    }
+
+    //-----------------------------------------------------------------------------------------------------------
 
     /// <summary>
     /// Play audio when player attacks
     /// </summary>
     /// <param name="position"></param>
     /// <param name="volume"></param>
-    public void PlayerPowerUpSound(Vector3 position, float volume)
+    public void PlayerPowerUpSound(Vector3 position)
     {
-        PlayRandomSound(audioClipsSO.playerPowerUp);
+        PlayRandomSound(audioClipsSO.playerPowerUp, position);
     }
+
+    //-----------------------------------------------------------------------------------------------------------
 
     /// <summary>
     /// Play audio when obstacle hits the player
     /// </summary>
     /// <param name="position"></param>
     /// <param name="volume"></param>
-    public void PlayObstacleHittingPlayerSound()
+    public void PlayObstacleHittingPlayerSound(Vector3 position)
     {
-        PlayRandomSound(audioClipsSO.playerFalling);
+        PlayRandomSound(audioClipsSO.obstacleHittingPlayer, position);
     }
+
+    //-----------------------------------------------------------------------------------------------------------
 
     /// <summary>
     /// PlaySound when countdown starts
     /// </summary>
     public void PlayCountdownSound()
     {
-        PlayRandomSound(audioClipsSO.CountDown);
+        PlayRandomSound(audioClipsSO.CountDown, cameraPosition);
     }
+
+    //-----------------------------------------------------------------------------------------------------------
 
     /// <summary>
     /// Play sound when jumping
     /// </summary>
     /// <param name="position"></param>
     /// <param name="volume"></param>
-    public void PlayStunnedSound()
+    public void PlayStunnedSound(Vector3 position)
     {
-        PlayRandomSound(audioClipsSO.playerStunned);
+        PlayRandomSound(audioClipsSO.playerStunned,position);
     }
+
+    //-----------------------------------------------------------------------------------------------------------
 
     public void PlayerFallingSound()
     {
-        PlayRandomSound(audioClipsSO.playerFalling);
+        PlayRandomSound(audioClipsSO.playerFalling, cameraPosition);
     }
+
+    //-----------------------------------------------------------------------------------------------------------
 
     public void PlayerMenuSound()
     {
-        PlayRandomSound(audioClipsSO.ButtonsClick);
+        PlayRandomSound(audioClipsSO.ButtonsClick, cameraPosition);
     }
 
+    //-----------------------------------------------------------------------------------------------------------
 
     /// <summary>
     /// Change the sound volume
@@ -144,6 +162,7 @@ public class SoundManager : MonoBehaviour
         PlayerPrefs.Save();
     }
 
+    //-----------------------------------------------------------------------------------------------------------
 
     /// <summary>
     /// Get the sound volume

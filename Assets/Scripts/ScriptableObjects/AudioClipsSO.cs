@@ -21,6 +21,5 @@ public class AudioClipsSO : ScriptableObject
     public AudioClip[] CountDown;
     public AudioClip[] ButtonsClick;
     public AudioClip[] playerReadyCharacterSelect;
-    public AudioClip[] playerWins;
-    public AudioClip[] playerLose;
+
 }
