@@ -31,6 +31,11 @@ public class LobbyUI : MonoBehaviour
         GameLobby.Instance.JoinWithCode(joinCodeInputField.text);
     }
 
+    public void playMenuSound()
+    {
+        SoundManager.Instance.PlayMenuSound();
+    }
+
     private void Start()
     {
         playerNameInputField.text = MultiplayerManager.Instance.GetPlayerName();

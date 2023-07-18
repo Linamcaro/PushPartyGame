@@ -40,7 +40,7 @@ public class PlayerSounds : MonoBehaviour
     {
         if (canPlaySound)
         {
-            SoundManager.Instance.PlayerFallingSound();
+            SoundManager.Instance.PlayFallingSound();
         }
     }
 

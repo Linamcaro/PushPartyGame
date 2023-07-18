@@ -12,7 +12,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioClipsSO audioClipsSO;
 
     private float volume;
-    private float volumeMultiplier = 1;
+    private float volumeMultiplier = 2;
 
     private Vector3 cameraPosition;
 
@@ -96,7 +96,7 @@ public class SoundManager : MonoBehaviour
     /// </summary>
     /// <param name="position"></param>
     /// <param name="volume"></param>
-    public void PlayerPowerUpSound(Vector3 position)
+    public void PlayPowerUpSound(Vector3 position)
     {
         PlayRandomSound(audioClipsSO.playerPowerUp, position);
     }
@@ -137,14 +137,14 @@ public class SoundManager : MonoBehaviour
 
     //-----------------------------------------------------------------------------------------------------------
 
-    public void PlayerFallingSound()
+    public void PlayFallingSound()
     {
         PlayRandomSound(audioClipsSO.playerFalling, cameraPosition);
     }
 
     //-----------------------------------------------------------------------------------------------------------
 
-    public void PlayerMenuSound()
+    public void PlayMenuSound()
     {
         PlayRandomSound(audioClipsSO.ButtonsClick, cameraPosition);
     }
