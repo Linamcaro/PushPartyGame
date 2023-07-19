@@ -133,7 +133,7 @@ public class SoundManager : MonoBehaviour
 
     public void PlayerMenuSound()
     {
-        PlayRandomSound(audioClipsSO.ButtonsClick, Vector3.zero);
+       // PlayRandomSound(audioClipsSO.ButtonsClick, Vector3.zero);
     }
 
 

@@ -8,6 +8,8 @@ TagManager:
   - Slide
   - Wall
   - Punch
+  - Slider
+  - Fill
   layers:
   - Default
   - TransparentFX
