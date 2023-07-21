@@ -1026,7 +1026,6 @@ GameObject:
   m_Component:
   - component: {fileID: 390705350}
   - component: {fileID: 390705353}
-  - component: {fileID: 390705352}
   - component: {fileID: 390705351}
   m_Layer: 5
   m_Name: CameraSpikeLoser
@@ -1088,14 +1087,6 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
---- !u!81 &390705352
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 390705349}
-  m_Enabled: 1
 --- !u!20 &390705353
 Camera:
   m_ObjectHideFlags: 0
@@ -3321,7 +3312,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 675562414}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 729964208}
+        m_TargetAssemblyTypeName: MainSceneMusic, Assembly-CSharp
+        m_MethodName: PlayMenuSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &675562414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3455,6 +3458,18 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 729964208}
+        m_TargetAssemblyTypeName: MainSceneMusic, Assembly-CSharp
+        m_MethodName: PlayPlayerReadySound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
         m_CallState: 2
       - m_Target: {fileID: 1057139107}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
@@ -3829,6 +3844,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 712511446}
   m_CullTransparentMesh: 1
+--- !u!1 &729964207
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 729964209}
+  - component: {fileID: 729964208}
+  m_Layer: 0
+  m_Name: MainSceneSound
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &729964208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 729964207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39788d2135496214fa5751cb1cefa210, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  restart: 1
+--- !u!4 &729964209
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 729964207}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 317.06226, y: 304.72644, z: -393.96057}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &733791388
 GameObject:
   m_ObjectHideFlags: 0
@@ -4573,7 +4633,6 @@ GameObject:
   m_Component:
   - component: {fileID: 891387687}
   - component: {fileID: 891387690}
-  - component: {fileID: 891387689}
   - component: {fileID: 891387688}
   m_Layer: 5
   m_Name: CameraGlov
@@ -4635,14 +4694,6 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
---- !u!81 &891387689
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 891387686}
-  m_Enabled: 1
 --- !u!20 &891387690
 Camera:
   m_ObjectHideFlags: 0
@@ -4775,13 +4826,25 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 742349699}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 729964208}
+        m_TargetAssemblyTypeName: MainSceneMusic, Assembly-CSharp
+        m_MethodName: PlayMenuSound
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 742349699}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -5324,7 +5387,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 742349699}
+      - m_Target: {fileID: 729964208}
+        m_TargetAssemblyTypeName: MainSceneMusic, Assembly-CSharp
+        m_MethodName: PlayMenuSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1131592353}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
@@ -5335,6 +5410,18 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 742349699}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &1131592356
 MonoBehaviour:
@@ -5415,7 +5502,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1170741887}
   - component: {fileID: 1170741890}
-  - component: {fileID: 1170741889}
   - component: {fileID: 1170741888}
   m_Layer: 5
   m_Name: CameraGlovLoser
@@ -5477,14 +5563,6 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
---- !u!81 &1170741889
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1170741886}
-  m_Enabled: 1
 --- !u!20 &1170741890
 Camera:
   m_ObjectHideFlags: 0
@@ -6080,7 +6158,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1405554948}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 729964208}
+        m_TargetAssemblyTypeName: MainSceneMusic, Assembly-CSharp
+        m_MethodName: PlayMenuSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1405554948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7711,125 +7801,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 209957883}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &1850421325
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: -853590787867176773, guid: 367f0075a65204c41ab515193745134b,
-        type: 3}
-      propertyPath: GlobalObjectIdHash
-      value: 1602064433
-      objectReference: {fileID: 0}
-    - target: {fileID: 3871784914709014283, guid: 367f0075a65204c41ab515193745134b,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 14
-      objectReference: {fileID: 0}
-    - target: {fileID: 3871784914709014283, guid: 367f0075a65204c41ab515193745134b,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3871784914709014283, guid: 367f0075a65204c41ab515193745134b,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3871784914709014283, guid: 367f0075a65204c41ab515193745134b,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3871784914709014283, guid: 367f0075a65204c41ab515193745134b,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3871784914709014283, guid: 367f0075a65204c41ab515193745134b,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3871784914709014283, guid: 367f0075a65204c41ab515193745134b,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3871784914709014283, guid: 367f0075a65204c41ab515193745134b,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3871784914709014283, guid: 367f0075a65204c41ab515193745134b,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3871784914709014283, guid: 367f0075a65204c41ab515193745134b,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3871784914709014283, guid: 367f0075a65204c41ab515193745134b,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3871784914709248875, guid: 367f0075a65204c41ab515193745134b,
-        type: 3}
-      propertyPath: m_Name
-      value: Player1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4223138536599950470, guid: 367f0075a65204c41ab515193745134b,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.00000001765986
-      objectReference: {fileID: 0}
-    - target: {fileID: 4223138536599950470, guid: 367f0075a65204c41ab515193745134b,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0.0000000016409466
-      objectReference: {fileID: 0}
-    - target: {fileID: 6575454566437212283, guid: 367f0075a65204c41ab515193745134b,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0.0000000021483564
-      objectReference: {fileID: 0}
-    - target: {fileID: 6575454566437212283, guid: 367f0075a65204c41ab515193745134b,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 1.02446746e-10
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 367f0075a65204c41ab515193745134b, type: 3}
---- !u!1 &1850421326 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3871784914709248875, guid: 367f0075a65204c41ab515193745134b,
-    type: 3}
-  m_PrefabInstance: {fileID: 1850421325}
-  m_PrefabAsset: {fileID: 0}
---- !u!82 &1850421327 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 715048699, guid: 367f0075a65204c41ab515193745134b,
-    type: 3}
-  m_PrefabInstance: {fileID: 1850421325}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1850421328
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1850421326}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c7bde14b2e868a41aef2c4c5f921b87, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sfxAudioSource: {fileID: 1850421327}
 --- !u!1 &1921789240
 GameObject:
   m_ObjectHideFlags: 0
@@ -7840,7 +7811,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1921789241}
   - component: {fileID: 1921789244}
-  - component: {fileID: 1921789243}
   - component: {fileID: 1921789242}
   m_Layer: 5
   m_Name: CameraSpike
@@ -7902,14 +7872,6 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
---- !u!81 &1921789243
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1921789240}
-  m_Enabled: 1
 --- !u!20 &1921789244
 Camera:
   m_ObjectHideFlags: 0
@@ -8037,6 +7999,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 729964208}
+        m_TargetAssemblyTypeName: MainSceneMusic, Assembly-CSharp
+        m_MethodName: PlayMenuSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 424195224}
         m_TargetAssemblyTypeName: OptionsUI, Assembly-CSharp
         m_MethodName: QuitGameButton

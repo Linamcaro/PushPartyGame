@@ -31,11 +31,6 @@ public class LobbyUI : MonoBehaviour
         GameLobby.Instance.JoinWithCode(joinCodeInputField.text);
     }
 
-    public void playMenuSound()
-    {
-        SoundManager.Instance.PlayMenuSound();
-    }
-
     private void Start()
     {
         playerNameInputField.text = MultiplayerManager.Instance.GetPlayerName();
@@ -48,6 +43,7 @@ public class LobbyUI : MonoBehaviour
         GameLobby.Instance.OnLobbyListChanged += GameLobby_OnLobbyListChanged;
         UpdateLobbyList(new List<Lobby>());
     }
+
 
     private void GameLobby_OnLobbyListChanged(object sender, GameLobby.OnLobbyListChangedEventArgs e)
     {

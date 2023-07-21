@@ -5,9 +5,10 @@ using UnityEngine.UI;
 
 public class SoundSettingsUI : MonoBehaviour
 {
+ 
+    [Header("Slider")]
     [SerializeField] private Slider musicSlider;
     [SerializeField] private Slider soundslider;
-
 
     public void MusicVolume()
     {
@@ -18,7 +19,8 @@ public class SoundSettingsUI : MonoBehaviour
 
     public void SoundVolume()
     {
-        SoundManager.Instance.ChangeVolume(musicSlider.value);
+        SoundManager.Instance.ChangeVolume(soundslider.value);
+       
     }
 
 }

@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using Unity.Networking.Transport.Relay;
@@ -168,7 +167,7 @@ public class GameLobby : MonoBehaviour
         catch (LobbyServiceException e)
         {
             Debug.Log(e);
-            OnJoinFailed?.Invoke(this, EventArgs.Empty);
+            OnQuickJoinFailed?.Invoke(this, EventArgs.Empty);
         }
     }
 

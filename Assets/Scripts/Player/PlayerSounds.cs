@@ -1,47 +1,69 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerSounds : MonoBehaviour
 {
+ 
+        private bool canPlaySound = true;
 
-    private float footstepTimer;
-    private float footstepTimerMax = 0.5f;
 
-    [Header("AudioSource")]
-    [SerializeField] private AudioSource sfxAudioSource;
-
-    private bool canPlaySound = true;
-
-    private Vector3 position;
-
-    //-----------------------------------------------------------------------------------------------------------
 
     private void Start()
     {
-       position = transform.position;
 
-       sfxAudioSource.volume = SoundManager.Instance.GetVolume();
-       PlayerRespawn.Instance.OnPlayerFell += PlayerRespawm_OnPlayerFell;
+        PlayerRespawn.Instance.OnPlayerFell += PlayerSounds_OnPlayerFell;
+       PlayerMovement.PlayerMovementInstance.OnPlayerJump += PlayerSounds_OnPlayerJump;
+       PlayerMovement.PlayerMovementInstance.OnPlayerStunned += PlayerSounds_OnPlayerStunned;
 
     }
+
 
     private void Update() 
     {
-        FootStepSound();
-        PlayerJumpSound();
-        PlayerStunnedSound();
+       FootStepSound();
+       
     }
-    
+
     //-----------------------------------------------------------------------------------------------------------
 
-    private void PlayerRespawm_OnPlayerFell(object sender, EventArgs e)
+    private void PlayerSounds_OnPlayerStunned(object sender, EventArgs e)
+    {
+        if (!canPlaySound)
+        {
+            return;
+        }
+
+        SoundManager.Instance.PlayStunnedSound();
+        StartCoroutine(PlaySound());
+    }
+
+    //-----------------------------------------------------------------------------------------------------------
+
+    private void PlayerSounds_OnPlayerFell(object sender, EventArgs e)
+    {
+       if(!canPlaySound)
+       {
+          return;
+       }
+
+       SoundManager.Instance.PlayFallingSound();
+    }
+
+    //-----------------------------------------------------------------------------------------------------------
+
+    /// <summary>
+    /// Plau jump sound
+    /// </summary>
+    private void PlayerSounds_OnPlayerJump(object sender, EventArgs e)
     {
         if (canPlaySound)
         {
-            SoundManager.Instance.PlayFallingSound();
+            return;
         }
+
+        SoundManager.Instance.PlayJumpSound();
+        StartCoroutine(PlaySound());
     }
 
     //-----------------------------------------------------------------------------------------------------------
@@ -51,42 +73,19 @@ public class PlayerSounds : MonoBehaviour
     /// </summary>
     private void FootStepSound()
     {
-        if (PlayerMovement.PlayerMovementInstance.getVelocity() > 0f && canPlaySound)
+        if (!PlayerMovement.PlayerMovementInstance.isRunning|| !canPlaySound)
         {
-
-            SoundManager.Instance.PlayFootstepsSound(position);
-            StartCoroutine(PlaySound());
+            return;
         }
+
+        SoundManager.Instance.PlayFootstepsSound();
+        StartCoroutine(PlaySound());
     }
 
-    /// <summary>
-    /// Play Jump sound when player jump
-    /// </summary>
-    private void PlayerJumpSound()
-    {
-        if (PlayerMovement.PlayerMovementInstance.isJumping && canPlaySound)
-        {
-            SoundManager.Instance.PlayJumpSound(position);
-            StartCoroutine(PlaySound());
-        } 
-    }
-
-    /// <summary>
-    /// Play stunned sound when player jump
-    /// </summary>
-    private void PlayerStunnedSound()
-    { 
-        if(PlayerMovement.PlayerMovementInstance.isStuned && canPlaySound)
-        {
-            SoundManager.Instance.PlayStunnedSound(position);
-            StartCoroutine(PlaySound());
-        }
-    }
-
-    IEnumerator PlaySound()
-    {
-        canPlaySound = false;
-        yield return new WaitForSeconds(0.15f);
-        canPlaySound = false;
-    }
+       IEnumerator PlaySound()
+       {
+           canPlaySound = false;
+           yield return new WaitForSeconds(0.15f);
+           canPlaySound = true;
+       }
 }

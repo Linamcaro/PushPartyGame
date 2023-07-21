@@ -5,18 +5,17 @@ using UnityEngine.UI;
 
 public class SoundManager : MonoBehaviour
 {
-    private const string PLAYERPREFS_SOUNDEFFECTS_VOLUME = "SoundEffectsVolume";
-    public static SoundManager Instance { get; private set; }
 
+    private const string PLAYERPREFS_SOUNDEFFECTS_VOLUME = "SoundEffectsVolume";
+
+    public static SoundManager Instance { get; private set; }
 
     [SerializeField] private AudioClipsSO audioClipsSO;
 
+    [Header("AudioSource")]
+    [SerializeField] private AudioSource SoundAudioSource;
+   
     private float volume;
-    private float volumeMultiplier = 2;
-
-    private Vector3 cameraPosition;
-
-    //-----------------------------------------------------------------------------------------------------------
 
     private void Awake()
     {
@@ -32,9 +31,8 @@ public class SoundManager : MonoBehaviour
             Destroy(gameObject);
         }
 
+        volume = SoundAudioSource.volume;
         volume = PlayerPrefs.GetFloat(PLAYERPREFS_SOUNDEFFECTS_VOLUME, volume);
-
-        cameraPosition = Camera.main.transform.position;
 
     }
 
@@ -46,9 +44,9 @@ public class SoundManager : MonoBehaviour
     /// <param name="audioClipArray"></param>
     /// <param name="position"></param>
     /// <param name="volume"></param>
-    private void PlayRandomSound(AudioClip[] audioClipArray, Vector3 position)
+    private void PlayRandomSound(AudioClip[] audioClipArray)
     {
-        PlaySound(audioClipArray[Random.Range(0, audioClipArray.Length)], position);
+        PlaySound(audioClipArray[Random.Range(0, audioClipArray.Length)]);
     }
 
     //-----------------------------------------------------------------------------------------------------------
@@ -59,58 +57,23 @@ public class SoundManager : MonoBehaviour
     /// <param name="audioClip"></param>
     /// <param name="position"></param>
     /// <param name="volumeMultiplier"></param>
-    private void PlaySound(AudioClip audioClip, Vector3 position)
+    private void PlaySound(AudioClip audioClip)
     {
-        AudioSource.PlayClipAtPoint(audioClip, position, volumeMultiplier * volume);
+        SoundAudioSource.PlayOneShot(audioClip);
     }
 
     //-----------------------------------------------------------------------------------------------------------
 
-    /// <summary>
-    /// Play audiclip for the steps
-    /// </summary>
-    /// <param name="position"></param>
-    /// <param name="volume"></param>
-    public void PlayFootstepsSound(Vector3 position)
+    public void PlayMenuSound()
     {
-        PlayRandomSound(audioClipsSO.footsteps, position);
+        PlayRandomSound(audioClipsSO.ButtonsClick);
     }
 
     //-----------------------------------------------------------------------------------------------------------
 
-    /// <summary>
-    /// Play sound when jumping
-    /// </summary>
-    /// <param name="position"></param>
-    /// <param name="volume"></param>
-    public void PlayJumpSound(Vector3 position)
+    public void PlayPlayerReady()
     {
-        PlayRandomSound(audioClipsSO.playerJump, position);
-    }
-
-
-    //-----------------------------------------------------------------------------------------------------------
-
-    /// <summary>
-    /// Play audio when player attacks
-    /// </summary>
-    /// <param name="position"></param>
-    /// <param name="volume"></param>
-    public void PlayPowerUpSound(Vector3 position)
-    {
-        PlayRandomSound(audioClipsSO.playerPowerUp, position);
-    }
-
-    //-----------------------------------------------------------------------------------------------------------
-
-    /// <summary>
-    /// Play audio when obstacle hits the player
-    /// </summary>
-    /// <param name="position"></param>
-    /// <param name="volume"></param>
-    public void PlayObstacleHittingPlayerSound(Vector3 position)
-    {
-        PlayRandomSound(audioClipsSO.obstacleHittingPlayer, position);
+        PlayRandomSound(audioClipsSO.playerReadyCharacterSelect);
     }
 
     //-----------------------------------------------------------------------------------------------------------
@@ -120,49 +83,76 @@ public class SoundManager : MonoBehaviour
     /// </summary>
     public void PlayCountdownSound()
     {
-        PlayRandomSound(audioClipsSO.CountDown, cameraPosition);
+        PlayRandomSound(audioClipsSO.CountDown);
     }
 
     //-----------------------------------------------------------------------------------------------------------
+    /// <summary>
+    /// Play sound when jumping
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="volume"></param>
+    public void PlayJumpSound()
+    {
+        PlayRandomSound(audioClipsSO.playerJump);
+    }
+
+    //-----------------------------------------------------------------------------------------------------------
+
+    /// <summary>
+    /// Play audio when obstacle hits the player
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="volume"></param>
+    public void PlayObstacleHittingPlayerSound()
+    {
+        PlayRandomSound(audioClipsSO.obstacleHittingPlayer);
+    }
+
+    //-----------------------------------------------------------------------------------------------------------
+
 
     /// <summary>
     /// Play sound when jumping
     /// </summary>
     /// <param name="position"></param>
     /// <param name="volume"></param>
-    public void PlayStunnedSound(Vector3 position)
+    public void PlayStunnedSound()
     {
-        PlayRandomSound(audioClipsSO.playerStunned,position);
+        PlayRandomSound(audioClipsSO.playerStunned);
     }
 
     //-----------------------------------------------------------------------------------------------------------
 
     public void PlayFallingSound()
     {
-        PlayRandomSound(audioClipsSO.playerFalling, cameraPosition);
-    }
-
-    //-----------------------------------------------------------------------------------------------------------
-
-    public void PlayMenuSound()
-    {
-        PlayRandomSound(audioClipsSO.ButtonsClick, cameraPosition);
+        PlayRandomSound(audioClipsSO.playerFalling);
     }
 
     //-----------------------------------------------------------------------------------------------------------
 
     /// <summary>
-    /// Change the sound volume
+    /// Play audiclip for the steps
     /// </summary>
-    public void ChangeVolume(float volumeChanged)
+    /// <param name="position"></param>
+    /// <param name="volume"></param>
+    public void PlayFootstepsSound()
     {
-        volume = volumeChanged;
-
-        PlayerPrefs.SetFloat(PLAYERPREFS_SOUNDEFFECTS_VOLUME, volume);
-        PlayerPrefs.Save();
+        PlayRandomSound(audioClipsSO.footsteps);
     }
 
     //-----------------------------------------------------------------------------------------------------------
+
+    /// <summary>
+    /// Change Music Volume
+    /// </summary>
+    public void ChangeVolume(float value)
+    {
+        SoundAudioSource.volume = value;
+
+        PlayerPrefs.SetFloat(PLAYERPREFS_SOUNDEFFECTS_VOLUME, value);
+        PlayerPrefs.Save();
+    }
 
     /// <summary>
     /// Get the sound volume
@@ -172,5 +162,6 @@ public class SoundManager : MonoBehaviour
         return volume;
     }
 
-
 }
+
+

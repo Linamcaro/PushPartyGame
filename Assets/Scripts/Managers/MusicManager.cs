@@ -25,7 +25,6 @@ public class MusicManager : MonoBehaviour
 
     private void Awake()
     {
-        audioSource = GetComponent<AudioSource>();
 
         if (Instance == null)
         {

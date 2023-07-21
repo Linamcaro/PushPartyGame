@@ -24,6 +24,7 @@ public class PlayerMovement : NetworkBehaviour
     public event EventHandler OnPlayerHit;
     public event EventHandler OnPlayerJump;
     public event EventHandler OnPlayerAttack1;
+    public event EventHandler OnPlayerStunned;
 
     [Header("Movement variables")]
 
@@ -48,7 +49,6 @@ public class PlayerMovement : NetworkBehaviour
     public bool isJumping { get; private set; }
     public bool isSliding { get; private set; }
     public bool isStuned { get; private set; }
-    public bool isWalking { get; private set; }
     
 
     private bool wasStuned = false;
@@ -206,9 +206,11 @@ public class PlayerMovement : NetworkBehaviour
                 // check if can jump and apply velocity
                 if (IsGrounded() && jump)
                 {
+
+                    OnPlayerJump?.Invoke(this, EventArgs.Empty);
                     isJumping = true;
                     rigidBody.velocity = new Vector3(velocity.x, CalculateJumpVerticalSpeed(), velocity.z);
-                    OnPlayerJump?.Invoke(this, EventArgs.Empty);
+                    
                 }
 
                 if (Attack1 && canAttack)
@@ -287,8 +289,12 @@ public class PlayerMovement : NetworkBehaviour
     {
         //if player is stunned then he can't move
         if (isStuned)
+        {
+            OnPlayerStunned?.Invoke(this, EventArgs.Empty);
             wasStuned = true;
-        isStuned = true;
+
+        }
+
         canMove = false;
 
         float delta = 0;
@@ -315,7 +321,6 @@ public class PlayerMovement : NetworkBehaviour
         }
         else
         {
-            isStuned = false;
             canMove = true;
         }
     }
@@ -372,7 +377,7 @@ public class PlayerMovement : NetworkBehaviour
 
     //-----------------------------------------------------------------------------------------------------------
 
-    public float getVelocity()
+    public float GetVelocity()
     {
         return rigidBody.velocity.magnitude;
     }

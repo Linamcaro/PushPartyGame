@@ -20,7 +20,7 @@ public class CleanUp : MonoBehaviour
 
         if (GameLobby.Instance != null)
         {
-            Destroy(MultiplayerManager.Instance.gameObject);
+            Destroy(GameLobby.Instance.gameObject);
         }
 
 
