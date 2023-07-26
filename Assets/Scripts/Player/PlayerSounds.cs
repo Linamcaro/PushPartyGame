@@ -7,8 +7,7 @@ public class PlayerSounds : MonoBehaviour
 {
 
     private float footstepTimer;
-    private float footstepTimerMax = 0.5f;
-    private float volume = 1f;
+    private float footstepTimerMax = .1f;
 
     private bool canPlaySound = true;
 
@@ -27,10 +26,7 @@ public class PlayerSounds : MonoBehaviour
 
     private void PlayerRespawm_OnPlayerFell(object sender, EventArgs e)
     {
-        if (canPlaySound)
-        {
-            SoundManager.Instance.PlayerFallingSound(gameObject.transform.position, volume);
-        }
+        SoundManager.Instance.PlayerFallingSound(gameObject.transform.position);
     }
 
 
@@ -44,8 +40,11 @@ public class PlayerSounds : MonoBehaviour
         if (PlayerMovement.PlayerMovementInstance.getVelocity() > 0f && canPlaySound)
         {
 
-            SoundManager.Instance.PlayFootstepsSound(PlayerMovement.PlayerMovementInstance.transform.position, volume);
-            StartCoroutine(PlaySound());
+            if (PlayerMovement.PlayerMovementInstance.getVelocity() > 0f)
+            {
+               
+                SoundManager.Instance.PlayFootstepsSound(PlayerMovement.PlayerMovementInstance.transform.position);
+            }
         }
     }
 
@@ -56,8 +55,8 @@ public class PlayerSounds : MonoBehaviour
     {
         if (PlayerMovement.PlayerMovementInstance.isJumping && canPlaySound)
         {
-            SoundManager.Instance.PlayJumpSound(PlayerMovement.PlayerMovementInstance.transform.position, volume);
-            StartCoroutine(PlaySound());
+            SoundManager.Instance.PlayJumpSound(PlayerMovement.PlayerMovementInstance.transform.position);
+           
         } 
     }
 
@@ -68,8 +67,7 @@ public class PlayerSounds : MonoBehaviour
     { 
         if(PlayerMovement.PlayerMovementInstance.isStuned && canPlaySound)
         {
-            SoundManager.Instance.PlayStunnedSound(gameObject.transform.position, volume);
-            StartCoroutine(PlaySound());
+            SoundManager.Instance.PlayStunnedSound(gameObject.transform.position);
         }
     }
 

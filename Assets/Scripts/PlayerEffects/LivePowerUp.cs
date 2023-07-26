@@ -8,7 +8,6 @@ public class LivePowerUp : NetworkBehaviour
 {
     // Start is called before the first frame update
     public GameObject lifeEffect;
-    private float multiplier = 1.4f;
 
     void OnTriggerEnter(Collider other)
     {
