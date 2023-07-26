@@ -1950,6 +1950,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myPlayerMovement: {fileID: 2041278757}
+  hitParticles: {fileID: 100004, guid: f95ff734540a0d749be6571b6cb5b37f, type: 3}
 --- !u!114 &3623877923286043416
 MonoBehaviour:
   m_ObjectHideFlags: 0
