@@ -17,14 +17,17 @@ public class PlayerMovement : NetworkBehaviour
         }
     }
 
+    [Header("Player spawn positions")]
     [SerializeField] private List<Vector3> spawnPositions;
 
     //events
     public event EventHandler OnPlayerHit;
     public event EventHandler OnPlayerJump;
     public event EventHandler OnPlayerAttack1;
+    public event EventHandler OnPlayerStunned;
     public event EventHandler OnCallSpeed;
-    //Player jumping
+
+    [Header("Movement variables")]
     [SerializeField] private float moveSpeed = 10.0f;
     [SerializeField] private float airVelocity = 8f;
     [SerializeField] private float gravity = 10.0f;
@@ -46,7 +49,6 @@ public class PlayerMovement : NetworkBehaviour
     public bool isJumping { get; private set; }
     public bool isSliding { get; private set; }
     public bool isStuned { get; private set; }
-    public bool isWalking { get; private set; }
 
     private bool wasStuned = false;
     private float pushForce;
@@ -203,13 +205,15 @@ public class PlayerMovement : NetworkBehaviour
                 // check if can jump and apply velocity
                 if (IsGrounded() && jump)
                 {
+                    OnPlayerJump?.Invoke(this, EventArgs.Empty);
                     isJumping = true;
                     rigidBody.velocity = new Vector3(velocity.x, CalculateJumpVerticalSpeed(), velocity.z);
-                    OnPlayerJump?.Invoke(this, EventArgs.Empty);
+                    
                 }
 
                 if (Attack1 && canAttack)
                 {
+                   
                     OnPlayerAttack1?.Invoke(this, EventArgs.Empty);
                     canAttack = false;
                     Invoke(nameof(ResetAttack), attackCoolDown);
@@ -282,10 +286,11 @@ public class PlayerMovement : NetworkBehaviour
 
     private IEnumerator Decrease(float value, float duration)
     {
-        //if player is stunned then he can't move
         if (isStuned)
+        {
+            OnPlayerStunned?.Invoke(this, EventArgs.Empty);
             wasStuned = true;
-        isStuned = true;
+        }   
         canMove = false;
 
         float delta = 0;
@@ -312,7 +317,7 @@ public class PlayerMovement : NetworkBehaviour
         }
         else
         {
-            isStuned = false;
+            
             canMove = true;
         }
     }
