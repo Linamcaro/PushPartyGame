@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2175024209945920849}
   - component: {fileID: -6444493199945551309}
   - component: {fileID: 5395045140775280580}
+  - component: {fileID: -8146366784322902710}
   m_Layer: 0
   m_Name: IceCreamStick
   m_TagString: Untagged
@@ -156,3 +157,15 @@ MonoBehaviour:
   ScaleThreshold: 0.01
   InLocalSpace: 0
   Interpolate: 1
+--- !u!114 &-8146366784322902710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2684454725753123329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3d7082f968091146bb309775b115ef9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

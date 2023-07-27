@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 8675365180021703782}
   - component: {fileID: 227674292269010623}
   - component: {fileID: 2081383711583404197}
+  - component: {fileID: 8164216166056292680}
   m_Layer: 0
   m_Name: Cookies
   m_TagString: Untagged
@@ -156,3 +157,15 @@ MonoBehaviour:
   ScaleThreshold: 0.01
   InLocalSpace: 0
   Interpolate: 1
+--- !u!114 &8164216166056292680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4333854071225382230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3d7082f968091146bb309775b115ef9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

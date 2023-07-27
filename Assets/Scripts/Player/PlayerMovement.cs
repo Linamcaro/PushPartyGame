@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using Cinemachine;
-
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 public class PlayerMovement : NetworkBehaviour
 {
     private static PlayerMovement _playerMovementInstance;
@@ -16,18 +17,14 @@ public class PlayerMovement : NetworkBehaviour
         }
     }
 
-    [Header("Player spawn positions")]
     [SerializeField] private List<Vector3> spawnPositions;
 
-   
     //events
     public event EventHandler OnPlayerHit;
     public event EventHandler OnPlayerJump;
     public event EventHandler OnPlayerAttack1;
-    public event EventHandler OnPlayerStunned;
-
-    [Header("Movement variables")]
-
+    public event EventHandler OnCallSpeed;
+    //Player jumping
     [SerializeField] private float moveSpeed = 10.0f;
     [SerializeField] private float airVelocity = 8f;
     [SerializeField] private float gravity = 10.0f;
@@ -49,14 +46,14 @@ public class PlayerMovement : NetworkBehaviour
     public bool isJumping { get; private set; }
     public bool isSliding { get; private set; }
     public bool isStuned { get; private set; }
-    
+    public bool isWalking { get; private set; }
 
     private bool wasStuned = false;
     private float pushForce;
     private Vector3 pushDir;
 
 
-    private float speedDelayTime = 20f;
+    private float speedDelayTime = 10f;
     private float speedDelayTime1 = 1f;
 
     [Header("Attack variables")]
@@ -65,7 +62,6 @@ public class PlayerMovement : NetworkBehaviour
     public float attackCoolDown = 0.5f;
     public bool canAttack { get; private set; }
     public bool isAttacking { get; private set; }
-
 
     //-----------------------------------------------------------------------------------------------------------
 
@@ -105,6 +101,7 @@ public class PlayerMovement : NetworkBehaviour
 
     private void Update()
     {
+        
         if (!IsOwner) return;
 
         Vector2 inputMovement = PlayerController.Instance.GetPlayerMovement();
@@ -206,11 +203,9 @@ public class PlayerMovement : NetworkBehaviour
                 // check if can jump and apply velocity
                 if (IsGrounded() && jump)
                 {
-
-                    OnPlayerJump?.Invoke(this, EventArgs.Empty);
                     isJumping = true;
                     rigidBody.velocity = new Vector3(velocity.x, CalculateJumpVerticalSpeed(), velocity.z);
-                    
+                    OnPlayerJump?.Invoke(this, EventArgs.Empty);
                 }
 
                 if (Attack1 && canAttack)
@@ -289,12 +284,8 @@ public class PlayerMovement : NetworkBehaviour
     {
         //if player is stunned then he can't move
         if (isStuned)
-        {
-            OnPlayerStunned?.Invoke(this, EventArgs.Empty);
             wasStuned = true;
-
-        }
-
+        isStuned = true;
         canMove = false;
 
         float delta = 0;
@@ -321,6 +312,7 @@ public class PlayerMovement : NetworkBehaviour
         }
         else
         {
+            isStuned = false;
             canMove = true;
         }
     }
@@ -343,8 +335,10 @@ public class PlayerMovement : NetworkBehaviour
 
     public IEnumerator SpeedEnum(Collider player)
     {
+        OnCallSpeed?.Invoke(this, EventArgs.Empty);
         UpdateSpeed(20f);
         yield return new WaitForSeconds(speedDelayTime);
+        
 
 
     }
@@ -355,7 +349,7 @@ public class PlayerMovement : NetworkBehaviour
     {
         UpdateSpeed(7f);
         yield return new WaitForSeconds(speedDelayTime1);
-
+        
 
     }
 
@@ -371,13 +365,15 @@ public class PlayerMovement : NetworkBehaviour
     private IEnumerator ChangeSpeed(Collider player)
     {
         yield return StartCoroutine(SpeedEnum(player));
+        
         yield return StartCoroutine(SpeedEnum1(player));
 
     }
 
+
     //-----------------------------------------------------------------------------------------------------------
 
-    public float GetVelocity()
+    public float getVelocity()
     {
         return rigidBody.velocity.magnitude;
     }
