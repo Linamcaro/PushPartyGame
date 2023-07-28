@@ -24,27 +24,27 @@ public class ConnectionResponseMessage : MonoBehaviour
 
     private void MultiplayerManager_OnQuickJoinFailed(object sender, System.EventArgs e)
     {
-        ShowMessage("Could not find a Game to Quick Join!");
+        ShowMessage("Could not find a Game to Quick Join");
     }
 
     private void MultiplayerManager_OnJoinFailed(object sender, System.EventArgs e)
     {
-        ShowMessage("Failed to join Game!");
+        ShowMessage("Failed to join Game");
     }
 
     private void MultiplayerManager_OnJoinStarted(object sender, System.EventArgs e)
     {
-        ShowMessage("Joining Game...");
+        ShowMessage("Joining Game");
     }
 
     private void MultiplayerManager_OnCreateLobbyFailed(object sender, System.EventArgs e)
     {
-        ShowMessage("Failed to create Game!");
+        ShowMessage("Failed to create Game");
     }
 
     private void MultiplayerManager_OnCreateLobbyStarted(object sender, System.EventArgs e)
     {
-        ShowMessage("Creating Game...");
+        ShowMessage("Creating Game");
     }
 
     private void MultiplayerManagerr_OnFailedToJoinGame(object sender, System.EventArgs e)
