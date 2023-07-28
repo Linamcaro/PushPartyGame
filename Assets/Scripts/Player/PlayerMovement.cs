@@ -67,6 +67,12 @@ public class PlayerMovement : NetworkBehaviour
     public bool canAttack { get; private set; }
     public bool isAttacking { get; private set; }
 
+    [Header("Particles")]
+
+    public GameObject hitParticles;
+
+
+
     //-----------------------------------------------------------------------------------------------------------
 
     private void Start()
@@ -279,6 +285,8 @@ public class PlayerMovement : NetworkBehaviour
 
         if (rigidBody == null) Debug.LogError("RB error");
         if (velocityF == null) Debug.LogError("velF error");
+
+        Instantiate(hitParticles, transform.position + new Vector3(0f, 1.5f, 0f), Quaternion.identity);
 
         rigidBody.velocity = velocityF;
 

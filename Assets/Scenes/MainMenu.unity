@@ -2232,6 +2232,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03c6536b19fe3e149a79132d7b2c3a1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  volumeSlider: {fileID: 0}
   audioClipsSO: {fileID: 11400000, guid: 653147e0891a3004fa057c4dd9ea390c, type: 2}
   SoundAudioSource: {fileID: 665944241}
 --- !u!4 &665944240
