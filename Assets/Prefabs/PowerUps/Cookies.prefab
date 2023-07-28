@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 227674292269010623}
   - component: {fileID: 2081383711583404197}
   - component: {fileID: 8164216166056292680}
+  - component: {fileID: 6875196910325267393}
   m_Layer: 0
   m_Name: Cookies
   m_TagString: Untagged
@@ -113,6 +114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb6128fae60fc9044b92750b2fd18ec2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PowerUpHelper: {fileID: 6875196910325267393}
   lifeEffect: {fileID: 4126359638490815777, guid: 77cddf39b775be645a02d57fc0347afb,
     type: 3}
 --- !u!114 &227674292269010623
@@ -169,3 +171,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d7082f968091146bb309775b115ef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6875196910325267393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4333854071225382230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47422e043a1ed0e449062de3dd3445b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 0}

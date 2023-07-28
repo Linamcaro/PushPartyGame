@@ -12,42 +12,76 @@ public class PlayerSounds : MonoBehaviour
     private void Start()
     {
 
-        PlayerRespawn.Instance.OnPlayerFell += PlayerSounds_OnPlayerFell;
+       PlayerRespawn.Instance.OnPlayerFell += PlayerSounds_OnPlayerFell;
        PlayerMovement.PlayerMovementInstance.OnPlayerJump += PlayerSounds_OnPlayerJump;
        PlayerMovement.PlayerMovementInstance.OnPlayerStunned += PlayerSounds_OnPlayerStunned;
+       PlayerMovement.PlayerMovementInstance.OnPlayerRunning += PlayerSounds_OnPlayerRunning;
+       PlayerMovement.PlayerMovementInstance.OnPlayerAttack1 += PlayerSounds_OnPlayeAttack1;
+       PlayerMovement.PlayerMovementInstance.OnPlayerHit += PlayerSounds_OnPlayerHit;
+       PlayerSpawn.Instance.OnLivesChanged += PlayerSounds_OnLivesChanged;
+       PlayerMovement.PlayerMovementInstance.OnPickUpPowerUp += PlayerSounds_OnPickUpPowerUp;
+       PlayerSpawn.Instance.OnPickUpPowerUp += PlayerSounds_OnPickUpPowerUp;
 
     }
 
-
-    private void Update() 
+    private void PlayerSounds_OnPickUpPowerUp(object sender, EventArgs e)
     {
-       FootStepSound();
-       
+        if (canPlaySound)
+        {
+            SoundManager.Instance.PlayPickUpPowerUp();
+            StartCoroutine(PlaySound());
+        }
+        
+    }
+
+    private void PlayerSounds_OnLivesChanged(object sender, EventArgs e)
+    {
+        if (canPlaySound)
+        {
+            SoundManager.Instance.PlayPlayerWinsLive();
+            StartCoroutine(PlaySound());
+        }
+    }
+
+    private void PlayerSounds_OnPlayeAttack1(object sender, EventArgs e)
+    {
+        if (canPlaySound)
+        {
+            SoundManager.Instance.PlayAttackSound();
+            StartCoroutine(PlaySound());
+        }
+    }
+
+    //-----------------------------------------------------------------------------------------------------------
+    private void PlayerSounds_OnPlayerHit(object sender, EventArgs e)
+    {
+        if (canPlaySound) 
+        {
+            SoundManager.Instance.PlayObstacleHittingPlayer();
+            StartCoroutine(PlaySound());
+        }
     }
 
     //-----------------------------------------------------------------------------------------------------------
 
     private void PlayerSounds_OnPlayerStunned(object sender, EventArgs e)
     {
-        if (!canPlaySound)
+        if (canPlaySound)
         {
-            return;
+            SoundManager.Instance.PlayStunnedSound();
+            StartCoroutine(PlaySound());
         }
-
-        SoundManager.Instance.PlayStunnedSound();
-        StartCoroutine(PlaySound());
     }
 
     //-----------------------------------------------------------------------------------------------------------
 
     private void PlayerSounds_OnPlayerFell(object sender, EventArgs e)
     {
-       if(!canPlaySound)
+       if(canPlaySound)
        {
-          return;
+            SoundManager.Instance.PlayFallingSound();
+            StartCoroutine(PlaySound());
        }
-
-       SoundManager.Instance.PlayFallingSound();
     }
 
     //-----------------------------------------------------------------------------------------------------------
@@ -59,11 +93,9 @@ public class PlayerSounds : MonoBehaviour
     {
         if (canPlaySound)
         {
-            return;
+            SoundManager.Instance.PlayJumpSound();
+            StartCoroutine(PlaySound());
         }
-
-        SoundManager.Instance.PlayJumpSound();
-        StartCoroutine(PlaySound());
     }
 
     //-----------------------------------------------------------------------------------------------------------
@@ -71,21 +103,22 @@ public class PlayerSounds : MonoBehaviour
     /// <summary>
     /// Play footstep sound if player is walking
     /// </summary>
-    private void FootStepSound()
-    {
-        if (!PlayerMovement.PlayerMovementInstance.isRunning|| !canPlaySound)
-        {
-            return;
-        }
 
-        SoundManager.Instance.PlayFootstepsSound();
-        StartCoroutine(PlaySound());
+    private void PlayerSounds_OnPlayerRunning(object sender, EventArgs e)
+    {
+        if (canPlaySound)
+        {
+            SoundManager.Instance.PlayFootstepsSound();
+            StartCoroutine(PlaySound());
+        }
     }
 
-       IEnumerator PlaySound()
-       {
-           canPlaySound = false;
-           yield return new WaitForSeconds(0.15f);
-           canPlaySound = true;
-       }
+    //-----------------------------------------------------------------------------------------------------------
+
+    IEnumerator PlaySound()
+    {
+       canPlaySound = false;
+       yield return new WaitForSeconds(0.2f);
+       canPlaySound = true;
+    }
 }

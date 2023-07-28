@@ -15,6 +15,7 @@ public class PlayerSpawn : MonoBehaviour
 
     //Event for the game state changes
     public event EventHandler OnLivesChanged;
+    public event EventHandler OnPickUpPowerUp;
 
     public event EventHandler OnPlayerDied;
 
@@ -108,6 +109,7 @@ public class PlayerSpawn : MonoBehaviour
 
     public void CallInmunity(Collider player)
     {
+        OnPickUpPowerUp?.Invoke(this, EventArgs.Empty);
         StartCoroutine(ChangeLayerAndDuration(player));
     }
 

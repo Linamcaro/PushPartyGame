@@ -25,13 +25,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 372de9da0c2d43c4d897dd80c215f578, type: 3}
   playerStunned:
   - {fileID: 8300000, guid: ff2062484f5ecab4aaf1de54ce8a7f4f, type: 3}
-  obstacleHittingPlayer:
-  - {fileID: 8300000, guid: 4ef284437ff7a5b49ac9a4e97a11a4f0, type: 3}
+  playerPunch: []
+  obstacleHittingPlayer: []
   CountDown:
   - {fileID: 8300000, guid: b70cd27d6234c5a4ba1b6a58e01e747e, type: 3}
   ButtonsClick:
   - {fileID: 8300000, guid: 6cce3411323ea2a42b536c31192bec04, type: 3}
   playerReadyCharacterSelect:
   - {fileID: 8300000, guid: 7b0e9698eddaa8041926cf893d1fef01, type: 3}
-  playerWins: []
-  playerLose: []

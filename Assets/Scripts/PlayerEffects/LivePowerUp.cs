@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class LivePowerUp : NetworkBehaviour
 {
-    // Start is called before the first frame update
+    [SerializeField] private PowerUpHelper PowerUpHelper;
     public GameObject lifeEffect;
 
     void OnTriggerEnter(Collider other)
@@ -21,7 +21,7 @@ public class LivePowerUp : NetworkBehaviour
         Instantiate(lifeEffect, transform.position, transform.rotation);
         PlayerSpawn.Instance.IncreasePlayerLives();
 
-        NetworkObjectPool.Singleton.ReturnNetworkObject(NetworkObject, gameObject);
+        NetworkObjectPool.Singleton.ReturnNetworkObject(NetworkObject, PowerUpHelper.prefab);
     }
 
 }

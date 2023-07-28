@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: -6444493199945551309}
   - component: {fileID: 5395045140775280580}
   - component: {fileID: -8146366784322902710}
+  - component: {fileID: -6929973134438002540}
   m_Layer: 0
   m_Name: IceCreamStick
   m_TagString: Untagged
@@ -115,6 +116,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inmunityEffect: {fileID: 4126359638490815777, guid: 77cddf39b775be645a02d57fc0347afb,
     type: 3}
+  PowerUpHelper: {fileID: -6929973134438002540}
 --- !u!114 &-6444493199945551309
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,3 +171,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d7082f968091146bb309775b115ef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-6929973134438002540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2684454725753123329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47422e043a1ed0e449062de3dd3445b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 0}

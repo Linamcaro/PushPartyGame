@@ -7,6 +7,7 @@ using UnityEngine;
 public class InmunityPowerUp : NetworkBehaviour
 {
     public GameObject inmunityEffect;
+    [SerializeField] private PowerUpHelper PowerUpHelper;
     private float multiplier = 1.4f;
     private float inmunityDuration = 1f;
 
@@ -30,7 +31,7 @@ public class InmunityPowerUp : NetworkBehaviour
             //  PlayerSpawn stats =  other.GetComponent<PlayerRespawn>();
             //stats.CallInmunity(other);
 
-            NetworkObjectPool.Singleton.ReturnNetworkObject(NetworkObject, gameObject);
+            NetworkObjectPool.Singleton.ReturnNetworkObject(NetworkObject, PowerUpHelper.prefab);
             
         }
     }

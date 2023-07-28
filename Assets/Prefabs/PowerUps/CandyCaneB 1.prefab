@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 5137816837493386163}
   - component: {fileID: -8991338778940223217}
   - component: {fileID: 6692431426527902456}
+  - component: {fileID: -5556240388917977887}
   m_Layer: 0
   m_Name: CandyCaneB 1
   m_TagString: Untagged
@@ -114,6 +115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47e22532618792f4bb211b2dbf71f3dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PowerUpHelper: {fileID: -5556240388917977887}
   speedEffect: {fileID: 4126359638490815777, guid: 77cddf39b775be645a02d57fc0347afb,
     type: 3}
   speedSlider: {fileID: 0}
@@ -215,3 +217,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d7082f968091146bb309775b115ef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-5556240388917977887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4041470007389413132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47422e043a1ed0e449062de3dd3445b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 0}

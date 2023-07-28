@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: -3752219730019636433}
   - component: {fileID: 380203666324191977}
   - component: {fileID: 7043403273339654739}
+  - component: {fileID: 7690058369722222184}
   m_Layer: 0
   m_Name: Frappe B
   m_TagString: Untagged
@@ -101,6 +102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3a8fe1d3030ca14ca9f4ec6ea51e052, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PowerUpHelper: {fileID: 7690058369722222184}
   playerTag: Player
   freezeDuration: 1000
   players: []
@@ -171,3 +173,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d7082f968091146bb309775b115ef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7690058369722222184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5045826020152128757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47422e043a1ed0e449062de3dd3445b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 0}

@@ -104,7 +104,7 @@ public class SoundManager : MonoBehaviour
     /// </summary>
     /// <param name="position"></param>
     /// <param name="volume"></param>
-    public void PlayObstacleHittingPlayerSound()
+    public void PlayObstacleHittingPlayer()
     {
         PlayRandomSound(audioClipsSO.obstacleHittingPlayer);
     }
@@ -141,6 +141,41 @@ public class SoundManager : MonoBehaviour
         PlayRandomSound(audioClipsSO.footsteps);
     }
 
+    //-----------------------------------------------------------------------------------------------------------
+
+    /// <summary>
+    /// Play audiclip for the steps
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="volume"></param>
+    public void PlayAttackSound()
+    {
+        PlayRandomSound(audioClipsSO.playerPunch);
+    }
+
+    //-----------------------------------------------------------------------------------------------------------
+
+    /// <summary>
+    /// Play audiclip for the steps
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="volume"></param>
+    public void PlayPlayerWinsLive()
+    {
+        PlayRandomSound(audioClipsSO.playerWinsLive);
+    }
+
+    //-----------------------------------------------------------------------------------------------------------
+
+    /// <summary>
+    /// Play audiclip for the steps
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="volume"></param>
+    public void PlayPickUpPowerUp()
+    {
+        PlayRandomSound(audioClipsSO.playerPowerUp);
+    }
     //-----------------------------------------------------------------------------------------------------------
 
     /// <summary>
