@@ -10,8 +10,6 @@ public class Punch : NetworkBehaviour
     private Vector3 hitDir;
     public PlayerMovement myPlayerMovement;
 
-    public GameObject hitParticles;
-
     private void Start()
     {
         force = myPlayerMovement.attackForce;
@@ -29,7 +27,6 @@ public class Punch : NetworkBehaviour
 
                 if (collisionPM != myPlayerMovement && myPlayerMovement.isAttacking)
                 {
-                    Instantiate(hitParticles, transform.position, Quaternion.identity);
                     collisionPM.HitPlayer(-hitDir * force, stunTime);
                 }
                 return;
