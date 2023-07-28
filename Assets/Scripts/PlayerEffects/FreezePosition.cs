@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Netcode.Extensions;
@@ -6,6 +7,7 @@ using UnityEngine;
 
 public class FreezePosition : NetworkBehaviour
 {
+    [SerializeField] private PowerUpHelper PowerUpHelper;
     public string playerTag = "Player";
     public float freezeDuration = 50f;
 
@@ -55,7 +57,7 @@ public class FreezePosition : NetworkBehaviour
                 }
             }
         }
-        NetworkObjectPool.Singleton.ReturnNetworkObject(this.NetworkObject, this.gameObject);
+        NetworkObjectPool.Singleton.ReturnNetworkObject(this.NetworkObject, PowerUpHelper.prefab);
     }
 
     private void OnTriggerExit(Collider other)

@@ -11,5 +11,17 @@ public class MainMenuMusicStarter : MonoBehaviour
     {
         MusicManager.Instance.PlayMenuMusic(restart);
     }
+
+
+    public void PlayMenuSound()
+    {
+        SoundManager.Instance.PlayMenuSound();
+    }
+
+    public void PlayPlayerReadySound()
+    { 
+        SoundManager.Instance.PlayPlayerReady();
+    }
+
 }
 

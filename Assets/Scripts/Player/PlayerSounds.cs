@@ -1,80 +1,127 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerSounds : MonoBehaviour
 {
-
-    private float footstepTimer;
-    private float footstepTimerMax = .1f;
-
+ 
     private bool canPlaySound = true;
-
+    private bool canPlayWalkingSound = true;
 
     private void Start()
     {
-       PlayerRespawn.Instance.OnPlayerFell += PlayerRespawm_OnPlayerFell;
+
+       PlayerRespawn.Instance.OnPlayerFell += PlayerSounds_OnPlayerFell;
+       PlayerMovement.PlayerMovementInstance.OnPlayerJump += PlayerSounds_OnPlayerJump;
+       PlayerMovement.PlayerMovementInstance.OnPlayerStunned += PlayerSounds_OnPlayerStunned;
+       PlayerMovement.PlayerMovementInstance.OnPlayerRunning += PlayerSounds_OnPlayerRunning;
+       PlayerMovement.PlayerMovementInstance.OnPlayerAttack1 += PlayerSounds_OnPlayeAttack1;
+       PlayerMovement.PlayerMovementInstance.OnPlayerHit += PlayerSounds_OnPlayerHit;
+       PlayerSpawn.Instance.OnLivesChanged += PlayerSounds_OnLivesChanged;
+       PlayerMovement.PlayerMovementInstance.OnPickUpPowerUp += PlayerSounds_OnPickUpPowerUp;
+       PlayerSpawn.Instance.OnPickUpPowerUp += PlayerSounds_OnPickUpPowerUp;
+
     }
 
-    private void Update() 
+    private void PlayerSounds_OnPickUpPowerUp(object sender, EventArgs e)
     {
-        FootStepSound();
-        PlayerJumpSound();
-        PlayerStunnedSound();
+       
+        SoundManager.Instance.PlayPickUpPowerUp();
+        // StartCoroutine(PlaySound());
+        
+        
     }
 
-    private void PlayerRespawm_OnPlayerFell(object sender, EventArgs e)
+    private void PlayerSounds_OnLivesChanged(object sender, EventArgs e)
     {
-        SoundManager.Instance.PlayerFallingSound(gameObject.transform.position);
+        
+            SoundManager.Instance.PlayPlayerWinsLive();
+           // StartCoroutine(PlaySound());
+       
     }
 
+    private void PlayerSounds_OnPlayeAttack1(object sender, EventArgs e)
+    {
+        if (canPlaySound)
+        {
+            SoundManager.Instance.PlayAttackSound();
+            StartCoroutine(PlaySound());
+        }
+    }
+
+    //-----------------------------------------------------------------------------------------------------------
+    private void PlayerSounds_OnPlayerHit(object sender, EventArgs e)
+    {
+        if (canPlaySound) 
+        {
+            SoundManager.Instance.PlayObstacleHittingPlayer();
+            StartCoroutine(PlaySound());
+        }
+    }
+
+    //-----------------------------------------------------------------------------------------------------------
+
+    private void PlayerSounds_OnPlayerStunned(object sender, EventArgs e)
+    {
+        
+        SoundManager.Instance.PlayStunnedSound();
+        //StartCoroutine(PlaySound());
+        
+    }
+
+    //-----------------------------------------------------------------------------------------------------------
+
+    private void PlayerSounds_OnPlayerFell(object sender, EventArgs e)
+    {
+       if(canPlaySound)
+       {
+            SoundManager.Instance.PlayFallingSound();
+            StartCoroutine(PlaySound());
+       }
+    }
+
+    //-----------------------------------------------------------------------------------------------------------
+
+    /// <summary>
+    /// Plau jump sound
+    /// </summary>
+    private void PlayerSounds_OnPlayerJump(object sender, EventArgs e)
+    {
+        if (canPlaySound)
+        {
+            SoundManager.Instance.PlayJumpSound();
+            StartCoroutine(PlaySound());
+        }
+    }
+
+    //-----------------------------------------------------------------------------------------------------------
 
     /// <summary>
     /// Play footstep sound if player is walking
     /// </summary>
-    private void FootStepSound()
+
+    private void PlayerSounds_OnPlayerRunning(object sender, EventArgs e)
     {
-
-
-        if (PlayerMovement.PlayerMovementInstance.getVelocity() > 0f && canPlaySound)
+        if (canPlayWalkingSound)
         {
-
-            if (PlayerMovement.PlayerMovementInstance.getVelocity() > 0f)
-            {
-               
-                SoundManager.Instance.PlayFootstepsSound(PlayerMovement.PlayerMovementInstance.transform.position);
-            }
+            SoundManager.Instance.PlayFootstepsSound();
+            StartCoroutine(WaitWalkingSound());
         }
     }
 
-    /// <summary>
-    /// Play Jump sound when player jump
-    /// </summary>
-    private void PlayerJumpSound()
-    {
-        if (PlayerMovement.PlayerMovementInstance.isJumping && canPlaySound)
-        {
-            SoundManager.Instance.PlayJumpSound(PlayerMovement.PlayerMovementInstance.transform.position);
-           
-        } 
-    }
+    //-----------------------------------------------------------------------------------------------------------
 
-    /// <summary>
-    /// Play stunned sound when player jump
-    /// </summary>
-    private void PlayerStunnedSound()
-    { 
-        if(PlayerMovement.PlayerMovementInstance.isStuned && canPlaySound)
-        {
-            SoundManager.Instance.PlayStunnedSound(gameObject.transform.position);
-        }
+    IEnumerator WaitWalkingSound()
+    {
+       canPlayWalkingSound = false;
+       yield return new WaitForSeconds(0.5f);
+       canPlayWalkingSound = true;
     }
 
     IEnumerator PlaySound()
     {
-        canPlaySound = false;
-        yield return new WaitForSeconds(1f);
-        canPlaySound = false;
+       canPlaySound = false;
+       yield return new WaitForSeconds(0.1f);
+       canPlaySound = true;
     }
 }

@@ -12,8 +12,6 @@ public class PowerUpSpawnManager : NetworkBehaviour
 
     [SerializeField] private PowerUpsListSO PowerUpsList;
 
-    
-
 
     private bool CanSpawnPowerUp = true;
 
@@ -25,16 +23,16 @@ public class PowerUpSpawnManager : NetworkBehaviour
         Vector3 zRangeFinal = LevelController.Instance.LevelLength();
 
         float spawnXRange = Random.Range(-xRange, xRange);
-        float spawnZRange = Random.Range(zRangeInitial.z, zRangeFinal.z);
+        float spawnZRange = Random.Range(zRangeInitial.z, zRangeFinal.z / 3);
         Vector3 spawnPos = new Vector3(spawnXRange, 1, spawnZRange);
 
         GameObject objectToSpawn = powerUpSelected.powerUpObject;
 
         NetworkObject powerUp = NetworkObjectPool.Singleton.GetNetworkObject(objectToSpawn, spawnPos, Quaternion.identity);
 
-  
+        powerUp.GetComponent<PowerUpHelper>().prefab = objectToSpawn;
         powerUp.Spawn(true);
-        Debug.Log("PowerUp Spawned " + powerUp);
+        Debug.Log("POWER UP SPAWNED " + powerUp);
 
 
 
@@ -71,9 +69,6 @@ public class PowerUpSpawnManager : NetworkBehaviour
         if (CanSpawnPowerUp)
         {
             choosePowerUp();
-            Debug.Log("ChoosePowerUp called");
-
-
         }
 
     }

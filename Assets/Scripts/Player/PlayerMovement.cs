@@ -17,14 +17,19 @@ public class PlayerMovement : NetworkBehaviour
         }
     }
 
+    [Header("Player spawn positions")]
     [SerializeField] private List<Vector3> spawnPositions;
 
     //events
     public event EventHandler OnPlayerHit;
+    public event EventHandler OnPickUpPowerUp;
     public event EventHandler OnPlayerJump;
     public event EventHandler OnPlayerAttack1;
+    public event EventHandler OnPlayerStunned;
+    public event EventHandler OnPlayerRunning;
     public event EventHandler OnCallSpeed;
-    //Player jumping
+
+    [Header("Movement variables")]
     [SerializeField] private float moveSpeed = 10.0f;
     [SerializeField] private float airVelocity = 8f;
     [SerializeField] private float gravity = 10.0f;
@@ -45,9 +50,8 @@ public class PlayerMovement : NetworkBehaviour
     public bool isRunning { get; private set; }
     public bool isJumping { get; private set; }
     public bool isSliding { get; private set; }
-    public bool isStuned { get; private set; }
-    public bool isWalking { get; private set; }
 
+    private bool isStuned = false;
     private bool wasStuned = false;
     private float pushForce;
     private Vector3 pushDir;
@@ -110,6 +114,10 @@ public class PlayerMovement : NetworkBehaviour
         moveDir = (verticalMovement + horizontalMovement).normalized; //Global position to which I want to move in magnitude 1
 
         isRunning = moveDir.magnitude > 0;
+        if(isRunning)
+        {
+            OnPlayerRunning?.Invoke(this, EventArgs.Empty);
+        }    
 
         RaycastHit hit;
         if (Physics.Raycast(transform.position, -Vector3.up, out hit, distToGround + 0.1f))
@@ -203,13 +211,15 @@ public class PlayerMovement : NetworkBehaviour
                 // check if can jump and apply velocity
                 if (IsGrounded() && jump)
                 {
+                    OnPlayerJump?.Invoke(this, EventArgs.Empty);
                     isJumping = true;
                     rigidBody.velocity = new Vector3(velocity.x, CalculateJumpVerticalSpeed(), velocity.z);
-                    OnPlayerJump?.Invoke(this, EventArgs.Empty);
+                    
                 }
 
                 if (Attack1 && canAttack)
                 {
+                   
                     OnPlayerAttack1?.Invoke(this, EventArgs.Empty);
                     canAttack = false;
                     Invoke(nameof(ResetAttack), attackCoolDown);
@@ -265,7 +275,6 @@ public class PlayerMovement : NetworkBehaviour
     public void HitPlayer(Vector3 velocityF, float time)
     {
         OnPlayerHit?.Invoke(this, EventArgs.Empty);
-
         rigidBody = GetComponent<Rigidbody>();
 
         if (rigidBody == null) Debug.LogError("RB error");
@@ -282,11 +291,15 @@ public class PlayerMovement : NetworkBehaviour
 
     private IEnumerator Decrease(float value, float duration)
     {
+        isStuned = true;
         //if player is stunned then he can't move
         if (isStuned)
+        {
+            OnPlayerStunned?.Invoke(this, EventArgs.Empty);
             wasStuned = true;
-        isStuned = true;
-        canMove = false;
+            canMove = false;
+
+        }
 
         float delta = 0;
         delta = value / duration;
@@ -309,12 +322,10 @@ public class PlayerMovement : NetworkBehaviour
         if (wasStuned)
         {
             wasStuned = false;
-        }
-        else
-        {
             isStuned = false;
             canMove = true;
         }
+        
     }
 
     //-----------------------------------------------------------------------------------------------------------
@@ -357,6 +368,7 @@ public class PlayerMovement : NetworkBehaviour
 
     public void CallSpeed(Collider player)
     {
+        OnPickUpPowerUp?.Invoke(this, EventArgs.Empty);
         StartCoroutine(ChangeSpeed(player));
     }
 

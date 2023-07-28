@@ -13,6 +13,7 @@ public class AudioClipsSO : ScriptableObject
     public AudioClip[] footsteps;
     public AudioClip[] playerJump;
     public AudioClip[] playerStunned;
+    public AudioClip[] playerPunch;
 
     //obstacle
     public AudioClip[] obstacleHittingPlayer;
@@ -21,6 +22,5 @@ public class AudioClipsSO : ScriptableObject
     public AudioClip[] CountDown;
     public AudioClip[] ButtonsClick;
     public AudioClip[] playerReadyCharacterSelect;
-    public AudioClip[] playerWins;
-    public AudioClip[] playerLose;
+
 }

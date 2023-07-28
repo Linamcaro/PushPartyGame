@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class SpeedPowerUp : NetworkBehaviour
 {
+    [SerializeField] private PowerUpHelper PowerUpHelper;
     public GameObject speedEffect;
     private float multiplier = 1.4f;
     private Collider[] colliders;
@@ -16,13 +17,11 @@ public class SpeedPowerUp : NetworkBehaviour
     private float currentspeed;
     private float maxSpeed = 1;
     private float decreaseInterval = 0f;
+
     private void Start()
     {
-       //
-        
         gradient.Evaluate(1f);
-        colliders = GetComponentsInChildren<Collider>();
-        
+        colliders = GetComponentsInChildren<Collider>();  
     }
 
     void OnTriggerEnter(Collider other)
@@ -36,7 +35,7 @@ public class SpeedPowerUp : NetworkBehaviour
             //speedBarStats.StartCoroutine(speedBarStats.DecreaseSliderOverTime());
 
 
-            NetworkObjectPool.Singleton.ReturnNetworkObject(this.NetworkObject, this.gameObject);
+            NetworkObjectPool.Singleton.ReturnNetworkObject(this.NetworkObject, PowerUpHelper.prefab);
         }
     }
 

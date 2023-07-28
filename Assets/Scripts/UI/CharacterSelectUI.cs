@@ -10,9 +10,9 @@ public class CharacterSelectUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI lobbyNameText;
     [SerializeField] private TextMeshProUGUI lobbyCodeText;
     public void MainMenuButton()
-    {
+    { 
         NetworkManager.Singleton.Shutdown();
-        LoadScenes.ChangeScene(LoadScenes.Scene.MainScene);
+        LoadScenes.ChangeScene(LoadScenes.Scene.MainMenu);
     }
 
     public void ReadyButton()
@@ -22,7 +22,7 @@ public class CharacterSelectUI : MonoBehaviour
 
     private void Start()
     {
-      Lobby lobby = GameLobby.Instance.GetLobby();
+        Lobby lobby = GameLobby.Instance.GetLobby();
         lobbyNameText.text = "Lobby Name: " + lobby.Name;
         lobbyCodeText.text = "Lobby Code: " + lobby.LobbyCode;
 
