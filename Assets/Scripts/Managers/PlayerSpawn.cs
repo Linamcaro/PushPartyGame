@@ -109,8 +109,8 @@ public class PlayerSpawn : MonoBehaviour
 
     public void CallInmunity(Collider player)
     {
-        OnPickUpPowerUp?.Invoke(this, EventArgs.Empty);
         StartCoroutine(ChangeLayerAndDuration(player));
+        OnPickUpPowerUp?.Invoke(this, EventArgs.Empty);
     }
 
     private IEnumerator ChangeLayerAndDuration(Collider player)
