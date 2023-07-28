@@ -5,9 +5,8 @@ using UnityEngine;
 public class PlayerSounds : MonoBehaviour
 {
  
-        private bool canPlaySound = true;
-
-
+    private bool canPlaySound = true;
+    private bool canPlayWalkingSound = true;
 
     private void Start()
     {
@@ -26,21 +25,19 @@ public class PlayerSounds : MonoBehaviour
 
     private void PlayerSounds_OnPickUpPowerUp(object sender, EventArgs e)
     {
-        if (canPlaySound)
-        {
-            SoundManager.Instance.PlayPickUpPowerUp();
-            StartCoroutine(PlaySound());
-        }
+       
+        SoundManager.Instance.PlayPickUpPowerUp();
+        // StartCoroutine(PlaySound());
+        
         
     }
 
     private void PlayerSounds_OnLivesChanged(object sender, EventArgs e)
     {
-        if (canPlaySound)
-        {
+        
             SoundManager.Instance.PlayPlayerWinsLive();
-            StartCoroutine(PlaySound());
-        }
+           // StartCoroutine(PlaySound());
+       
     }
 
     private void PlayerSounds_OnPlayeAttack1(object sender, EventArgs e)
@@ -66,11 +63,10 @@ public class PlayerSounds : MonoBehaviour
 
     private void PlayerSounds_OnPlayerStunned(object sender, EventArgs e)
     {
-        if (canPlaySound)
-        {
-            SoundManager.Instance.PlayStunnedSound();
-            StartCoroutine(PlaySound());
-        }
+        
+        SoundManager.Instance.PlayStunnedSound();
+        //StartCoroutine(PlaySound());
+        
     }
 
     //-----------------------------------------------------------------------------------------------------------
@@ -106,19 +102,26 @@ public class PlayerSounds : MonoBehaviour
 
     private void PlayerSounds_OnPlayerRunning(object sender, EventArgs e)
     {
-        if (canPlaySound)
+        if (canPlayWalkingSound)
         {
             SoundManager.Instance.PlayFootstepsSound();
-            StartCoroutine(PlaySound());
+            StartCoroutine(WaitWalkingSound());
         }
     }
 
     //-----------------------------------------------------------------------------------------------------------
 
+    IEnumerator WaitWalkingSound()
+    {
+       canPlayWalkingSound = false;
+       yield return new WaitForSeconds(0.5f);
+       canPlayWalkingSound = true;
+    }
+
     IEnumerator PlaySound()
     {
        canPlaySound = false;
-       yield return new WaitForSeconds(0.2f);
+       yield return new WaitForSeconds(0.1f);
        canPlaySound = true;
     }
 }
