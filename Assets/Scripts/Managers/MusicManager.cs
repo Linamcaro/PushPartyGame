@@ -1,99 +1,117 @@
-
 using System.Collections.Generic;
 using UnityEngine;
 
 
-
+[RequireComponent(typeof(AudioSource))]
 public class MusicManager : MonoBehaviour
 {
 
-   /// [SerializeField] private List<AudioClip> audioClips;
     private const string PLAYERPREFS_MUSICVOLUME = "MusicVolume";
 
+    public static MusicManager Instance { get; private set; }
 
-    private static MusicManager _instance;
-    public static MusicManager Instance
-    {
-        get
-        {
-            return _instance;
-        }
-    }
+    [Header("AudioSource")]
+    [SerializeField] private AudioSource audioSource;
 
+    [Header("AudioClips")]
+    [SerializeField] private AudioClip menuMusic;
+    [SerializeField] private AudioClip gameMusic;
+    [SerializeField] private AudioClip victoryMusic;
+    [SerializeField] private AudioClip loserMusic;
 
-    private AudioSource audioSource;
     private float volume;
 
+    //-----------------------------------------------------------------------------------------------------------
 
     private void Awake()
     {
-         
-        _instance = this;
 
-        audioSource = GetComponent<AudioSource>();
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(this);
+
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
 
         volume = audioSource.volume;
         volume = PlayerPrefs.GetFloat(PLAYERPREFS_MUSICVOLUME, volume);
 
     }
-    private void Start()
+
+    //-----------------------------------------------------------------------------------------------------------
+
+    public void PlayMenuMusic(bool restart)
     {
-        /*if (SceneManager.GetActiveScene().name == "MainScene")
-        {
-            PushPartyGameManager.Instance.OnStateChanged += PushPartyGameManager_OnStateChanged;
-        }*/
+        PlayTrack(menuMusic, true, false);
     }
 
-    /*private void PushPartyGameManager_OnStateChanged(object sender, EventArgs e)
+    //-----------------------------------------------------------------------------------------------------------
+
+    public void PlayGameMusic(bool restart)
     {
-        if (!PushPartyGameManager.Instance.IsGameOver())
+        PlayTrack(gameMusic, true, false);
+    }
+
+    //-----------------------------------------------------------------------------------------------------------
+
+    public void PlayVictoryMusic(bool restart)
+    {
+        PlayTrack(victoryMusic, true, false);
+    }
+
+    //-----------------------------------------------------------------------------------------------------------
+
+    public void PlayLoserMusic(bool restart)
+    {
+        PlayTrack(loserMusic, true, false);
+    }
+
+    //-----------------------------------------------------------------------------------------------------------
+
+    /// <summary>
+    /// Method to play a clip, set if looping and if should restart
+    /// </summary>
+    /// <param name="clip"></param>
+    /// <param name="looping"></param>
+    /// <param name="restart"></param>
+    private void PlayTrack(AudioClip clip, bool looping, bool restart)
+    {
+        if (audioSource.isPlaying)
         {
-
-            MusicManager.Instance.GamePlayingMusic();
-
+            //if we don want to restart the clip then return
+            if (!restart && audioSource.clip == clip) { return; }
+            audioSource.Stop();
         }
-        else
-        {
 
-            if (PlayerSpawn.Instance.GetPlayerLives() > 0)
-            {
+        audioSource.clip = clip;
+        audioSource.loop = looping;
+        audioSource.time = 0;
+        audioSource.Play();
 
-                MusicManager.Instance.WinnerMusic();
-
-            }
-            else
-            {
-                MusicManager.Instance.GameOverMusic();
-
-            }
-        }
     }
 
-    public void GamePlayingMusic()
-    {
-        AudioSource.PlayClipAtPoint(audioClips[0], Vector3.zero);
-    }
-    public void GameOverMusic()
-    {
-        AudioSource.PlayClipAtPoint(audioClips[2], Vector3.zero);
-    }
-    public void WinnerMusic()
-    {
-        AudioSource.PlayClipAtPoint(audioClips[1], Vector3.zero);
-    }*/
-
+    //-----------------------------------------------------------------------------------------------------------
 
     /// <summary>
     /// Change Music Volume
     /// </summary>
-    public void ChangeVolume()
+    public void ChangeVolume(float value)
     {
-       audioSource.volume = volume;
+        audioSource.volume = value;
 
-        PlayerPrefs.SetFloat(PLAYERPREFS_MUSICVOLUME, volume);
+        PlayerPrefs.SetFloat(PLAYERPREFS_MUSICVOLUME, value);
         PlayerPrefs.Save();
     }
 
+    //-----------------------------------------------------------------------------------------------------------
+    /// <summary>
+    /// Returns the volume
+    /// </summary>
+    /// <returns></returns>
     public float GetVolume()
     {
         return volume;

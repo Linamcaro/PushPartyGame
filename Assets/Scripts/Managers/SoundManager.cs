@@ -5,31 +5,38 @@ using UnityEngine.UI;
 
 public class SoundManager : MonoBehaviour
 {
+
     private const string PLAYERPREFS_SOUNDEFFECTS_VOLUME = "SoundEffectsVolume";
 
-
-    private static SoundManager _instance;
-    public static SoundManager Instance
-    {
-        get
-        {
-            return _instance;
-        }
-    }
+    public static SoundManager Instance { get; private set; }
 
     [SerializeField] private AudioClipsSO audioClipsSO;
 
-    private float volume = 1f;
-
-    
+    [Header("AudioSource")]
+    [SerializeField] private AudioSource SoundAudioSource;
+   
+    private float volume;
 
     private void Awake()
     {
-        _instance = this;
 
-        volume = PlayerPrefs.GetFloat(PLAYERPREFS_SOUNDEFFECTS_VOLUME, 1f);
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(this);
+
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
+        volume = SoundAudioSource.volume;
+        volume = PlayerPrefs.GetFloat(PLAYERPREFS_SOUNDEFFECTS_VOLUME, volume);
 
     }
+
+    //-----------------------------------------------------------------------------------------------------------
 
     /// <summary>
     /// Sound selectio from an array of audioclips
@@ -37,10 +44,12 @@ public class SoundManager : MonoBehaviour
     /// <param name="audioClipArray"></param>
     /// <param name="position"></param>
     /// <param name="volume"></param>
-    private void PlayRandomSound(AudioClip[] audioClipArray, Vector3 position, float volume = 1f)
+    private void PlayRandomSound(AudioClip[] audioClipArray)
     {
-        PlaySound(audioClipArray[Random.Range(0, audioClipArray.Length)], position, volume);
+        PlaySound(audioClipArray[Random.Range(0, audioClipArray.Length)]);
     }
+
+    //-----------------------------------------------------------------------------------------------------------
 
     /// <summary>
     /// Play audiclip
@@ -48,107 +57,146 @@ public class SoundManager : MonoBehaviour
     /// <param name="audioClip"></param>
     /// <param name="position"></param>
     /// <param name="volumeMultiplier"></param>
-    private void PlaySound(AudioClip audioClip, Vector3 position, float volumeMultiplier = 1f)
+    private void PlaySound(AudioClip audioClip)
     {
-        AudioSource.PlayClipAtPoint(audioClip, position, volumeMultiplier * volume);
+        SoundAudioSource.PlayOneShot(audioClip);
     }
 
+    //-----------------------------------------------------------------------------------------------------------
 
-    /// <summary>
-    /// Play audiclip for the steps
-    /// </summary>
-    /// <param name="position"></param>
-    /// <param name="volume"></param>
-    public void PlayFootstepsSound(Vector3 position, float volume)
+    public void PlayMenuSound()
     {
-        PlayRandomSound(audioClipsSO.footsteps, position, volume);
+        PlayRandomSound(audioClipsSO.ButtonsClick);
     }
 
-    /// <summary>
-    /// Play sound when jumping
-    /// </summary>
-    /// <param name="position"></param>
-    /// <param name="volume"></param>
-    public void PlayJumpSound(Vector3 position, float volume)
+    //-----------------------------------------------------------------------------------------------------------
+
+    public void PlayPlayerReady()
     {
-        PlayRandomSound(audioClipsSO.playerJump,position, volume);
+        PlayRandomSound(audioClipsSO.playerReadyCharacterSelect);
     }
 
-    /// <summary>
-    /// Play audio when player slide
-    /// </summary>
-    /// <param name="position"></param>
-    /// <param name="volume"></param>
-    public void PlayerWinsLiveSound(Vector3 position, float volume)
-    {
-        PlayRandomSound(audioClipsSO.playerWinsLive, position, volume);
-    }
-
-    /// <summary>
-    /// Play audio when player attacks
-    /// </summary>
-    /// <param name="position"></param>
-    /// <param name="volume"></param>
-    public void PlayerPowerUpSound(Vector3 position, float volume)
-    {
-        PlayRandomSound(audioClipsSO.playerPowerUp, position, volume);
-    }
-
-    /// <summary>
-    /// Play audio when obstacle hits the player
-    /// </summary>
-    /// <param name="position"></param>
-    /// <param name="volume"></param>
-    public void PlayObstacleHittingPlayerSound(Vector3 position, float volume)
-    {
-        PlayRandomSound(audioClipsSO.playerFalling, position, volume);
-    }
+    //-----------------------------------------------------------------------------------------------------------
 
     /// <summary>
     /// PlaySound when countdown starts
     /// </summary>
     public void PlayCountdownSound()
     {
-        PlayRandomSound(audioClipsSO.CountDown, Vector3.zero);
+        PlayRandomSound(audioClipsSO.CountDown);
     }
+
+    //-----------------------------------------------------------------------------------------------------------
+    /// <summary>
+    /// Play sound when jumping
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="volume"></param>
+    public void PlayJumpSound()
+    {
+        PlayRandomSound(audioClipsSO.playerJump);
+    }
+
+    //-----------------------------------------------------------------------------------------------------------
+
+    /// <summary>
+    /// Play audio when obstacle hits the player
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="volume"></param>
+    public void PlayObstacleHittingPlayer()
+    {
+        PlayRandomSound(audioClipsSO.obstacleHittingPlayer);
+    }
+
+    //-----------------------------------------------------------------------------------------------------------
+
 
     /// <summary>
     /// Play sound when jumping
     /// </summary>
     /// <param name="position"></param>
     /// <param name="volume"></param>
-    public void PlayStunnedSound(Vector3 position, float volume)
+    public void PlayStunnedSound()
     {
-        PlayRandomSound(audioClipsSO.playerStunned, position, volume);
+        PlayRandomSound(audioClipsSO.playerStunned);
     }
 
-    public void PlayerFallingSound(Vector3 position, float volume)
+    //-----------------------------------------------------------------------------------------------------------
+
+    public void PlayFallingSound()
     {
-        PlayRandomSound(audioClipsSO.playerFalling, position, volume);
+        PlayRandomSound(audioClipsSO.playerFalling);
     }
 
-    public void PlayerMenuSound()
-    {
-        PlayRandomSound(audioClipsSO.ButtonsClick, Vector3.zero);
-    }
-
+    //-----------------------------------------------------------------------------------------------------------
 
     /// <summary>
-    /// Change the sound volume
+    /// Play audiclip for the steps
     /// </summary>
-    public void ChangeVolume(float volumeChanged)
+    /// <param name="position"></param>
+    /// <param name="volume"></param>
+    public void PlayFootstepsSound()
     {
-        volume = volumeChanged;
+        PlayRandomSound(audioClipsSO.footsteps);
+    }
 
-        PlayerPrefs.SetFloat(PLAYERPREFS_SOUNDEFFECTS_VOLUME, volume);
-       
+    //-----------------------------------------------------------------------------------------------------------
+
+    /// <summary>
+    /// Play audiclip for the steps
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="volume"></param>
+    public void PlayAttackSound()
+    {
+        PlayRandomSound(audioClipsSO.playerPunch);
+    }
+
+    //-----------------------------------------------------------------------------------------------------------
+
+    /// <summary>
+    /// Play audiclip for the steps
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="volume"></param>
+    public void PlayPlayerWinsLive()
+    {
+        PlayRandomSound(audioClipsSO.playerWinsLive);
+    }
+
+    //-----------------------------------------------------------------------------------------------------------
+
+    /// <summary>
+    /// Play audiclip for the steps
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="volume"></param>
+    public void PlayPickUpPowerUp()
+    {
+        PlayRandomSound(audioClipsSO.playerPowerUp);
+    }
+    //-----------------------------------------------------------------------------------------------------------
+
+    /// <summary>
+    /// Change Music Volume
+    /// </summary>
+    public void ChangeVolume(float value)
+    {
+        SoundAudioSource.volume = value;
+
+        PlayerPrefs.SetFloat(PLAYERPREFS_SOUNDEFFECTS_VOLUME, value);
         PlayerPrefs.Save();
     }
 
+    /// <summary>
+    /// Get the sound volume
+    /// </summary>
     public float GetVolume()
     {
         return volume;
     }
 
-
 }
+
+

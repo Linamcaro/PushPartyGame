@@ -19,7 +19,7 @@ public class TestLobbyUI : MonoBehaviour
 
     public void ClickButtonSound()
     {
-        SoundManager.Instance.PlayerMenuSound();
+        SoundManager.Instance.PlayMenuSound();
     }
 
 
