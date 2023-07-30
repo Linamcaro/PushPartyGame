@@ -56,7 +56,7 @@ public class PlayerRespawn : NetworkBehaviour
             }
             else
             {
-                respawnPosition = new Vector3(0, 1f, 0);
+                respawnPosition = new Vector3(1f, 0 , 0);
                 transform.position = respawnPosition;
             }
         }
