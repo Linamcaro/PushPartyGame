@@ -15,7 +15,7 @@ public class SpeedBar : MonoBehaviour
 
     private Camera controlledCamera;
     private float originalFOV;
-    private float maxFOV = 90f; // Valor máximo del FOV cuando el slider esté en su valor máximo
+    private float maxFOV = 90f; 
 
     void Start()
     {
@@ -24,8 +24,8 @@ public class SpeedBar : MonoBehaviour
         fill = GameObject.FindWithTag("Fill").GetComponent<Image>();
         speedSlider.gameObject.SetActive(false);
 
-        // Buscar la cámara por tag y guardar el FOV original
-        controlledCamera = Camera.main; // Si es "Main Camera" en la jerarquía
+        
+        controlledCamera = Camera.main; 
         originalFOV = controlledCamera.fieldOfView;
     }
 
@@ -42,7 +42,7 @@ public class SpeedBar : MonoBehaviour
         speedSlider.gameObject.SetActive(true);
         fill.color = gradient.Evaluate(1f);
 
-        // Aumentar el FOV al valor máximo cuando se active el slider
+        
         controlledCamera.fieldOfView = maxFOV;
 
         while (currentspeed > 0f)
@@ -52,11 +52,11 @@ public class SpeedBar : MonoBehaviour
             speedSlider.value = currentspeed;
             fill.color = gradient.Evaluate(speedSlider.normalizedValue);
 
-            // Actualizar el FOV mientras cambia el valor del slider
+           
             controlledCamera.fieldOfView = Mathf.Lerp(originalFOV, maxFOV, currentspeed / maxSpeed);
         }
 
-        // Restaurar el FOV original al desactivar el slider
+        
         controlledCamera.fieldOfView = originalFOV;
         speedSlider.gameObject.SetActive(false);
     }
