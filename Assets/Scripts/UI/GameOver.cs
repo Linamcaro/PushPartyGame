@@ -8,7 +8,7 @@ using Unity.Netcode;
 
 public class GameOver : MonoBehaviour
 {
-
+    [SerializeField] private GameObject levelPiece;
     [SerializeField] private GameObject WinnerUI;
     [SerializeField] private Button playAgainWinner;
     [SerializeField] private Button playAgainLoser;
@@ -37,8 +37,10 @@ public class GameOver : MonoBehaviour
     {
         if (PushPartyGameManager.Instance.IsGameOver())
         {
-            
-            if(PlayerSpawn.Instance.GetPlayerLives() > 0)
+            levelPiece.SetActive(true);
+
+
+            if (PlayerSpawn.Instance.GetPlayerLives() > 0)
             {
                 ShowWinner();
                 
