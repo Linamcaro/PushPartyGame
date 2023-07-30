@@ -1,0 +1,22 @@
+### PushPartyGame
+
+Push, Bash, and Stay in the Clash! Push Party is an adrenaline rush multiplayer game where the goal is to push your opponent and stay alive. 
+
+In this game, you'll engage in an exhilarating battle with your friend. As you navigate the arena, you'll encounter obstacles that can push you off and make you lose. However, there's hope. You'll also find power-ups that grant you an extra life and abilties, that will help you stay in the game.
+
+# Tools 
+
+The game was developed using:
+* Unity engine
+* C#
+* Netcode for GameObjects
+* Unity's Lobby Service
+* Unity's Relay Service
+* Cinemachine
+* DoTween
+* Unity's new Input System
+
+# Play The Game
+You can play the game here:
+
+[Link](https://shuni-ata.itch.io/push-party)https://shuni-ata.itch.io/push-party
