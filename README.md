@@ -20,3 +20,9 @@ The game was developed using:
 You can play the game here:
 
 [Link](https://shuni-ata.itch.io/push-party)https://shuni-ata.itch.io/push-party
+
+
+### Images
+![image](https://github.com/Linamcaro/PushPartyGame/assets/41321441/cfc1fa64-f0cd-491a-8142-71e1c8a83b08)
+![image](https://github.com/Linamcaro/PushPartyGame/assets/41321441/423952d6-fa0c-48b9-8adb-0ccc36b19f92)
+
