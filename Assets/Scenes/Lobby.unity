@@ -3668,8 +3668,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Message
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: aca93b917dda14c49ac6aaedf61584b1, type: 2}
-  m_sharedMaterial: {fileID: -3950335639836662868, guid: aca93b917dda14c49ac6aaedf61584b1,
+  m_fontAsset: {fileID: 11400000, guid: 3bb1b8055706bb4469e8f895c4ef54c9, type: 2}
+  m_sharedMaterial: {fileID: 6839040516515882599, guid: 3bb1b8055706bb4469e8f895c4ef54c9,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -6793,7 +6793,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Connecting
+  m_text: Connecting...
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3bb1b8055706bb4469e8f895c4ef54c9, type: 2}
   m_sharedMaterial: {fileID: 6839040516515882599, guid: 3bb1b8055706bb4469e8f895c4ef54c9,
