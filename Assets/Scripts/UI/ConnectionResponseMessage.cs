@@ -4,10 +4,12 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ConnectionResponseMessage : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI messageText;
+    [SerializeField] private GameObject closeButton;
 
 
     private void Start()
@@ -20,31 +22,39 @@ public class ConnectionResponseMessage : MonoBehaviour
         GameLobby.Instance.OnQuickJoinFailed += MultiplayerManager_OnQuickJoinFailed;
 
         Hide();
+        hideButton();
+
+
     }
 
     private void MultiplayerManager_OnQuickJoinFailed(object sender, System.EventArgs e)
     {
         ShowMessage("Could not find a Game to Quick Join!");
+        ShowButton();
     }
 
     private void MultiplayerManager_OnJoinFailed(object sender, System.EventArgs e)
     {
         ShowMessage("Failed to join Game!");
+        ShowButton();
     }
 
     private void MultiplayerManager_OnJoinStarted(object sender, System.EventArgs e)
     {
-        ShowMessage("Joining Game!!");
+        ShowMessage("Joining Game...");
+        hideButton();
     }
 
     private void MultiplayerManager_OnCreateLobbyFailed(object sender, System.EventArgs e)
     {
         ShowMessage("Failed to create Game!");
+        ShowButton();
     }
 
     private void MultiplayerManager_OnCreateLobbyStarted(object sender, System.EventArgs e)
     {
-        ShowMessage("Creating Game!!!");
+        ShowMessage("Creating Game...");
+        hideButton();
     }
 
     private void MultiplayerManagerr_OnFailedToJoinGame(object sender, System.EventArgs e)
@@ -52,17 +62,19 @@ public class ConnectionResponseMessage : MonoBehaviour
         if (NetworkManager.Singleton.DisconnectReason == "")
         {
             ShowMessage("Connection Failed!");
+            ShowButton();
         }
         else
         {
             ShowMessage(NetworkManager.Singleton.DisconnectReason);
+            ShowButton();
         }
     }
 
     private void ShowMessage(string message)
-    {
-        Show();
+    { 
         messageText.text = message;
+        Show();
     }
 
     private void Show()
@@ -74,6 +86,16 @@ public class ConnectionResponseMessage : MonoBehaviour
     private void Hide()
     {
         gameObject.SetActive(false);
+    }
+
+    private void ShowButton()
+    {
+        closeButton.SetActive(true);
+    }
+
+    private void hideButton()
+    {
+        closeButton.SetActive(false);
     }
 
     private void OnDestroy()
