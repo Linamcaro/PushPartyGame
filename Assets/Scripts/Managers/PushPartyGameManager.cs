@@ -40,7 +40,7 @@ public class PushPartyGameManager : NetworkBehaviour
     private void Awake()
     {
         _instance = this;
-        Debug.Log("Is game playing false so return");
+        //Debug.Log("Is game playing false so return");
         playerReadyDictionary = new Dictionary<ulong, bool>();
        
     }
@@ -68,16 +68,10 @@ public class PushPartyGameManager : NetworkBehaviour
     {
         foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
         {
-            /*if (clientId == 0)
-            {*/
+            
                 Transform playerTransform = Instantiate(playerPrefab);
                 playerTransform.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
-           /* }
-            else
-            {
-                Transform playerTransform = Instantiate(playerPrefab[1]);
-                playerTransform.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
-            }*/
+          
         }
     }
 
@@ -96,10 +90,10 @@ public class PushPartyGameManager : NetworkBehaviour
     /// </summary>
     private void OnPlayersReady()
     {
-        Debug.Log("OnPlayersReady function called");
+        //Debug.Log("OnPlayersReady function called");
         if (state.Value == State.WaitingToStart)
         {
-            Debug.Log("state changed to waiting: " + state);
+          //  Debug.Log("state changed to waiting: " + state);
             isLocalPlayerReady = true;
             OnLocalPlayerReadyChanged?.Invoke(this, EventArgs.Empty);
             SetPlayerReadyServerRpc();
@@ -115,7 +109,7 @@ public class PushPartyGameManager : NetworkBehaviour
     private void SetPlayerReadyServerRpc(ServerRpcParams serverRpcParams = default)
     {
         playerReadyDictionary[serverRpcParams.Receive.SenderClientId] = true;
-        Debug.Log(serverRpcParams.Receive.SenderClientId);
+        //Debug.Log(serverRpcParams.Receive.SenderClientId);
 
         bool allClientsReady = true;
 
@@ -124,7 +118,7 @@ public class PushPartyGameManager : NetworkBehaviour
             //check  if it does not contains the key or is not ready
             if (!playerReadyDictionary.ContainsKey(clientId) || !playerReadyDictionary[clientId])
             {
-                Debug.Log("SetPlayerReadyServerRPC function called");
+                //Debug.Log("SetPlayerReadyServerRPC function called");
                 allClientsReady = false;
                 break;
             }
@@ -135,17 +129,17 @@ public class PushPartyGameManager : NetworkBehaviour
         {
             state.Value = State.CountdownToStart;
         }
-        Debug.Log("allClientsReady: " + allClientsReady);
+        //Debug.Log("allClientsReady: " + allClientsReady);
 
     }
 
     private void PlayerRespawn_OnPlayerDied()
     {
-        Debug.Log("OnPlayersDied function called");
+        //Debug.Log("OnPlayersDied function called");
         if (state.Value == State.GamePlaying)
         {
             OnPlayerDiedServerRpc();
-            Debug.Log("state changed to waiting: " + state);
+            //Debug.Log("state changed to waiting: " + state);
 
         }
     }
@@ -223,14 +217,14 @@ public class PushPartyGameManager : NetworkBehaviour
     //Return true if player is ready
     public bool IsLocalPlayerReady()
     {
-        Debug.Log("SetPlayerReadyServerRPC function called");
+        //Debug.Log("SetPlayerReadyServerRPC function called");
         return isLocalPlayerReady;
     }
 
     //called when the tutorial ready button is pressed
     public void OnStartButtonPressed()
     {
-        Debug.Log("OnStartButtonPressed function called");
+        //Debug.Log("OnStartButtonPressed function called");
         OnPlayersReady();
 
     }

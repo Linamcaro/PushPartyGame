@@ -64,7 +64,7 @@ public class PlayerSpawn : MonoBehaviour
 
     public void PlayerFell()
     {
-        Debug.Log("Player fell function called");
+        //Debug.Log("Player fell function called");
         PlayerRespawn_OnPlayerFell();
     }
 
