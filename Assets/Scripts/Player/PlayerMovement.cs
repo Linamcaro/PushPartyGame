@@ -37,6 +37,8 @@ public class PlayerMovement : NetworkBehaviour
     [SerializeField] private float jumpHeight = 2f;
     [SerializeField] private float maxFallSpeed = 20.0f;
     [SerializeField] private float rotateSpeed = 25f;
+    [SerializeField] private float SpeedFieldOfView = 75f;
+    [SerializeField] private float normalFieldOfView = 60f;
     public Vector3 moveDir { get; private set; }
     private GameObject cam;
     [HideInInspector]public Rigidbody rigidBody;
@@ -356,9 +358,8 @@ public class PlayerMovement : NetworkBehaviour
     {
         OnCallSpeed?.Invoke(this, EventArgs.Empty);
         UpdateSpeed(20f);
+        //cmCamera.m_Lens.FieldOfView = SpeedFieldOfView;
         yield return new WaitForSeconds(speedDelayTime);
-        
-
 
     }
 
@@ -367,6 +368,7 @@ public class PlayerMovement : NetworkBehaviour
     public IEnumerator SpeedEnum1(Collider player)
     {
         UpdateSpeed(7f);
+        //cmCamera.m_Lens.FieldOfView = normalFieldOfView;
         yield return new WaitForSeconds(speedDelayTime1);
         
 
