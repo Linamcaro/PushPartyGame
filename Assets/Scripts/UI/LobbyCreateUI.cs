@@ -11,18 +11,19 @@ public class LobbyCreateUI : MonoBehaviour
     [SerializeField] private Button createPublicButton;
     [SerializeField] private Button createPrivateButton;
     [SerializeField] private TMP_InputField lobbyNameInputField;
-
+    private int randomLobbyNumber;
+    private string lobbyName;
 
 
     private void Awake()
     {
         createPublicButton.onClick.AddListener(() => {
-
-            GameLobby.Instance.CreateLobby(lobbyNameInputField.text, false);
+            SetLobbyName();
+            GameLobby.Instance.CreateLobby(lobbyName, false);
         });
         createPrivateButton.onClick.AddListener(() => {
-           
-            GameLobby.Instance.CreateLobby(lobbyNameInputField.text, true);
+            SetLobbyName();
+            GameLobby.Instance.CreateLobby(lobbyName, true);
         });
         closeButton.onClick.AddListener(() => {
             Hide();
@@ -32,6 +33,20 @@ public class LobbyCreateUI : MonoBehaviour
     private void Start()
     {
         Hide();
+    }
+
+
+    public void SetLobbyName()
+    {
+        if (lobbyNameInputField.text == "")
+        {
+            randomLobbyNumber = Random.Range(0, 1000);
+            lobbyName = "Lobby" + randomLobbyNumber;
+        }
+        else
+        {
+            lobbyName = lobbyNameInputField.text;
+        }
     }
 
     public void Show()
