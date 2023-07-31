@@ -39,7 +39,7 @@ public class PlayerSpawn : MonoBehaviour
 
     private void Start()
     {   
-        lives = 200;
+        lives = 2;
 
       
     }
