@@ -8,12 +8,9 @@ public class InmunityPowerUp : NetworkBehaviour
 {
     public GameObject inmunityEffect;
     [SerializeField] private PowerUpHelper PowerUpHelper;
-    private float multiplier = 1.4f;
-    private float inmunityDuration = 1f;
 
-    private bool isImmune = false;
     private Collider[] colliders;
-    private float immunityDuration = 10f;
+
 
     private void Start()
     {
@@ -27,11 +24,15 @@ public class InmunityPowerUp : NetworkBehaviour
         {
 
             PlayerSpawn.Instance.CallInmunity(other);
-            
+
             //  PlayerSpawn stats =  other.GetComponent<PlayerRespawn>();
             //stats.CallInmunity(other);
+            SpeedBar speedBarStats = other.GetComponent<SpeedBar>();
+            speedBarStats.StartCoroutine(speedBarStats.DecreaseSliderOverTime());
 
-            NetworkObjectPool.Singleton.ReturnNetworkObject(NetworkObject, PowerUpHelper.prefab);
+
+            NetworkObjectPool.Singleton.ReturnNetworkObject(this.NetworkObject, PowerUpHelper.prefab);
+           
             
         }
     }

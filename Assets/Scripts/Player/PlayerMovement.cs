@@ -73,6 +73,8 @@ public class PlayerMovement : NetworkBehaviour
 
     public GameObject hitParticles;
 
+    public GameObject liveparticles;
+
 
     //-----------------------------------------------------------------------------------------------------------
 
@@ -297,7 +299,10 @@ public class PlayerMovement : NetworkBehaviour
     }
 
     //-----------------------------------------------------------------------------------------------------------
-
+    public void LivePlayer()
+    {
+        Instantiate(liveparticles, transform.position + new Vector3(175.1f, 387.5f, 0f), Quaternion.identity);
+    }
     private IEnumerator Decrease(float value, float duration)
     {
         isStuned = true;

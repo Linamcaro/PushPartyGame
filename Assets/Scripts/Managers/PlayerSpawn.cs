@@ -29,7 +29,7 @@ public class PlayerSpawn : MonoBehaviour
 
     private bool hasLives = true;
 
-    private float inmunityDuration = 20f;
+    private float inmunityDuration = 10f;
     private float inmunityDuration2 = 1f;
 
     private void Awake()
@@ -39,7 +39,7 @@ public class PlayerSpawn : MonoBehaviour
 
     private void Start()
     {   
-        lives = 2;
+        lives = 200;
 
       
     }
@@ -84,8 +84,9 @@ public class PlayerSpawn : MonoBehaviour
     //Increase the player lives
     public int IncreasePlayerLives()
     {
-
+        PlayerMovement.PlayerMovementInstance.LivePlayer();
         lives++;
+
         OnLivesChanged?.Invoke(this, EventArgs.Empty);
 
         return lives;
