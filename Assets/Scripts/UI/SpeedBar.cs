@@ -18,22 +18,14 @@ public class SpeedBar : NetworkBehaviour
     private float originalFOV;
     private float maxFOV = 90f;
 
-
-    private void Awake()
-    {
-        speedSlider.gameObject.SetActive(false);
-    }
-
     void Start()
     {
         if (!IsOwner) return;
-
+        speedSlider.gameObject.SetActive(false);
         PlayerMovement.PlayerMovementInstance.OnCallSpeed += PlayerMovement_OnCallSpeed;
         speedSlider = GameObject.FindWithTag("Slider").GetComponent<Slider>();
         fill = GameObject.FindWithTag("Fill").GetComponent<Image>();
-        
 
-        
         controlledCamera = Camera.main; 
         originalFOV = controlledCamera.fieldOfView;
     }
@@ -65,7 +57,6 @@ public class SpeedBar : NetworkBehaviour
             controlledCamera.fieldOfView = Mathf.Lerp(originalFOV, maxFOV, currentspeed / maxSpeed);
         }
 
-        
         controlledCamera.fieldOfView = originalFOV;
         speedSlider.gameObject.SetActive(false);
     }
