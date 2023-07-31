@@ -117,6 +117,7 @@ public class PlayerSpawn : MonoBehaviour
     private IEnumerator ChangeLayerAndDuration(Collider player)
     {
         yield return StartCoroutine(Inmunity(player));
+
         yield return StartCoroutine(Inmunity2(player));
     }
 

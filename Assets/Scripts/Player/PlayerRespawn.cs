@@ -22,6 +22,8 @@ public class PlayerRespawn : NetworkBehaviour
 
     public event EventHandler OnPlayerFell;
 
+    private float respawnTarget;
+
     private void Start()
     {
         if (!IsOwner) return;
@@ -31,13 +33,12 @@ public class PlayerRespawn : NetworkBehaviour
 
     private void Update()
     {
-        if (!IsOwner) return;
         RespawnPlayer();
     }
 
     private void RespawnPlayer()
     {
-        
+        if (!IsOwner) return;
         //Debug.Log("PlayerLivesServerRpc called");
 
         if (transform.position.y < deathPointY)
@@ -48,8 +49,8 @@ public class PlayerRespawn : NetworkBehaviour
 
             if (PlayerSpawn.Instance.CanSpawn())
             {
-                Vector3 respawnTarget = LevelController.Instance.PlatformPosition();
-                respawnPosition = new Vector3(0, 2f, respawnTarget.z + 10f);
+                respawnTarget = LevelController.Instance.PlatformPosition();
+                respawnPosition = new Vector3(0, 2f, respawnTarget + 15f);
                 //Move player to the respawn position
                 transform.position = respawnPosition;
                 isFalling = false;

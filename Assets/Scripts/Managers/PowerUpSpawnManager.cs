@@ -19,11 +19,11 @@ public class PowerUpSpawnManager : NetworkBehaviour
     {
         //Set Bondaries
         float xRange = 7f;
-        Vector3 zRangeInitial = LevelController.Instance.PlatformPosition();
+        float zRangeInitial = LevelController.Instance.PlatformPosition();
         Vector3 zRangeFinal = LevelController.Instance.LevelLength();
 
         float spawnXRange = Random.Range(-xRange, xRange);
-        float spawnZRange = Random.Range(zRangeInitial.z, zRangeFinal.z / 3);
+        float spawnZRange = Random.Range(zRangeInitial, zRangeFinal.z / 2);
         Vector3 spawnPos = new Vector3(spawnXRange, 1, spawnZRange);
 
         GameObject objectToSpawn = powerUpSelected.powerUpObject;

@@ -132,9 +132,10 @@ public class LevelController : NetworkBehaviour
     /// Return the platform position
     /// </summary>
     /// <returns></returns>
-    public Vector3  PlatformPosition()
+    public float  PlatformPosition()
     {
-        return transform.position;
+       
+        return currentCamStep * pieceLenght;
     }
 
     /// <summary>
