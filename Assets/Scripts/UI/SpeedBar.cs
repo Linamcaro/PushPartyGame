@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using Unity.Netcode;
 
-public class SpeedBar : MonoBehaviour
+public class SpeedBar : NetworkBehaviour
 {
     private Slider speedSlider;
     public Gradient gradient;
@@ -19,6 +20,8 @@ public class SpeedBar : MonoBehaviour
 
     void Start()
     {
+        if (!IsOwner) return;
+
         PlayerMovement.PlayerMovementInstance.OnCallSpeed += PlayerMovement_OnCallSpeed;
         speedSlider = GameObject.FindWithTag("Slider").GetComponent<Slider>();
         fill = GameObject.FindWithTag("Fill").GetComponent<Image>();

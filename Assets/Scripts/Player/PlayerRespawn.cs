@@ -49,14 +49,14 @@ public class PlayerRespawn : NetworkBehaviour
             if (PlayerSpawn.Instance.CanSpawn())
             {
                 Vector3 respawnTarget = LevelController.Instance.PlatformPosition();
-                respawnPosition = new Vector3(0, 1f, respawnTarget.z + 3f);
+                respawnPosition = new Vector3(0, 2f, respawnTarget.z + 10f);
                 //Move player to the respawn position
                 transform.position = respawnPosition;
                 isFalling = false;
             }
             else
             {
-                respawnPosition = new Vector3(1f, 1.5f , 0);
+                respawnPosition = new Vector3(1f, 2f , 0);
                 transform.position = respawnPosition;
             }
         }

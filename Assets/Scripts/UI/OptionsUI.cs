@@ -2,14 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
+using UnityEngine.UI;
 
 public class OptionsUI : MonoBehaviour
 {
 
     [SerializeField] private GameObject OptionsMenuUI;
+    [SerializeField] private Button QuitGameButton;
 
 
-    void Start()
+    void Awake()
+    {
+        QuitGameButton.onClick.AddListener(() =>
+        {
+            NetworkManager.Singleton.Shutdown();
+            LoadScenes.ChangeScene(LoadScenes.Scene.MainMenu);
+        });
+    }
+
+        void Start()
     {
         Hide();
     }
@@ -21,11 +32,7 @@ public class OptionsUI : MonoBehaviour
         Hide();
     }
 
-    public void QuitGameButton()
-    {
-        NetworkManager.Singleton.Shutdown();
-        LoadScenes.ChangeScene(LoadScenes.Scene.MainMenu);
-    }
+    
 
     private void Show()
     {
