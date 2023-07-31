@@ -22,7 +22,7 @@ public class PlayerRespawn : NetworkBehaviour
 
     public event EventHandler OnPlayerFell;
 
-    private Vector3 respawnTarget;
+    private float respawnTarget;
 
     private void Start()
     {
@@ -50,7 +50,7 @@ public class PlayerRespawn : NetworkBehaviour
             if (PlayerSpawn.Instance.CanSpawn())
             {
                 respawnTarget = LevelController.Instance.PlatformPosition();
-                respawnPosition = new Vector3(0, 2f, respawnTarget.z + 40f);
+                respawnPosition = new Vector3(0, 2f, respawnTarget + 15f);
                 //Move player to the respawn position
                 transform.position = respawnPosition;
                 isFalling = false;
