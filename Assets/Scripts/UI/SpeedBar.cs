@@ -16,7 +16,13 @@ public class SpeedBar : NetworkBehaviour
 
     private Camera controlledCamera;
     private float originalFOV;
-    private float maxFOV = 90f; 
+    private float maxFOV = 90f;
+
+
+    private void Awake()
+    {
+        speedSlider.gameObject.SetActive(false);
+    }
 
     void Start()
     {
@@ -25,7 +31,7 @@ public class SpeedBar : NetworkBehaviour
         PlayerMovement.PlayerMovementInstance.OnCallSpeed += PlayerMovement_OnCallSpeed;
         speedSlider = GameObject.FindWithTag("Slider").GetComponent<Slider>();
         fill = GameObject.FindWithTag("Fill").GetComponent<Image>();
-        speedSlider.gameObject.SetActive(false);
+        
 
         
         controlledCamera = Camera.main; 
