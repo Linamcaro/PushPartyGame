@@ -27,7 +27,7 @@ public class InmunityPowerUp : NetworkBehaviour
         {
 
             PlayerSpawn.Instance.CallInmunity(other);
-
+            
             //  PlayerSpawn stats =  other.GetComponent<PlayerRespawn>();
             //stats.CallInmunity(other);
 

@@ -97,7 +97,7 @@ public class PlayerSpawn : MonoBehaviour
         player.gameObject.layer = LayerMask.NameToLayer("PlayerInvulnerable");
         yield return new WaitForSeconds(inmunityDuration);
 
-        player.gameObject.layer = LayerMask.NameToLayer("Player");
+        //player.gameObject.layer = LayerMask.NameToLayer("Player");
     }
 
     public IEnumerator Inmunity2(Collider player)
@@ -109,6 +109,7 @@ public class PlayerSpawn : MonoBehaviour
 
     public void CallInmunity(Collider player)
     {
+       
         StartCoroutine(ChangeLayerAndDuration(player));
         OnPickUpPowerUp?.Invoke(this, EventArgs.Empty);
     }
