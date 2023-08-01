@@ -18,7 +18,7 @@ public class SpeedBar : NetworkBehaviour
     private float originalFOV;
     private float maxFOV = 90f; 
 
-    void Start()
+    void awake()
     {
         if (!IsOwner) return;
 
